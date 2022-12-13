@@ -5,7 +5,21 @@
 #include "wait.h"
 #include "skbuff.h"
 
-struct sock;
+struct sock {
+    struct socket *sock;
+    struct net_ops *ops;
+    struct wait_lock recv_wait;
+    struct sk_buff_head receive_queue;
+    struct sk_buff_head write_queue;
+    int protocol;
+    int state;
+    int err;
+    short int poll_events;      /* 实际发生的事件 */
+    uint16_t sport;
+    uint16_t dport;
+    uint32_t saddr;
+    uint32_t daddr;
+};
 
 struct net_ops {
     struct sock* (*alloc_sock) (int protocol);
@@ -17,22 +31,6 @@ struct net_ops {
     int (*recv_notify) (struct sock *sk);
     int (*close) (struct sock *sk);
     int (*abort) (struct sock *sk);
-};
-
-struct sock {
-    struct socket *sock;
-    struct net_ops *ops;
-    struct wait_lock recv_wait;
-    struct sk_buff_head receive_queue;
-    struct sk_buff_head write_queue;
-    int protocol;
-    int state;
-    int err;
-    short int poll_events;
-    uint16_t sport;
-    uint16_t dport;
-    uint32_t saddr;
-    uint32_t daddr;
 };
 
 static inline struct sk_buff *write_queue_head(struct sock *sk)

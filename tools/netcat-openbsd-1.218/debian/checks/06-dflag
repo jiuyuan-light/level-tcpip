@@ -1,0 +1,49 @@
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    mkfifo -- "$in" "$out"
+    $NC "$@" <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out"
+    rm -f -- "$in" "$out"
+}
+
+#######################################################################
+# with -d (server)
+# we use -N on the client to have a graceful shutdown() so we don't have
+# to kill it (this test is TCP-only)
+
+PORT=$(random_port)
+PIPES="y" netcat_listen -d "127.0.0.1" $PORT
+start_client -N "127.0.0.1" $PORT
+
+echo "foo" >&$LISTEN_IN # server stdin should be ignored
+greet server            # but the client can still talk
+exec {CONNECT_IN}>&-
+
+wait $PID $CLIENT_PID
+if read -r _ <&$CONNECT_OUT; then
+    printf "ERROR at line %d: Server didn't ignore its standard input\\n" $LINENO >&2
+    exit 1
+fi
+exec {LISTEN_IN}>&- {LISTEN_OUT}<&- {CONNECT_OUT}<&-
+
+
+#######################################################################
+# with -d (client)
+# we use -N on the server to have a graceful shutdown() so we don't have
+# to kill it (this test is TCP-only)
+
+PORT=$(random_port)
+PIPES="y" netcat_listen -N "127.0.0.1" $PORT
+start_client -d "127.0.0.1" $PORT
+
+echo "bar" >&$CONNECT_IN # client stdin should be ignored
+greet client             # but the server can still talk
+
+exec {LISTEN_IN}>&- {CONNECT_IN}>&-
+wait $PID $CLIENT_PID
+if read -r _ <&$LISTEN_OUT; then
+    printf "ERROR at line %d: Client didn't ignore its standard input\\n" $LINENO >&2
+    exit 1
+fi
+
+# vim: set filetype=bash :

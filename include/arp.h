@@ -23,7 +23,7 @@
 #ifdef DEBUG_ARP
 #define arp_dbg(str, hdr)                                               \
     do {                                                                \
-        print_debug("arp "str" (hwtype: %hu, protype: %.4hx, "          \
+        lvl_ip_debug("arp "str" (hwtype: %hu, protype: %.4hx, "          \
                     "hwsize: %d, prosize: %d, opcode: %.4hx)",         \
                     hdr->hwtype, hdr->protype, hdr->hwsize,             \
                     hdr->prosize, hdr->opcode);                         \
@@ -31,7 +31,7 @@
 
 #define arpdata_dbg(str, data)                                          \
     do {                                                                \
-        print_debug("arp data "str" (smac: %.2hhx:%.2hhx:%.2hhx:%.2hhx"  \
+        lvl_ip_debug("arp data "str" (smac: %.2hhx:%.2hhx:%.2hhx:%.2hhx"  \
                     ":%.2hhx:%.2hhx, sip: %hhu.%hhu.%hhu.%hhu, dmac: %.2hhx:%.2hhx" \
                     ":%.2hhx:%.2hhx:%.2hhx:%.2hhx, dip: %hhu.%hhu.%hhu.%hhu)", \
                     data->smac[0], data->smac[1], data->smac[2], data->smac[3], \
@@ -43,7 +43,7 @@
 
 #define arpcache_dbg(str, entry) \
     do { \
-    print_debug("arp cache "str" (hwtype: %hu, sip: %hhu.%hhu.%hhu.%hhu, " \
+    lvl_ip_debug("arp cache "str" (hwtype: %hu, sip: %hhu.%hhu.%hhu.%hhu, " \
     "smac: %.2hhx:%.2hhx:%.2hhx:%.2hhx:%.2hhx:%.2hhx, state: %d)", entry->hwtype, \
         entry->sip >> 24, entry->sip >> 16, entry->sip >> 8, entry->sip >> 0, \
         entry->smac[0], entry->smac[1], entry->smac[2], entry->smac[3], entry->smac[4], \
@@ -93,5 +93,7 @@ static inline struct arp_hdr *arp_hdr(struct sk_buff *skb)
 {
     return (struct arp_hdr *)(skb->head + ETH_HDR_LEN);
 }
+
+void wake_lvl_netdev_tx_thread(struct arp_cache_entry *entry);
 
 #endif

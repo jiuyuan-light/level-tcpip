@@ -1,0 +1,110 @@
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    declare -a strace=()
+    mkfifo -- "$in" "$out"
+    if [ "${STRACE-n}" = "y" ]; then
+        mkfifo -- "$TEMPDIR/client.strace"
+        strace=( strace -Dqo "$TEMPDIR/client.strace" -I1 -ze trace="%net" -- )
+    fi
+    "${strace[@]}" $NC ${NETCAT_DGRAM:+-u} "$@" "127.0.0.1" $PORT <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out"
+    rm -f -- "$in" "$out"
+    if [ "${STRACE-n}" = "y" ]; then
+        exec {STRACE_FD}<"$TEMPDIR/client.strace"
+        rm -f -- "$TEMPDIR/client.strace"
+    fi
+}
+
+#######################################################################
+# without -N (server)
+
+PORT=$(random_port)
+STRACE_LINGER="y" PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT
+exec {LISTEN_IN}>&- {LISTEN_OUT}<&- grep -E '^shutdown\([0-9]+,\s*SHUT_WR\)\s*=\s*0$' <&$STRACE_FD & PID_GREP=$!
+
+# connect a client so the server isn't blocking on accept() -- for
+# UDP we also need to send some text so the server connect()s, but we do
+# it for TCP as well so we don't $CLIENT_PID before the connect()ion
+start_client
+greet server
+
+# close server input
+exec {LISTEN_IN}>&-
+
+kill_and_wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+exec {STRACE_FD}<&- {LISTEN_OUT}<&- {CONNECT_IN}>&- {CONNECT_OUT}<&-
+if wait $PID_GREP; then
+    printf "ERROR at line %d: Server shutdown() on EOF stdin\\n" $LINENO >&2
+    exit 1
+fi
+
+
+#######################################################################
+# without -N (client)
+
+PORT=$(random_port)
+PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT
+
+STRACE="y" start_client
+exec {LISTEN_IN}>&- {LISTEN_OUT}<&- {CONNECT_IN}>&- {CONNECT_OUT}<&- \
+    grep -E '^shutdown\([0-9]+,\s*SHUT_WR\)\s*=\s*0$' <&$STRACE_FD & PID_GREP=$!
+if [ -n "$NETCAT_DGRAM" ]; then
+    greet server
+fi
+
+# close client input
+exec {CONNECT_IN}>&-
+sleep 0.25
+
+kill_and_wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+exec {STRACE_FD}<&- {LISTEN_OUT}<&- {CONNECT_IN}>&- {CONNECT_OUT}<&-
+if wait $PID_GREP; then
+    printf "ERROR at line %d: Client shutdown() on EOF stdin\\n" $LINENO >&2
+    exit 1
+fi
+
+
+#######################################################################
+# with -N (server)
+
+PORT=$(random_port)
+STRACE_LINGER="y" PIPES="y" netcat_listen -N${NETCAT_DGRAM:+u} "127.0.0.1" $PORT
+
+# connect a client so the server isn't blocking on accept() -- for
+# UDP we also need to send some text so the server connect()s
+start_client
+if [ -n "$NETCAT_DGRAM" ]; then
+    greet server
+fi
+
+# closing server input yields a shutdown()
+exec {LISTEN_IN}>&-
+grep -m1 -qE '^shutdown\([0-9]+,\s*SHUT_WR\)\s*=\s*0$' <&$STRACE_FD
+
+kill_and_wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+exec {STRACE_FD}<&- {LISTEN_OUT}<&- {CONNECT_IN}>&- {CONNECT_OUT}<&-
+
+
+#######################################################################
+# with -N (client)
+
+PORT=$(random_port)
+PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT
+
+STRACE="y" start_client -N
+if [ -n "$NETCAT_DGRAM" ]; then
+    greet server
+fi
+
+# closing client input yields a shutdown()
+exec {CONNECT_IN}>&-
+grep -m1 -qE '^shutdown\([0-9]+,\s*SHUT_WR\)\s*=\s*0$' <&$STRACE_FD
+
+${NETCAT_DGRAM:+kill_and_}wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+exec {STRACE_FD}<&- {LISTEN_OUT}<&- {CONNECT_IN}>&- {CONNECT_OUT}<&-
+
+# vim: set filetype=bash :

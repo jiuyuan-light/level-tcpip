@@ -49,7 +49,7 @@ static void tcp_consume_ofo_queue(struct tcp_sock *tsk)
 int tcp_data_dequeue(struct tcp_sock *tsk, void *user_buf, int userlen)
 {
     struct sock *sk = &tsk->sk;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     int rlen = 0;
 
     while (!skb_queue_empty(&sk->receive_queue) && rlen < userlen) {
@@ -84,7 +84,7 @@ int tcp_data_dequeue(struct tcp_sock *tsk, void *user_buf, int userlen)
     return rlen;
 }
 
-int tcp_data_queue(struct tcp_sock *tsk, struct tcphdr *th, struct sk_buff *skb)
+int tcp_data_queue(struct tcp_sock *tsk, struct lvl_tcphdr *th, struct sk_buff *skb)
 {
     struct sock *sk = &tsk->sk;
     struct tcb *tcb = &tsk->tcb;
@@ -106,6 +106,7 @@ int tcp_data_queue(struct tcp_sock *tsk, struct tcphdr *th, struct sk_buff *skb)
 
         // There is new data for user to read
         sk->poll_events |= (POLLIN | POLLPRI | POLLRDNORM | POLLRDBAND);
+        lvl_ip_debug("tcp sk.ops->recv_notify, There is new data for user to read");
         tsk->sk.ops->recv_notify(&tsk->sk);
     } else {
         /* Segment passed validation, hence it is in-window

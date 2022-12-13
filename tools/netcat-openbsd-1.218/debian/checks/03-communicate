@@ -1,0 +1,63 @@
+#######################################################################
+# bidirectional communication
+
+PORT=$(random_port)
+declare -a ARGS
+if [ "$NETCAT_UNIX" = "y" ]; then
+    FAM="AF_UNIX"
+    ARGS=( -${NETCAT_DGRAM:+u}U "$TEMPDIR/$PORT.sock" )
+else
+    FAM="AF_INET"
+    ARGS=( ${NETCAT_DGRAM:+-u} "127.0.0.1" "$PORT" )
+fi
+
+start_server() {
+    #echo nc "${ARGS[@]}"
+    PIPES="y" netcat_listen "${ARGS[@]}"
+    cat <&$LISTEN_OUT >"$TEMPDIR/server.out" &
+    if [ "${BIND_ADDRESS#"{sa_family=$FAM"[,\}]}" = "$BIND_ADDRESS" ]; then # sanity check
+        printf "ERROR at line %d: address \"%s\" isn't %s\\n" ${BASH_LINENO[0]} "$BIND_ADDRESS" "$FAM" >&2
+        exit 1
+    fi
+}
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    mkfifo -- "$in"
+    $NC "${ARGS[@]}" <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in"
+    rm -f -- "$in"
+}
+sendto() {
+    local to="$1" from fd
+    if [ "$to" = "client" ]; then
+        from="server"
+        fd=$LISTEN_IN
+    elif [ "$to" = "server" ]; then
+        from="client"
+        fd=$CONNECT_IN
+    fi
+    tee -a -- "$TEMPDIR/$from.in" >&$fd
+}
+
+start_server
+start_client
+
+head -c1024 /dev/urandom | sendto client
+head -c1024 /dev/urandom | sendto server
+
+for i in $(seq 1 128); do
+    l=$(shuf -n1 -i1-128)
+    t="$(shuf -n1 -e "client" "server")" # choose target at random
+    head -c$l /dev/urandom | sendto "$t"
+done
+
+exec {CONNECT_IN}>&- {LISTEN_IN}>&- # close inputs
+sleep 0.25 # give netcat a chance to finish its work
+
+kill_and_wait $CLIENT_PID
+diff --color=auto -u --label="a/client" --label="b/client" -- "$TEMPDIR/server.in" "$TEMPDIR/client.out"
+
+${NETCAT_DGRAM:+kill_and_}wait $PID
+diff --color=auto -u --label="a/server" --label="b/server" -- "$TEMPDIR/client.in" "$TEMPDIR/server.out"
+
+# vim: set filetype=bash :

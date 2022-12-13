@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -eu
+
+source "$(dirname $0)/../../utils/common"
+lvl_ip_check
+
+echo_server_port=20000
+function setup_env {
+    nc -lu 20.0.0.5 19999 > $(dirname $0)/res.txt &
+    udp_server="$!"
+    $repo/tools/utils/udp_echo_server $echo_server_port > /dev/null 2>&1 &
+    echo_server="$!"
+    # echo "udp_server[$udp_server] succ"
+    echo "Udp-Server env init complete!"
+}
+
+# LD_PRELOAD=${xxx}/liblevelip.so nc 20.0.0.5 19999
+# *** buffer overflow detected ***: terminated， 可能是参数有问题
+function test_udp {
+    # if [ `id -u` -eq 0 ];then
+    #     echo "root用户!"
+    # else
+    #     echo "非root用户!"
+    # fi
+    "$repo/tools/level-ip" nc -q 3 -u 20.0.0.5 19999 < $(dirname $0)/ready.txt
+    diff $(dirname $0)/res.txt $(dirname $0)/ready.txt
+    ret=$?
+    rm $(dirname $0)/res.txt -rf
+    return $ret
+}
+
+function test_udp_echo {
+    "$repo/tools/level-ip" nc -u 20.0.0.5 $echo_server_port < $(dirname $0)/ready.txt > $(dirname $0)/echo_resp.txt &
+    sleep 3
+    diff $(dirname $0)/echo_resp.txt $(dirname $0)/ready.txt
+    ret=$?
+    rm $(dirname $0)/echo_resp.txt -rf
+    return $ret
+}
+
+function teardown_suite {
+    [[ ! -z $udp_server ]] && kill $udp_server
+    [[ ! -z $echo_server ]] && kill $echo_server
+    # kill "$udp_client"
+}
+
+trap teardown_suite EXIT ERR
+setup_env
+test_run "test_udp" "$0"
+test_run "test_udp_echo" "$0"

@@ -1,12 +1,14 @@
 #ifndef TCP_H_
 #define TCP_H_
 #include "syshead.h"
+
+#include "autoconf.h"
 #include "ip.h"
 #include "timer.h"
 #include "utils.h"
 
-#define TCP_HDR_LEN sizeof(struct tcphdr)
-#define TCP_DOFFSET sizeof(struct tcphdr) / 4
+#define TCP_HDR_LEN sizeof(struct lvl_tcphdr)
+#define TCP_DOFFSET sizeof(struct lvl_tcphdr) / 4
 
 #define TCP_FIN 0x01
 #define TCP_SYN 0x02
@@ -30,7 +32,7 @@
 #define TCP_OPT_TS 8
 
 #define TCP_2MSL 60000
-#define TCP_USER_TIMEOUT 180000
+#define LVL_TCP_USER_TIMEOUT 180000 /* 18ºÁÃë? */
 
 #define tcp_sk(sk) ((struct tcp_sock *)sk)
 #define tcp_hlen(tcp) (tcp->hl << 2)
@@ -39,7 +41,7 @@
 extern const char *tcp_dbg_states[];
 #define tcp_in_dbg(hdr, sk, skb)                                        \
     do {                                                                \
-        print_debug("TCP %u.%u.%u.%u.%u > %u.%u.%u.%u.%u: " \
+        lvl_ip_debug("TCP %u.%u.%u.%u.%u > %u.%u.%u.%u.%u: " \
                     "Flags [S%uA%uP%uF%uR%u], seq %u:%u, ack %u, win %u rto %d boff %d", \
                     (uint8_t)(sk->daddr >> 24), (uint8_t)(sk->daddr >> 16), (uint8_t)(sk->daddr >> 8), (uint8_t)(sk->daddr >> 0), sk->dport, \
                     (uint8_t)(sk->saddr >> 24), (uint8_t)(sk->saddr >> 16), (uint8_t)(sk->saddr >> 8), (uint8_t)(sk->saddr >> 0), sk->sport, \
@@ -50,7 +52,7 @@ extern const char *tcp_dbg_states[];
 
 #define tcp_out_dbg(hdr, sk, skb)                                       \
     do {                                                                \
-        print_debug("TCP %u.%u.%u.%u.%u > %u.%u.%u.%u.%u: " \
+        lvl_ip_debug("TCP %u.%u.%u.%u.%u > %u.%u.%u.%u.%u: " \
                     "Flags [S%uA%uP%uF%uR%u], seq %u:%u, ack %u, win %u rto %d boff %d", \
                     (uint8_t)(sk->saddr >> 24), (uint8_t)(sk->saddr >> 16), (uint8_t)(sk->saddr >> 8), (uint8_t)(sk->saddr >> 0), sk->sport, \
                     (uint8_t)(sk->daddr >> 24), (uint8_t)(sk->daddr >> 16), (uint8_t)(sk->daddr >> 8), (uint8_t)(sk->daddr >> 0), sk->dport, \
@@ -61,7 +63,7 @@ extern const char *tcp_dbg_states[];
 
 #define tcpsock_dbg(msg, sk)                                            \
     do {                                                                \
-        print_debug("TCP x:%u > %u.%u.%u.%u.%u (snd_una %u, snd_nxt %u, snd_wnd %u, " \
+        lvl_ip_debug("TCP x:%u > %u.%u.%u.%u.%u (snd_una %u, snd_nxt %u, snd_wnd %u, " \
                     "snd_wl1 %u, snd_wl2 %u, rcv_nxt %u, rcv_wnd %u recv-q %d send-q %d " \
                     "rto %d boff %d) state %s: "msg, \
                     sk->sport, (uint8_t)(sk->daddr >> 24), (uint8_t)(sk->daddr >> 16), (uint8_t)(sk->daddr >> 8), (uint8_t)(sk->daddr >> 0), \
@@ -100,7 +102,7 @@ extern const char *tcp_dbg_states[];
 #define tcp_drop(tsk, skb) __tcp_drop(tsk, skb)
 #endif
 
-struct tcphdr {
+struct lvl_tcphdr {
     uint16_t sport;
     uint16_t dport;
     uint32_t seq;
@@ -142,31 +144,31 @@ struct tcpiphdr {
 } __attribute__((packed));
 
 enum tcp_states {
-    TCP_LISTEN, /* represents waiting for a connection request from any remote
+    LVL_TCP_LISTEN, /* represents waiting for a connection request from any remote
                    TCP and port. */
-    TCP_SYN_SENT, /* represents waiting for a matching connection request
+    LVL_TCP_SYN_SENT, /* represents waiting for a matching connection request
                      after having sent a connection request. */
-    TCP_SYN_RECEIVED, /* represents waiting for a confirming connection
+    LVL_TCP_SYN_RECEIVED, /* represents waiting for a confirming connection
                          request acknowledgment after having both received and sent a
                          connection request. */
-    TCP_ESTABLISHED, /* represents an open connection, data received can be
+    LVL_TCP_ESTABLISHED, /* represents an open connection, data received can be
                         delivered to the user.  The normal state for the data transfer phase
                         of the connection. */
-    TCP_FIN_WAIT_1, /* represents waiting for a connection termination request
+    LVL_TCP_FIN_WAIT_1, /* represents waiting for a connection termination request
                        from the remote TCP, or an acknowledgment of the connection
                        termination request previously sent. */
-    TCP_FIN_WAIT_2, /* represents waiting for a connection termination request
+    LVL_TCP_FIN_WAIT_2, /* represents waiting for a connection termination request
                        from the remote TCP. */
-    TCP_CLOSE, /* represents no connection state at all. */
-    TCP_CLOSE_WAIT, /* represents waiting for a connection termination request
+    LVL_TCP_CLOSE, /* represents no connection state at all. */
+    LVL_TCP_CLOSE_WAIT, /* represents waiting for a connection termination request
                        from the local user. */
-    TCP_CLOSING, /* represents waiting for a connection termination request
+    LVL_TCP_CLOSING, /* represents waiting for a connection termination request
                     acknowledgment from the remote TCP. */
-    TCP_LAST_ACK, /* represents waiting for an acknowledgment of the
+    LVL_TCP_LAST_ACK, /* represents waiting for an acknowledgment of the
                      connection termination request previously sent to the remote TCP
                      (which includes an acknowledgment of its connection termination
                      request). */
-    TCP_TIME_WAIT, /* represents waiting for enough time to pass to be sure
+    LVL_TCP_TIME_WAIT, /* represents waiting for enough time to pass to be sure
                       the remote TCP received the acknowledgment of its connection
                       termination request. */
 };
@@ -221,14 +223,14 @@ struct tcp_sock {
     struct sk_buff_head ofo_queue; /* Out-of-order queue */
 };
 
-static inline struct tcphdr *tcp_hdr(const struct sk_buff *skb)
+static inline struct lvl_tcphdr *tcp_hdr(const struct sk_buff *skb)
 {
-    return (struct tcphdr *)(skb->head + ETH_HDR_LEN + IP_HDR_LEN);
+    return (struct lvl_tcphdr *)(skb->head + ETH_HDR_LEN + IP_HDR_LEN);
 }
 
 void tcp_init();
 void tcp_in(struct sk_buff *skb);
-int tcp_checksum(struct tcp_sock *sock, struct tcphdr *thdr);
+int tcp_checksum(struct tcp_sock *sock, struct lvl_tcphdr *thdr);
 void tcp_select_initial_window(uint32_t *rcv_wnd);
 
 int generate_iss();
@@ -243,7 +245,7 @@ int tcp_disconnect(struct sock *sk, int flags);
 int tcp_write(struct sock *sk, const void *buf, int len);
 int tcp_read(struct sock *sk, void *buf, int len);
 int tcp_receive(struct tcp_sock *tsk, void *buf, int len);
-int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb);
+int tcp_input_state(struct sock *sk, struct lvl_tcphdr *th, struct sk_buff *skb);
 int tcp_send_synack(struct sock *sk);
 int tcp_send_next(struct sock *sk, int amount);
 int tcp_send_ack(struct sock *sk);

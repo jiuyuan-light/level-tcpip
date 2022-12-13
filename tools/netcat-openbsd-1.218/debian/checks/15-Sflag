@@ -1,0 +1,90 @@
+#######################################################################
+# make sure the system supports TCP MD5 signatures
+
+# This feature requires Linux 4.13 or later
+uname_s="$(uname -s)"
+if [ "${uname_s^[A-Z]}" != "Linux" ]; then
+    echo "I: Ignoring non-Linux platform $uname_s" >&2
+    exit 0
+fi
+
+uname_r="$(uname -r)"
+if ! [[ $uname_r =~ ^([0-9]+)\.([0-9]+) ]] || [ ${BASH_REMATCH[1]} -lt 4 ] || \
+        [ ${BASH_REMATCH[1]} -eq 4 -a ${BASH_REMATCH[2]} -lt 13 ]; then
+    echo "I: Ignoring older Linux $uname_r" >&2
+    exit 0
+fi
+
+READ_PASSPHRASE_SO="$(dirname -- "$0")/readpassphrase.so"
+PORT=$(random_port)
+strace -Dqo"$TEMPDIR/strace.out" -E LD_PRELOAD="$READ_PASSPHRASE_SO" -E PASSPHRASE="foobar" \
+    -e trace="setsockopt" -- $NC -w1 -S 127.0.0.1 $PORT </dev/null || true
+if ! grep -qE "^setsockopt\\([0-9]+,\\s*SOL_TCP,\\s*TCP_MD5SIG_EXT,.*\\)\\s*=\\s*0+$" <"$TEMPDIR/strace.out"; then
+    echo "I: System doesn't appear to support RFC 2385 TCP MD5 signatures, skipping test" >&2
+    exit 0
+fi
+rm -f -- "$TEMPDIR/strace.out"
+
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out" strace_fifo="$TEMPDIR/strace.out"
+    mkfifo -- "$in" "$out" "$strace_fifo"
+    strace -Dqo "$strace_fifo" -ze trace="%net" -E LD_PRELOAD="$READ_PASSPHRASE_SO" -- \
+        $NC "$@" "127.0.0.1" $PORT <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out" {STRACE_FD}<"$strace_fifo"
+    rm -f -- "$in" "$out" "$strace_fifo"
+}
+
+#######################################################################
+# matching passphrases
+
+PORT=$(random_port)
+LD_PRELOAD="$READ_PASSPHRASE_SO" PASSPHRASE="foo" PIPES="y" netcat_listen -S "127.0.0.1" $PORT
+
+PASSPHRASE="foo" start_client -NS
+greet server
+greet client
+
+exec {CONNECT_IN}>&- {LISTEN_IN}>&- # close inputs
+wait $CLIENT_PID;
+wait $PID;
+grep -m1 -qE "^setsockopt\\([0-9]+,\\s*SOL_TCP,\\s*TCP_MD5SIG_EXT," <&$STRACE_FD
+
+
+#######################################################################
+# mismatching passphrases
+
+PORT=$(random_port)
+LD_PRELOAD="$READ_PASSPHRASE_SO" PASSPHRASE="foo" STRACE_LINGER="y" netcat_listen -S "127.0.0.1" $PORT
+grep -E "^accept4?\\($BIND_FD," <&$STRACE_FD & PID_GREP=$!
+
+ERR="$TEMPDIR/client.err"
+if strace -Dqo "$TEMPDIR/client.strace" -ze trace="%net" \
+            -E LD_PRELOAD="$READ_PASSPHRASE_SO" -E PASSPHRASE="bar" \
+            -- $NC -Sv -w1 "127.0.0.1" $PORT </dev/null 2>"$ERR" || \
+        grep -E "^connect\\(," <"$TEMPDIR/client.strace" || \
+        ! grep -Fxq -e "nc: connect to 127.0.0.1 port $PORT (tcp) timed out: Operation now in progress" <"$ERR"; then
+    echo "Error: client didn't timeout or could connect!" >&2
+    cat <"$ERR" >&2
+    exit 1
+fi
+
+
+#######################################################################
+# without -S
+
+if strace -Dqo "$TEMPDIR/client.strace" -ze trace="%net" \
+            -- $NC -v -w1 "127.0.0.1" $PORT </dev/null 2>"$ERR" || \
+        grep -E "^connect\\(," <"$TEMPDIR/client.strace" || \
+        ! grep -Fxq -e "nc: connect to 127.0.0.1 port $PORT (tcp) timed out: Operation now in progress" <"$ERR"; then
+    echo "Error: client didn't timeout or could connect!" >&2
+    cat <"$ERR" >&2
+    exit 1
+fi
+
+kill_and_wait $PID
+if wait $PID_GREP; then
+    echo "Error: server accepted connecctions" >&2
+    exit 1
+fi
+
+# vim: set filetype=bash :

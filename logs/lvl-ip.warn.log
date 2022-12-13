@@ -1,0 +1,7 @@
+2022-12-13 20:51:17.363872 [src/dst.c:29] - Thread[ipc_loop] FIRST PKT ERR, CHECK [SOME THREAD] RETRY
+2022-12-13 20:51:17.363895 [src/udp_output.c:32] - Thread[ipc_loop] NO ARP ENTRY, ADD NODE, INSERT SKB
+2022-12-13 20:51:17.364105 [src/ipc.c:618] - Thread[netdev_tx_loop] UDP RE SEND ret[11]
+2022-12-13 20:51:20.425379 [src/udp.c:60] - Thread[netdev_rx_loop] udp_recv_notify DO NOTHING
+2022-12-13 20:51:22.272908 [src/ipc.c:42] - Thread[ipc_loop] Error on writing IPC write response
+2022-12-13 20:51:26.321693 [src/ipc.c:42] - Thread[ipc_loop] Error on writing IPC write response
+2022-12-13 20:51:27.073945 [src/ipc.c:42] - Thread[ipc_loop] Error on writing IPC write response

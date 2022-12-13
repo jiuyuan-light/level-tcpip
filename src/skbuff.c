@@ -5,9 +5,16 @@
 struct sk_buff *alloc_skb(unsigned int size)
 {
     struct sk_buff *skb = malloc(sizeof(struct sk_buff));
+    if (!skb) {
+        return NULL;
+    }
 
     memset(skb, 0, sizeof(struct sk_buff));
     skb->data = malloc(size);
+    if (!skb->data) {
+        free(skb);
+        return NULL;
+    }
     memset(skb->data, 0, size);
 
     skb->refcnt = 0;

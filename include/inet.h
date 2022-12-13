@@ -8,7 +8,7 @@
 #ifdef DEBUG_SOCKET
 #define inet_dbg(sock, msg, ...)                                            \
     do {                                                                \
-        socket_dbg(sock, "INET "msg, ##__VA_ARGS__);                    \
+        socket_trace(sock, "INET "msg, ##__VA_ARGS__);                    \
     } while (0)
 #else
 #define inet_dbg(msg, th, ...)

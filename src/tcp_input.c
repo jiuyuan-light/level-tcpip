@@ -3,8 +3,10 @@
 #include "tcp_data.h"
 #include "skbuff.h"
 #include "sock.h"
+#include "socket.h"
+#include "ipc.h"
 
-static int tcp_parse_opts(struct tcp_sock *tsk, struct tcphdr *th)
+static int tcp_parse_opts(struct tcp_sock *tsk, struct lvl_tcphdr *th)
 {
     uint8_t *ptr = th->data;
     uint8_t optlen = tcp_hlen(th) - 20;
@@ -97,7 +99,7 @@ static inline int __tcp_drop(struct sock *sk, struct sk_buff *skb)
     return 0;
 }
 
-static int tcp_verify_segment(struct tcp_sock *tsk, struct tcphdr *th, struct sk_buff *skb)
+static int tcp_verify_segment(struct tcp_sock *tsk, struct lvl_tcphdr *th, struct sk_buff *skb)
 {
     struct tcb *tcb = &tsk->tcb;
 
@@ -117,13 +119,13 @@ static void tcp_reset(struct sock *sk)
 {
     sk->poll_events = (POLLOUT | POLLWRNORM | POLLERR | POLLHUP);
     switch (sk->state) {
-    case TCP_SYN_SENT:
+    case LVL_TCP_SYN_SENT:
         sk->err = -ECONNREFUSED;
         break;
-    case TCP_CLOSE_WAIT:
+    case LVL_TCP_CLOSE_WAIT:
         sk->err = -EPIPE;
         break;
-    case TCP_CLOSE:
+    case LVL_TCP_CLOSE:
         return;
     default:
         sk->err = -ECONNRESET;
@@ -133,19 +135,19 @@ static void tcp_reset(struct sock *sk)
     tcp_done(sk);
 }
 
-static inline int tcp_discard(struct tcp_sock *tsk, struct sk_buff *skb, struct tcphdr *th)
+static inline int tcp_discard(struct tcp_sock *tsk, struct sk_buff *skb, struct lvl_tcphdr *th)
 {
     free_skb(skb);
     return 0;
 }
 
-static int tcp_listen(struct tcp_sock *tsk, struct sk_buff *skb, struct tcphdr *th)
+static int tcp_listen(struct tcp_sock *tsk, struct sk_buff *skb, struct lvl_tcphdr *th)
 {
     free_skb(skb);
     return 0;
 }
 
-static int tcp_synsent(struct tcp_sock *tsk, struct sk_buff *skb, struct tcphdr *th)
+static int tcp_synsent(struct tcp_sock *tsk, struct sk_buff *skb, struct lvl_tcphdr *th)
 {
     struct tcb *tcb = &tsk->tcb;
     struct sock *sk = &tsk->sk;
@@ -189,7 +191,7 @@ static int tcp_synsent(struct tcp_sock *tsk, struct sk_buff *skb, struct tcphdr 
     }
 
     if (tcb->snd_una > tcb->iss) {
-        tcp_set_state(sk, TCP_ESTABLISHED);
+        tcp_set_state(sk, LVL_TCP_ESTABLISHED);
         tcb->snd_una = tcb->snd_nxt;
         tsk->backoff = 0;
         /* RFC 6298: Sender SHOULD set RTO <- 1 second */
@@ -199,7 +201,7 @@ static int tcp_synsent(struct tcp_sock *tsk, struct sk_buff *skb, struct tcphdr 
         tcp_parse_opts(tsk, th);
         sock_connected(sk);
     } else {
-        tcp_set_state(sk, TCP_SYN_RECEIVED);
+        tcp_set_state(sk, LVL_TCP_SYN_RECEIVED);
         tcb->snd_una = tcb->iss;
         tcp_send_synack(&tsk->sk);
     }
@@ -213,7 +215,7 @@ reset_and_discard:
     return 0;
 }
 
-static int tcp_closed(struct tcp_sock *tsk, struct sk_buff *skb, struct tcphdr *th)
+static int tcp_closed(struct tcp_sock *tsk, struct sk_buff *skb, struct lvl_tcphdr *th)
 {
     /*
       All data in the incoming segment is discarded.  An incoming
@@ -261,19 +263,19 @@ out:
 /*
  * Follows RFC793 "Segment Arrives" section closely
  */ 
-int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
+int tcp_input_state(struct sock *sk, struct lvl_tcphdr *th, struct sk_buff *skb)
 {
     struct tcp_sock *tsk = tcp_sk(sk);
     struct tcb *tcb = &tsk->tcb;
 
     tcpsock_dbg("input state", sk);
-
+    lvl_ip_debug("====================== ip->tcp recv->input state ======================");
     switch (sk->state) {
-    case TCP_CLOSE:
+    case LVL_TCP_CLOSE:
         return tcp_closed(tsk, skb, th);
-    case TCP_LISTEN:
+    case LVL_TCP_LISTEN:
         return tcp_listen(tsk, skb, th);
-    case TCP_SYN_SENT:
+    case LVL_TCP_SYN_SENT:
         return tcp_synsent(tsk, skb, th);
     }
 
@@ -294,6 +296,7 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
     if (th->rst) {
         free_skb(skb);
         tcp_enter_time_wait(sk);
+        lvl_ip_debug("tcp recv_notify2");
         tsk->sk.ops->recv_notify(&tsk->sk);
         return 0;
     }
@@ -315,18 +318,18 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
 
     // ACK bit is on
     switch (sk->state) {
-    case TCP_SYN_RECEIVED:
+    case LVL_TCP_SYN_RECEIVED:
         if (tcb->snd_una <= th->ack_seq && th->ack_seq < tcb->snd_nxt) {
-            tcp_set_state(sk, TCP_ESTABLISHED);
+            tcp_set_state(sk, LVL_TCP_ESTABLISHED);
         } else {
             return_tcp_drop(sk, skb);
         }
-    case TCP_ESTABLISHED:
-    case TCP_FIN_WAIT_1:
-    case TCP_FIN_WAIT_2:
-    case TCP_CLOSE_WAIT:
-    case TCP_CLOSING:
-    case TCP_LAST_ACK:
+    case LVL_TCP_ESTABLISHED:
+    case LVL_TCP_FIN_WAIT_1:
+    case LVL_TCP_FIN_WAIT_2:
+    case LVL_TCP_CLOSE_WAIT:
+    case LVL_TCP_CLOSING:
+    case LVL_TCP_LAST_ACK:
         if (tcb->snd_una < th->ack_seq && th->ack_seq <= tcb->snd_nxt) {
             tcb->snd_una = th->ack_seq;
             /* Any segments on the retransmission queue which are thereby
@@ -359,22 +362,22 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
     /* If the write queue is empty, it means our FIN was acked */
     if (skb_queue_empty(&sk->write_queue)) {
         switch (sk->state) {
-        case TCP_FIN_WAIT_1:
-            tcp_set_state(sk, TCP_FIN_WAIT_2);
-        case TCP_FIN_WAIT_2:
+        case LVL_TCP_FIN_WAIT_1:
+            tcp_set_state(sk, LVL_TCP_FIN_WAIT_2);
+        case LVL_TCP_FIN_WAIT_2:
             break;
-        case TCP_CLOSING:
+        case LVL_TCP_CLOSING:
             /* In addition to the processing for the ESTABLISHED state, if
              * the ACK acknowledges our FIN then enter the TIME-WAIT state,
                otherwise ignore the segment. */
-            tcp_set_state(sk, TCP_TIME_WAIT);
+            tcp_set_state(sk, LVL_TCP_TIME_WAIT);
             break;
-        case TCP_LAST_ACK:
+        case LVL_TCP_LAST_ACK:
             /* The only thing that can arrive in this state is an acknowledgment of our FIN.  
              * If our FIN is now acknowledged, delete the TCB, enter the CLOSED state, and return. */
             free_skb(skb);
             return tcp_done(sk);
-        case TCP_TIME_WAIT:
+        case LVL_TCP_TIME_WAIT:
             /* TODO: The only thing that can arrive in this state is a
                retransmission of the remote FIN.  Acknowledge it, and restart
                the 2 MSL timeout. */
@@ -397,18 +400,18 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
 
     /* seventh, process the segment txt */
     switch (sk->state) {
-    case TCP_ESTABLISHED:
-    case TCP_FIN_WAIT_1:
-    case TCP_FIN_WAIT_2:
+    case LVL_TCP_ESTABLISHED:
+    case LVL_TCP_FIN_WAIT_1:
+    case LVL_TCP_FIN_WAIT_2:
         if (th->psh || skb->dlen > 0) {
             tcp_data_queue(tsk, th, skb);
         }
                 
         break;
-    case TCP_CLOSE_WAIT:
-    case TCP_CLOSING:
-    case TCP_LAST_ACK:
-    case TCP_TIME_WAIT:
+    case LVL_TCP_CLOSE_WAIT:
+    case LVL_TCP_CLOSING:
+    case LVL_TCP_LAST_ACK:
+    case LVL_TCP_TIME_WAIT:
         /* This should not occur, since a FIN has been received from the
            remote side.  Ignore the segment text. */
         break;
@@ -419,9 +422,9 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
         tcpsock_dbg("Received in-sequence FIN", sk);
 
         switch (sk->state) {
-        case TCP_CLOSE:
-        case TCP_LISTEN:
-        case TCP_SYN_SENT:
+        case LVL_TCP_CLOSE:
+        case LVL_TCP_LISTEN:
+        case LVL_TCP_SYN_SENT:
             // Do not process, since SEG.SEQ cannot be validated
             goto drop_and_unlock;
         }
@@ -431,35 +434,36 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
         sk->poll_events |= (POLLIN | POLLPRI | POLLRDNORM | POLLRDBAND);
         
         tcp_send_ack(sk);
+        lvl_ip_debug("tcp recv_notify3");
         tsk->sk.ops->recv_notify(&tsk->sk);
 
         switch (sk->state) {
-        case TCP_SYN_RECEIVED:
-        case TCP_ESTABLISHED:
-            tcp_set_state(sk, TCP_CLOSE_WAIT);
+        case LVL_TCP_SYN_RECEIVED:
+        case LVL_TCP_ESTABLISHED:
+            tcp_set_state(sk, LVL_TCP_CLOSE_WAIT);
             break;
-        case TCP_FIN_WAIT_1:
+        case LVL_TCP_FIN_WAIT_1:
             /* If our FIN has been ACKed (perhaps in this segment), then
                enter TIME-WAIT, start the time-wait timer, turn off the other
                timers; otherwise enter the CLOSING state. */
             if (skb_queue_empty(&sk->write_queue)) {
                 tcp_enter_time_wait(sk);
             } else {
-                tcp_set_state(sk, TCP_CLOSING);
+                tcp_set_state(sk, LVL_TCP_CLOSING);
             }
 
             break;
-        case TCP_FIN_WAIT_2:
+        case LVL_TCP_FIN_WAIT_2:
             /* Enter the TIME-WAIT state.  Start the time-wait timer, turn
                off the other timers. */
             tcp_enter_time_wait(sk);
             break;
-        case TCP_CLOSE_WAIT:
-        case TCP_CLOSING:
-        case TCP_LAST_ACK:
+        case LVL_TCP_CLOSE_WAIT:
+        case LVL_TCP_CLOSING:
+        case LVL_TCP_LAST_ACK:
             /* Remain in the state */
             break;
-        case TCP_TIME_WAIT:
+        case LVL_TCP_TIME_WAIT:
             /* TODO: Remain in the TIME-WAIT state.  Restart the 2 MSL time-wait
                timeout. */
             break;
@@ -468,9 +472,9 @@ int tcp_input_state(struct sock *sk, struct tcphdr *th, struct sk_buff *skb)
 
     /* Congestion control and delacks */
     switch (sk->state) {
-    case TCP_ESTABLISHED:
-    case TCP_FIN_WAIT_1:
-    case TCP_FIN_WAIT_2:
+    case LVL_TCP_ESTABLISHED:
+    case LVL_TCP_FIN_WAIT_1:
+    case LVL_TCP_FIN_WAIT_2:
         if (expected) {
             tcp_stop_delack_timer(tsk);
 
@@ -515,26 +519,36 @@ int tcp_receive(struct tcp_sock *tsk, void *buf, int len)
 
         rlen += curlen;
 
+        /* PSH位就是用来通告接收方立即将收到的报文连同TCP接收缓存里的数据递交应用进程处理.
+        一般会出现在发送方封装最后一个应用字段的TCP报文中,针对TCP交互式应用,则只要封装有应用字段的TCP报文,均会将PSH位置1. */
         if (tsk->flags & TCP_PSH) {
-
+            lvl_ip_debug("peer set push bit");
             tsk->flags &= ~TCP_PSH;
             break;
         }
 
         if (tsk->flags & TCP_FIN || rlen == len) break;
 
-        if (sock->flags & O_NONBLOCK) {
+        if (SOCK_IS_NONBLOCK(sock)) {
+            lvl_ip_debug("tcp is NONBLOCK, tcp-state[%s]", tcp_dbg_states[sk->state]);
             if (rlen == 0) {
                 rlen = -EAGAIN;
-            } 
-            
+            }
             break;
         } else {
-            pthread_mutex_lock(&tsk->sk.recv_wait.lock);
+            /* 调试时由于lvl-ip阻塞，对端发送完成数据后，会置位PSH。
+            make test时，tcp_receive太快了，数据不够，wait */
+            lvl_ip_debug("tcp is BLOCK, peer not set push bit, tcp-state[%s], NOW WAIT, rlen[%d]", tcp_dbg_states[sk->state], rlen);
+            sock->readbytes = rlen;
+            memset(sock->readbuf, 0, sizeof(sock->readbuf));
+            memcpy(sock->readbuf, buf, curlen);
+            ipc_post_wait(sock, IPC_READ);
+            // pthread_mutex_lock(&tsk->sk.recv_wait.lock);
             socket_release(sock);
-            wait_sleep(&tsk->sk.recv_wait);
-            pthread_mutex_unlock(&tsk->sk.recv_wait.lock);
-            socket_wr_acquire(sock);
+            // wait_sleep(&tsk->sk.recv_wait);
+            // pthread_mutex_unlock(&tsk->sk.recv_wait.lock);
+            socket_wr_acquire(sock); /* CHECK 这里加锁是干嘛 */
+            return WAIT_MORE_DATA;
         }
     }
 

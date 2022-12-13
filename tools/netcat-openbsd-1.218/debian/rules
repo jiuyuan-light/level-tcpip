@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/pkg-info.mk
+CFLAGS += -DDEBIAN_VERSION=\"$(DEB_VERSION)\"
+
+include /usr/share/dpkg/architecture.mk
+ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+  PKG_CONFIG = pkg-config
+else
+  CC = $(DEB_HOST_GNU_TYPE)-gcc
+  PKG_CONFIG = $(DEB_HOST_GNU_TYPE)-pkg-config
+endif
+
+NAME = netcat-openbsd
+prefix = debian/$(NAME)
+datarootdir = $(prefix)/usr/share
+mandir = $(datarootdir)/man
+man1dir = $(mandir)/man1
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	dh_auto_build -- CC=$(CC) PKG_CONFIG=$(PKG_CONFIG) CFLAGS='$(CFLAGS) $(CPPFLAGS)' LDFLAGS='$(LDFLAGS)'
+
+# used to spoof passphrass prompts via LD_PRELOAD while running the test suite
+debian/checks/%.so: debian/checks/%.c
+	$(CC) -shared $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ $<
+
+execute_after_dh_auto_test: debian/checks/readpassphrase.so
+	debian/tests/client-server
+ifeq ($(DEB_HOST_ARCH_OS),linux)
+	debian/checks/netcat || test $$? -eq 1
+endif
+
+execute_after_dh_install:
+	mv -T $(prefix)/bin/nc $(prefix)/bin/nc.openbsd
+
+execute_after_dh_installman:
+	mv -T $(man1dir)/nc.1 $(man1dir)/nc_openbsd.1

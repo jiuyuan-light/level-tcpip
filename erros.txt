@@ -1,0 +1,8 @@
+1). Resource temporarily unavailable  // read操作非阻塞IO, 返回EAGAIN错误
+2). connfd = accept(listenfd), connfd是阻塞还是非阻塞的? // 默认是阻塞的, libhv根据HIO_TYPE_SOCK_DGRAM和HIO_TYPE_SOCK_RAW设置为阻塞, 其他为非阻塞.
+3). 阻塞式fd, 如果libhv已经read过了, 业务再去read, 会卡死; 非阻塞fd, 返回EAGAIN
+
+
+
+##### BUGS #####
+1)有时会没有及时返回read，导致卡死一段时间，TODO

@@ -1,6 +1,9 @@
+#include <hloop.h>
+
 #include "arp.h"
 #include "netdev.h"
 #include "skbuff.h"
+#include "ipc.h"
 #include "list.h"
 
 /*
@@ -33,7 +36,7 @@ static struct arp_cache_entry *arp_entry_alloc(struct arp_hdr *hdr, struct arp_i
     return entry;
 }
 
-static int insert_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *data)
+static struct arp_cache_entry *insert_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *data)
 {
     struct arp_cache_entry *entry = arp_entry_alloc(hdr, data);
 
@@ -41,10 +44,10 @@ static int insert_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *da
     list_add_tail(&entry->list, &arp_cache);
     pthread_mutex_unlock(&lock);
 
-    return 0;
+    return entry;
 }
 
-static int update_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *data)
+static struct arp_cache_entry *update_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *data)
 {
     struct list_head *item;
     struct arp_cache_entry *entry;
@@ -57,13 +60,13 @@ static int update_arp_translation_table(struct arp_hdr *hdr, struct arp_ipv4 *da
             memcpy(entry->smac, data->smac, 6);
             pthread_mutex_unlock(&lock);
             
-            return 1;
+            return entry;
         }
     }
 
     pthread_mutex_unlock(&lock);
     
-    return 0;
+    return NULL;
 }
 
 void arp_init()
@@ -76,7 +79,7 @@ void arp_rcv(struct sk_buff *skb)
     struct arp_hdr *arphdr;
     struct arp_ipv4 *arpdata;
     struct netdev *netdev;
-    int merge = 0;
+    struct arp_cache_entry *entry;
 
     arphdr = arp_hdr(skb);
 
@@ -101,24 +104,34 @@ void arp_rcv(struct sk_buff *skb)
     arpdata->dip = ntohl(arpdata->dip);
     arpdata_dbg("receive", arpdata);
     
-    merge = update_arp_translation_table(arphdr, arpdata);
-
     if (!(netdev = netdev_get(arpdata->dip))) {
         printf("ARP was not for us\n");
         goto drop_pkt;
     }
 
-    if (!merge && insert_arp_translation_table(arphdr, arpdata) != 0) {
-        print_err("ERR: No free space in ARP translation table\n");
-        goto drop_pkt;
+    entry = update_arp_translation_table(arphdr, arpdata);
+    if (!entry) {
+        entry = insert_arp_translation_table(arphdr, arpdata);
+        if (!entry) {
+            print_err("ERR: No free space in ARP translation table\n");
+            goto drop_pkt;
+        }
+#define MAC_STR_FORMAT      "%02x:%02x:%02x:%02x:%02x:%02x"
+#define MAC_STR(mac)      mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]
+        lvl_ip_info("learn new arp entry [%u]-["MAC_STR_FORMAT"]", entry->sip, MAC_STR(entry->smac));
     }
+
+    // 添加到待发送队列 且唤醒发送线程
+    wake_lvl_netdev_tx_thread(entry);
 
     switch (arphdr->opcode) {
     case ARP_REQUEST:
         arp_reply(skb, netdev);
         return;
+    case ARP_REPLY: // 已经update_arp_translation_table处理了
+        goto drop_pkt;
     default:
-        printf("ARP: Opcode not supported\n");
+        printf("ARP: Opcode[%d] not supported\n", arphdr->opcode);
         goto drop_pkt;
     }
 
@@ -223,8 +236,8 @@ unsigned char* arp_get_hwaddr(uint32_t sip)
 
             return copy;
         }
-    }
 
+    }
     pthread_mutex_unlock(&lock);
 
     return NULL;

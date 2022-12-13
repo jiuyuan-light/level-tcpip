@@ -54,6 +54,19 @@ uint16_t checksum(void *addr, int count, int start_sum)
     return ~sum;
 }
 
+int tcp_udp_checksum(uint32_t saddr, uint32_t daddr, uint8_t proto,
+                     uint8_t *data, uint16_t len)
+{
+    uint32_t sum = 0;
+
+    sum += saddr;
+    sum += daddr;
+    sum += htons(proto);
+    sum += htons(len);
+    
+    return checksum(data, len, sum);
+}
+
 int get_address(char *host, char *port, struct sockaddr *addr)
 {
     struct addrinfo hints;

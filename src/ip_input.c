@@ -4,6 +4,7 @@
 #include "ip.h"
 #include "icmpv4.h"
 #include "tcp.h"
+#include "udp.h"
 #include "utils.h"
 
 static void ip_init_pkt(struct iphdr *ih)
@@ -53,10 +54,17 @@ int ip_rcv(struct sk_buff *skb)
         icmpv4_incoming(skb);
         return 0;
     case IP_TCP:
+        lvl_ip_debug("====================== ip->tcp recv ======================");
         tcp_in(skb);
         return 0;
+    case IP_UDP:
+        udp_in(skb);
+        return 0;
+    case IP_IGMP:
+        lvl_ip_trace("Not sup IGMP");
+        goto drop_pkt;
     default:
-        print_err("Unknown IP header proto\n");
+        lvl_ip_trace("Unknown IP header proto[%d]", ih->proto);
         goto drop_pkt;
     }
 

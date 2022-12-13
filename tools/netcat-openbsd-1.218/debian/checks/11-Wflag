@@ -1,0 +1,46 @@
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    mkfifo -- "$in" "$out"
+    $NC ${NETCAT_DGRAM:+-u} "$@" "127.0.0.1" $PORT <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out"
+    rm -f -- "$in" "$out"
+}
+
+#######################################################################
+# server
+
+PORT=$(random_port)
+PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} -W3 "127.0.0.1" $PORT
+
+start_client
+greet server client0 # packet1
+greet client server0
+greet server client1 # packet2
+greet client server1
+greet client server2
+greet client server3
+greet server client2 # packet3
+
+wait $PID
+kill_and_wait $CLIENT_PID
+
+#######################################################################
+# client
+
+PORT=$(random_port)
+PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT
+
+start_client -W3
+greet server client0
+greet client server0 # packet1
+greet server client1
+greet server client2
+greet client server1 # packet2
+greet server client3
+greet server client4
+greet client server2 # packet3
+
+wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+
+# vim: set filetype=bash :

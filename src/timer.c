@@ -1,6 +1,9 @@
+#include <stdbool.h>
 #include "syshead.h"
+
 #include "timer.h"
 #include "socket.h"
+#include "basic.h"
 
 static LIST_HEAD(timers);
 static int tick = 0;
@@ -21,7 +24,7 @@ static void timer_debug()
 
     pthread_mutex_unlock(&lock);
 
-    print_debug("TIMERS: Total amount currently %d", cnt);
+    lvl_ip_trace("TIMERS: Total amount currently %d", cnt);
 }
 #else
 static void timer_debug()
@@ -60,7 +63,7 @@ static void timers_tick()
         
         t = list_entry(item, struct timer, list);
 
-        if ((rc = pthread_mutex_trylock(&t->lock)) != 0) {
+        if ((rc = pthread_mutex_trylock(&t->lock)) != 0) { // pthread_mutex_trylock () 是 pthread_mutex_lock () 的非阻塞版本。
             if (rc != EBUSY) {
                 print_err("Timer free mutex lock: %s\n", strerror(rc));
             }
@@ -168,8 +171,8 @@ void timer_cancel(struct timer *t)
 
 void *timers_start()
 {
-    while (1) {
-        if (usleep(10000) != 0) {
+    while (true) {
+        if (usleep(10000) != 0) { // 10ms
             perror("Timer usleep");
         }
 
@@ -178,7 +181,7 @@ void *timers_start()
         pthread_rwlock_unlock(&rwlock);
         timers_tick();
 
-        if (tick % 5000 == 0) {
+        if (tick % 5000 == 0) { // 500次 * 10ms = 5s打印一次debug?
             socket_debug();
             timer_debug();
         } 

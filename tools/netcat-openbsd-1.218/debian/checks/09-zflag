@@ -1,0 +1,37 @@
+PORT=$(random_port)
+PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT
+
+IN="$TEMPDIR/client.in" OUT="$TEMPDIR/client.out" ERR="$TEMPDIR/client.err"
+mkfifo -- "$IN"
+$NC -${NETCAT_DGRAM:+u}z "127.0.0.1" $PORT <"$IN" >"$OUT" 2>"$ERR" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+exec {CONNECT_IN}>"$IN"
+rm -f -- "$IN"
+
+( echo "foobar" >&$CONNECT_IN ) || true # client stdin should be ignored
+
+exec {LISTEN_IN}>&- {CONNECT_IN}>&-
+wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+if read -r _ <&$LISTEN_OUT; then
+    printf "ERROR at line %d: Client didn't ignore its standard input\\n" $LINENO >&2
+    exit 1
+fi
+
+test -f "$OUT" -a -f "$ERR"
+test ! -s "$OUT"
+test ! -s "$ERR"
+
+
+#######################################################################
+# without server
+
+rv=0
+$NC -${NETCAT_DGRAM:+u}z "127.0.0.1" $PORT >"$OUT" 2>"$ERR" || rv=$?
+if [ -z "$NETCAT_DGRAM" ]; then
+    # XXX doesn't work with UDP (need to send IO to report status)
+    test $rv -eq 1
+fi
+test ! -s "$OUT"
+test ! -s "$ERR"
+
+# vim: set filetype=bash :

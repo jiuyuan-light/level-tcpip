@@ -34,12 +34,27 @@ In essence, `lvl-ip` operates as a host inside the tap device's subnet. Therefor
 An example from my (Arch) Linux machine, where `wlp2s0` is my outgoing interface, and `tap0` is the tap device for `lvl-ip`:
 
     $ sysctl -w net.ipv4.ip_forward=1
-    $ iptables -I INPUT --source 10.0.0.0/24 -j ACCEPT
+    $ iptables -I INPUT --source 20.0.0.0/24 -j ACCEPT
     $ iptables -t nat -I POSTROUTING --out-interface wlp2s0 -j MASQUERADE
     $ iptables -I FORWARD --in-interface wlp2s0 --out-interface tap0 -j ACCEPT
     $ iptables -I FORWARD --in-interface tap0 --out-interface wlp2s0 -j ACCEPT
 
-Now, packets coming from `lvl-ip` (10.0.0.4/24 in this case) should be NATed by the host Linux interfaces and traverse the FORWARD chain correctly to the host's outgoing gateway.
+// 开启路由转发(一个网卡到另一个网卡)功能
+    $ sysctl -w net.ipv4.ip_forward=1
+    <!-- cat /proc/sys/net/ipv4/ip_forward -->
+    <!-- $ iptables -I INPUT --source 20.0.0.0/24 -j ACCEPT -->
+    $ iptables -t nat -I POSTROUTING --out-interface enp0s8 -j MASQUERADE
+    <!-- $ iptables -I FORWARD --in-interface enp0s8 --out-interface tap0 -j ACCEPT -->
+    <!-- $ iptables -I FORWARD --in-interface tap0 --out-interface enp0s8 -j ACCEPT -->
+   
+    <!-- cat /proc/sys/net/ipv6/conf/tap0/disable_ipv6  -->
+     $ sysctl -w net.ipv6.conf.tap0.disable_ipv6=1
+# 注意 state 那个状态，如果使用ip link 关闭的设备是不被nmcli 纳管的，在nmcli 里显示的是不可用
+# tap0相当于内网，想要上外网要通过nat和其他网卡，外网不能发起连接。
+
+    ./level-ip ../apps/curl/curl 192.168.56.1 21
+
+Now, packets coming from `lvl-ip` (20.0.0.4/24 in this case) should be NATed by the host Linux interfaces and traverse the FORWARD chain correctly to the host's outgoing gateway.
 
 See http://www.netfilter.org/documentation/HOWTO/packet-filtering-HOWTO-9.html for more info.
 

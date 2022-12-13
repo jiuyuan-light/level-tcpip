@@ -1,0 +1,156 @@
+# start/shutdown server
+start_server() {
+    STRACE_LINGER="y" STDOUT="/dev/null" netcat_listen ${NETCAT_DGRAM:+-u} "$@"
+}
+shutdown_server() {
+    if [ -z "$NETCAT_DGRAM" ]; then
+        wait $PID
+    else
+        kill_and_wait $PID
+    fi
+    exec {STRACE_FD}<&-
+}
+
+# connect the client
+connect() {
+    local pid fd
+    if [ -z "$NETCAT_DGRAM" ]; then
+        # we use `-N` on the client to shutdown immediately, and since the
+        # server terminates after the first connection we don't need to kill $PID
+        $NC -N "$@" <<<"foo"
+    else
+        mkfifo -- "$TEMPDIR/connect.fifo"
+        strace -Dqo "$TEMPDIR/connect.fifo" -I1 -ze trace="%net" -- \
+            $NC -Nu "$@" <<<"foo" & pid=$!
+        { grep -m1 -Eq '^shutdown\('; kill_and_wait $pid; } <"$TEMPDIR/connect.fifo"
+        kill_and_wait $pid
+        rm -f -- "$TEMPDIR/connect.fifo"
+    fi
+}
+
+# check peer (client) address
+check_peer_addr() {
+    local fam="$1" str="" syscall regex strace_accept peer peer_fam peer_rest
+
+    if [ -z "$NETCAT_DGRAM" ]; then
+        syscall="accept4?"
+        regex='^[A-Za-z0-9_]+\([0-9]+,[[:blank:]]*(\{sa_family=([^{},[:blank:]]+)(,[^{}]+)?\}),'
+    else
+        syscall="recvfrom"
+        regex='^[A-Za-z0-9_]+\([0-9]+,[[:blank:]]*"[^"]*",[[:blank:]]*[0-9]+,[[:blank:]]*[^,[:blank:]]+,[[:blank:]]*(\{sa_family=([^{},[:blank:]]+)(,[^{}]+)?\}),'
+    fi
+    strace_accept="$(grep -m1 -E "^$syscall\\($BIND_FD," <&$STRACE_FD)"
+
+    if [[ "$strace_accept" =~ $regex ]]; then
+        peer="${BASH_REMATCH[1]}"
+        peer_fam="${BASH_REMATCH[2]}"
+        peer_rest="${BASH_REMATCH[3]}"
+    else
+        printf "ERROR at line %d: Couldn't extract accept address from \"%s\"\\n" ${BASH_LINENO[0]} "$strace_accept" >&2
+        exit 1
+    fi
+
+    if [ "$peer_fam" != "$fam" ]; then
+        printf "ERROR at line %d: Peer \"%s\" isn't of address family %s\\n" ${BASH_LINENO[0]} "$peer" "$fam" >&2
+        exit 1
+    fi
+
+    local in p
+    if [ "$fam" = "AF_INET" ] && [[ "$peer_rest" =~ ^,[[:blank:]]*sin_port=htons\(([0-9]+)\),[[:blank:]]*sin_addr=inet_addr\(\"([^\"]+)\"\)$ ]]; then
+        in="${BASH_REMATCH[2]}"
+        p="${BASH_REMATCH[1]}"
+    elif [ "$fam" = "AF_INET6" ] && [[ "$peer_rest" =~ ^,[[:blank:]]*sin6_port=htons\(([0-9]+)\),[[:blank:]]*sin6_flowinfo=htonl\([0-9]+\),[[:blank:]]*inet_pton\($fam,[[:blank:]]*\"([^\"]+)\",[[:blank:]]*\&sin6_addr\),[[:blank:]]*sin6_scope_id=[0-9]+$ ]]; then
+        in="${BASH_REMATCH[2]}"
+        p="${BASH_REMATCH[1]}"
+    elif [ "$fam" = "AF_UNIX" ] && [[ "$peer_rest" =~ ^(,[[:blank:]]*sun_path=\"([^\"]+)\")?$ ]]; then
+        in="${BASH_REMATCH[2]-}"
+        p=""
+    else
+        printf "ERROR at line %d: Unable to parse \"%s\"\\n" ${BASH_LINENO[0]} "$peer" >&2
+        exit 1
+    fi
+
+    if [ -n "${2+x}" ] && [ "$in" != "$2" ]; then
+        printf "ERROR at line %d: Expected peer address \"%s\", got \"%s\"\\n" ${BASH_LINENO[0]} "$2" "$peer" >&2
+        exit 1
+    elif [ -n "${3+x}" ] && [ "$p" != "$3" ]; then
+        printf "ERROR at line %d: Expected peer port \"%s\", got \"%s\"\\n" ${BASH_LINENO[0]} "$3" "$peer" >&2
+        exit 1
+    fi
+}
+
+# IPv4
+DPORT=$(random_port)
+start_server "0.0.0.0" $DPORT
+connect "127.0.0.1" $DPORT
+check_peer_addr AF_INET "127.0.0.1"
+shutdown_server
+
+# IPv4 with source address
+DPORT=$(random_port)
+start_server "0.0.0.0" $DPORT
+connect -s "127.0.1.1" "127.0.0.1" $DPORT
+check_peer_addr AF_INET "127.0.1.1"
+shutdown_server
+
+# IPv4 with source port
+DPORT=$(random_port)
+start_server "0.0.0.0" $DPORT
+SPORT=$(random_port)
+connect -p $SPORT "127.0.0.1" $DPORT
+check_peer_addr AF_INET "127.0.0.1" $SPORT
+shutdown_server
+
+# IPv4 with both source address and port
+DPORT=$(random_port)
+start_server "0.0.0.0" $DPORT
+SPORT=$(random_port)
+connect -s "127.0.1.1" -p $SPORT "127.0.0.1" $DPORT
+check_peer_addr AF_INET "127.0.1.1" "$SPORT"
+shutdown_server
+
+# IPv6
+DPORT=$(random_port)
+start_server "::" $DPORT
+connect "::1" $DPORT
+check_peer_addr AF_INET6 "::1"
+shutdown_server
+
+# IPv6 with source port
+DPORT=$(random_port)
+start_server "::" $DPORT
+SPORT=$(random_port)
+connect -p $SPORT "::1" $DPORT
+check_peer_addr AF_INET6 "::1" "$SPORT"
+shutdown_server
+
+if [ $Bindv6Only -eq 0 ]; then
+    # IPv4-mapped addresses, cf. #921446
+    DPORT=$(random_port)
+    start_server "::" $DPORT
+    connect "127.0.0.1" $DPORT
+    check_peer_addr AF_INET6 "::ffff:127.0.0.1"
+    shutdown_server
+fi
+
+
+#######################################################################
+# UNIX-domain sockets
+
+DPORT=$(random_port)
+start_server -U "$TEMPDIR/$DPORT.sock"
+connect -U "$TEMPDIR/$DPORT.sock"
+check_peer_addr AF_UNIX
+shutdown_server
+
+if [ -n "$NETCAT_DGRAM" ]; then
+    # the local temporary socket file only makes sense for UNIX-domain datagram sockets
+    DPORT=$(random_port)
+    start_server -U "$TEMPDIR/$DPORT.sock"
+    SPORT=$(random_port)
+    connect -s "$TEMPDIR/.$SPORT.sock" -U "$TEMPDIR/$DPORT.sock"
+    check_peer_addr AF_UNIX "$TEMPDIR/.$SPORT.sock"
+    shutdown_server
+fi
+
+# vim: set filetype=bash :

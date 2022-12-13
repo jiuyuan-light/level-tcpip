@@ -5,9 +5,11 @@
 #include "skbuff.h"
 #include "sock.h"
 
-#define IPV4 0x04
-#define IP_TCP 0x06
-#define ICMPV4 0x01
+#define IPV4    0x04
+#define IP_TCP  0x06
+#define IP_UDP  0x11 // 17
+#define IP_IGMP 0x02 // 2
+#define ICMPV4  0x01
 
 #define IP_HDR_LEN sizeof(struct iphdr)
 #define ip_len(ip) (ip->len - (ip->ihl * 4))
@@ -15,7 +17,7 @@
 #ifdef DEBUG_IP
 #define ip_dbg(msg, hdr)                                                \
     do {                                                                \
-        print_debug("ip "msg" (ihl: %hhu version: %hhu tos: %hhu "   \
+        lvl_ip_debug("ip "msg" (ihl: %hhu version: %hhu tos: %hhu "   \
                     "len %hu id: %hu frag_offset: %hu ttl: %hhu " \
                     "proto: %hhu csum: %hx " \
                     "saddr: %hhu.%hhu.%hhu.%hhu daddr: %hhu.%hhu.%hhu.%hhu)", \

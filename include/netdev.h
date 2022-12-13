@@ -10,7 +10,7 @@
 
 #define netdev_dbg(fmt, args...)                \
     do {                                        \
-        print_debug("NETDEV: "fmt, ##args);     \
+        lvl_ip_debug("NETDEV: "fmt, ##args);     \
     } while (0)
 
 struct eth_hdr;
@@ -27,4 +27,5 @@ int netdev_transmit(struct sk_buff *skb, uint8_t *dst, uint16_t ethertype);
 void *netdev_rx_loop();
 void free_netdev();
 struct netdev *netdev_get(uint32_t sip);
-#endif
+
+#endif /* NETDEV_H */

@@ -1,0 +1,63 @@
+#######################################################################
+# server
+
+PORT=$(random_port)
+ERR="$TEMPDIR/server.stderr"
+netcat_listen -n${NETCAT_DGRAM:+u}v "127.0.0.1" $PORT 2>"$ERR"
+
+if [ -z "$NETCAT_DGRAM" ]; then
+    grep -Fxq "Listening on 127.0.0.1 $PORT"
+else
+    grep -Fxq "Bound on 127.0.0.1 $PORT"
+fi <"$ERR"
+
+if [ -z "$NETCAT_DGRAM" ]; then
+    $NC -z 127.0.0.1 $PORT
+    grep -Fq "Connection received on 127.0.0.1 " <"$ERR"
+    wait $PID
+else
+    kill_and_wait $PID
+fi
+
+
+#######################################################################
+# client
+
+PORT=$(random_port)
+netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT >/dev/null
+
+ERR="$TEMPDIR/client.stderr"
+$NC -${NETCAT_DGRAM:+u}vz 127.0.0.1 $PORT 2>"$ERR"
+
+[ -z "$NETCAT_DGRAM" ] && PROTO=tcp || PROTO=udp
+grep -Eq "^Connection to 127\\.0\\.0\\.1 $PORT port \\[$PROTO/([[:alnum:]-]+|\\*)\\] succeeded!$" <"$ERR"
+${NETCAT_DGRAM:+kill_and_}wait $PID
+
+
+#######################################################################
+# multiple ports
+
+PORT0=$(random_port)
+PORT1=$(random_port)
+netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT0 >/dev/null; PID0=$PID
+netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT1 >/dev/null; PID1=$PID
+
+PORT2=$(random_port)
+PORT3=$(random_port)
+rv=0
+$NC -${NETCAT_DGRAM:+u}vz 127.0.0.1 $PORT2 $PORT0 $PORT3 $PORT1 2>"$ERR" || rv=$?
+if [ -z "$NETCAT_DGRAM" ]; then
+    test $rv -eq 0
+fi
+
+for p in $PORT0 $PORT1; do
+    grep -Eq "^Connection to 127\\.0\\.0\\.1 $p port \\[$PROTO/([[:alnum:]-]+|\\*)\\] succeeded!$" <"$ERR"
+done
+if [ -z "$NETCAT_DGRAM" ]; then
+    for p in $PORT2 $PORT3; do
+        grep -Fxq "nc: connect to 127.0.0.1 port $p ($PROTO) failed: Connection refused" <"$ERR"
+    done
+fi
+${NETCAT_DGRAM:+kill_and_}wait $PID0 $PID1
+
+# vim: set filetype=bash :

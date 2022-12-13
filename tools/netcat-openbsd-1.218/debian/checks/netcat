@@ -1,0 +1,238 @@
+#!/bin/bash
+
+# Copyright (c) 2021 Guilhem Moulin <guilhem@debian.org>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice,
+#    this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+# 3. The name of the author may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+set -ue
+PATH="/usr/bin:/bin"
+export PATH
+
+BASEDIR="$(dirname -- "$0")"
+
+declare -a TESTS
+if [ $# -gt 0 ]; then
+    TESTS=( "$@" )
+else
+    TESTS=()
+    for t in "$BASEDIR"/[0-9][0-9]-*; do
+        if [ -f "$t" ]; then
+            TESTS+=( "${t##*/}" )
+        fi
+    done
+fi
+
+if [ -t 1 ]; then
+    FAILED="\\x1B[1;31mFAILED\\x1B[0m"
+    PASSED="\\x1B[1;32mPASSED\\x1B[0m"
+else
+    FAILED="FAILED"
+    PASSED="PASSED"
+fi
+
+STDOUT="$(mktemp --tmpdir stdout.XXXXXXXXXX)"
+STDERR="$(mktemp --tmpdir stderr.XXXXXXXXXX)"
+BASH_ENV="$(mktemp --tmpdir bash-env.XXXXXXXXXX)"
+TEMPDIR=""
+cleanup() {
+    rm -f -- "$STDOUT" "$STDERR" "$BASH_ENV"
+    if [ -d "$TEMPDIR" ]; then
+        rm -rf -- "$TEMPDIR"
+    fi
+}
+trap cleanup EXIT INT TERM
+
+
+dump_test_result() {
+    local below=">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    local above="<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    if [ -s "$STDOUT" ]; then
+        printf "standard output:\\n%s\\n" "$below"
+        cat <"$STDOUT"
+        printf "%s\\n\\n" "$above"
+    fi
+    if [ -s "$STDERR" ]; then
+        printf "standard error:\\n%s\\n" "$below"
+        cat <"$STDERR"
+        printf "%s\\n\\n" "$above"
+    fi >&2
+}
+
+# netcat_listen(ARGS)
+#   Start `nc -l ARGS` and blocks until the process calls bind(2), then set
+#   BIND_ADDRESS resp. BIND_FD to the bound address resp. its associated file
+#   descriptor.  If STRACE_LINGER=y, then the strace process isn't terminated
+#   and the strace(1) output can be accessed from $STRACE_FD.
+#   $STDIN and $STDOUT are redirected as expected.
+#   XXX Parsing strace(1) output isn't ideal of course... but we can't
+#   think of a better way to do these checks and it's hopefully fine in
+#   a test suite.
+netcat_listen() {
+    local stdin="${STDIN:-/dev/null}" stdout="${STDOUT:-/dev/stdout}"
+    local tmpdir strace_fifo strace_bind strace_fd
+    tmpdir="$(mktemp --tmpdir="$TEMPDIR" --directory nc-l.XXXXXXXXXX)"
+
+    strace_fifo="$tmpdir/strace.out"
+    mkfifo -- "$strace_fifo"
+    if [ "${PIPES-n}" = "y" ]; then
+        stdin="$tmpdir/nc.in"
+        stdout="$tmpdir/nc.out"
+        mkfifo -- "$stdin" "$stdout"
+    fi
+
+    strace -Dqo "$strace_fifo" -I1 -ze trace="%net" -- \
+        "$NC" -l "$@" <"$stdin" >"$stdout" & PID=$!
+
+    if [ "${PIPES-n}" = "y" ]; then
+        exec {LISTEN_IN}>"$stdin" {LISTEN_OUT}<"$stdout"
+    fi
+    exec {strace_fd}<"$strace_fifo"
+
+    strace_bind="$(grep -m1 -E '^bind\([0-9]+,\s*\{sa_family=AF_(INET6?|UNIX),' <&$strace_fd)"
+    if [[ "$strace_bind" =~ ^bind\(([0-9]+),[[:blank:]]*(\{[^{}]+\}), ]]; then
+        BIND_FD="${BASH_REMATCH[1]}"
+        BIND_ADDRESS="${BASH_REMATCH[2]}"
+    else
+        printf "ERROR at line %d: Couldn't extract bind FD or address from \"%s\"\\n" ${BASH_LINENO[0]} "$strace_bind" >&2
+        exit 1
+    fi
+
+    if [ "${STRACE_LINGER-n}" = "y" ]; then
+        STRACE_FD="$strace_fd"
+    else
+        pkill -g0 -x strace
+        exec {strace_fd}<&-
+    fi
+    rm -rf -- "$tmpdir"
+}
+
+# kill_and_wait(PID, [PID..])
+#   Terminate and wait for the specified processes.
+kill_and_wait() {
+    local pid
+    for pid in "$@"; do
+        kill -- "$pid" 2>/dev/null && wait "$pid" || true
+    done
+}
+
+# greet({server|client})
+#   Write something to the specified recipient, and make sure it came across
+#   properly.
+greet() {
+    local to="$1" str str2 wr rd IFS_old="$IFS"
+    if [ "$to" = "server" ]; then
+        wr=$CONNECT_IN
+        rd=$LISTEN_OUT
+        str="${2-"hi server from client#$CLIENT_PID"}"
+    elif [ "$to" = "client" ]; then
+        wr=$LISTEN_IN
+        rd=$CONNECT_OUT
+        str="${2-"hi client#$CLIENT_PID"}"
+    fi
+    printf "%s\\n" "$str" >&$wr
+    IFS="" read -r str2 <&$rd
+    if [ "$str" != "$str2" ]; then
+        printf "ERROR at line %d: \"%s\" != \"%s\"\\n" ${BASH_LINENO[0]} "$str" "$str2" >&2
+        exit 1
+    fi
+    IFS="$IFS_old"
+}
+
+fail() {
+    local lineno=${BASH_LINENO[0]}
+    if [ $# -gt 0 ]; then
+        printf "ERROR: %s at line %d\\n" "$*" $lineno
+    else
+        printf "ERROR at line %d\\n" $lineno
+    fi >&2
+    exit 1
+}
+
+NC="./nc"
+[ -x "$NC" ] || fail "No such executable \`$NC\`"
+
+# random_port()
+#   Return a random port that is NOT bound to.
+random_port() {
+    local p=0 out
+    out="$(mktemp --tmpdir="$TEMPDIR" ss.XXXXXXXXXX)"
+    until [ $p -ge 1024 ] && ss -nOH -tua sport = $p >"$out" && [ ! -s "$out" ]; do
+        p=$(od -An -t u2 -N2 --endian=big </dev/urandom)
+    done
+    rm -f -- "$out"
+    printf "%d" $p
+}
+
+if [ ! -f /proc/sys/net/ipv6/bindv6only ] || ! Bindv6Only="$(< /proc/sys/net/ipv6/bindv6only)"; then
+    Bindv6Only=0
+fi
+
+export BASH_ENV
+cat >"$BASH_ENV" <<-'EOF'
+	unset BASH_ENV
+
+	case "$TEST_NAME" in
+	    *-unix-udp) NETCAT_UNIX="y"; NETCAT_DGRAM="y";;
+	    *-unix)     NETCAT_UNIX="y"; NETCAT_DGRAM="";;
+	    *-udp)      NETCAT_UNIX="";  NETCAT_DGRAM="y";;
+	    *)          NETCAT_UNIX="";  NETCAT_DGRAM="";;
+	esac
+
+	_terminate_process_group() {
+	    local pidfile p IFS=" "$'\t'$'\n'
+	    pidfile="$(mktemp --tmpdir="$TEMPDIR" pidfile.XXXXXX)"
+	    # XXX a better way would be `pkill -g0` but we want to exclude $$
+	    if pgrep -g0 >"$pidfile"; then
+	        for p in $(< "$pidfile"); do
+	            if [ $p -ne $PPID ] && [ $p -ne $$ ]; then
+	                printf "Terminating %d\\n" $p >&2
+	                kill -TERM -- $p || true
+	            fi
+	        done
+	    fi
+	}
+	trap _terminate_process_group EXIT INT TERM
+	trap 'printf "ERROR at line %d\\n" $LINENO >&2' ERR
+EOF
+
+export -f random_port netcat_listen greet kill_and_wait fail
+export NC TEMPDIR Bindv6Only
+
+RV=0
+for t in "${TESTS[@]}"; do
+    TEMPDIR="$(mktemp --tmpdir --directory)"
+    printf "%s..." "$t";
+    if setsid timeout -sTERM --kill-after=35s 30s env TEST_NAME="$t" \
+            bash -ue -- "$BASEDIR/$t" </dev/null >"$STDOUT" 2>"$STDERR"; then
+        printf " $PASSED\\n"
+    else
+        [ $? -eq 124 ] && reason="timeout" || reason=""
+        printf " $FAILED${reason:+ "($reason)"}\\n"
+        RV=1
+    fi
+    rm -rf -- "$TEMPDIR"
+    TEMPDIR=""
+    dump_test_result
+done
+
+exit $RV

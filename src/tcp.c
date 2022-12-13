@@ -6,11 +6,12 @@
 #include "utils.h"
 #include "timer.h"
 #include "wait.h"
+#include "ipc.h"
 
 #ifdef DEBUG_TCP
 const char *tcp_dbg_states[] = {
-    "TCP_LISTEN", "TCP_SYNSENT", "TCP_SYN_RECEIVED", "TCP_ESTABLISHED", "TCP_FIN_WAIT_1",
-    "TCP_FIN_WAIT_2", "TCP_CLOSE", "TCP_CLOSE_WAIT", "TCP_CLOSING", "TCP_LAST_ACK", "TCP_TIME_WAIT",
+    "LVL_TCP_LISTEN", "TCP_SYNSENT", "LVL_TCP_SYN_RECEIVED", "LVL_TCP_ESTABLISHED", "LVL_TCP_FIN_WAIT_1",
+    "LVL_TCP_FIN_WAIT_2", "LVL_TCP_CLOSE", "LVL_TCP_CLOSE_WAIT", "LVL_TCP_CLOSING", "LVL_TCP_LAST_ACK", "LVL_TCP_TIME_WAIT",
 };
 #endif
 
@@ -33,7 +34,7 @@ void tcp_init()
     
 }
 
-static void tcp_init_segment(struct tcphdr *th, struct iphdr *ih, struct sk_buff *skb)
+static void tcp_init_segment(struct lvl_tcphdr *th, struct iphdr *ih, struct sk_buff *skb)
 {
     th->sport = ntohs(th->sport);
     th->dport = ntohs(th->dport);
@@ -58,18 +59,17 @@ void tcp_in(struct sk_buff *skb)
 {
     struct sock *sk;
     struct iphdr *iph;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
 
     iph = ip_hdr(skb);
-    th = (struct tcphdr*) iph->data;
+    th = (struct lvl_tcphdr*) iph->data;
 
     tcp_init_segment(th, iph, skb);
     
     sk = inet_lookup(skb, th->sport, th->dport);
 
     if (sk == NULL) {
-        print_err("No TCP socket for sport %d dport %d\n",
-                  th->sport, th->dport);
+        lvl_ip_warn("No TCP socket for sport %d dport %d", th->sport, th->dport);
         free_skb(skb);
         return;
     }
@@ -84,19 +84,6 @@ void tcp_in(struct sk_buff *skb)
     socket_release(sk->sock);
 }
 
-int tcp_udp_checksum(uint32_t saddr, uint32_t daddr, uint8_t proto,
-                     uint8_t *data, uint16_t len)
-{
-    uint32_t sum = 0;
-
-    sum += saddr;
-    sum += daddr;
-    sum += htons(proto);
-    sum += htons(len);
-    
-    return checksum(data, len, sum);
-}
-
 int tcp_v4_checksum(struct sk_buff *skb, uint32_t saddr, uint32_t daddr)
 {
     return tcp_udp_checksum(saddr, daddr, IP_TCP, skb->data, skb->len);
@@ -107,7 +94,7 @@ struct sock *tcp_alloc_sock()
     struct tcp_sock *tsk = malloc(sizeof(struct tcp_sock));
 
     memset(tsk, 0, sizeof(struct tcp_sock));
-    tsk->sk.state = TCP_CLOSE;
+    tsk->sk.state = LVL_TCP_CLOSE;
     tsk->sackok = 1;
     
     tsk->rmss = 1460;
@@ -135,7 +122,7 @@ void __tcp_set_state(struct sock *sk, uint32_t state)
     sk->state = state;
 }
 
-static uint16_t generate_port()
+uint16_t generate_port()
 {
     /* TODO: Generate a proper port */
     static int port = 40000;
@@ -162,7 +149,8 @@ int tcp_v4_connect(struct sock *sk, const struct sockaddr *addr, int addrlen, in
     sk->sport = generate_port();
     sk->daddr = ntohl(daddr);
     /* TODO: Do not hardcode lvl-ip local interface */
-    sk->saddr = parse_ipv4_string("10.0.0.4"); 
+    // [ CHECK ]����ĵ�ַҪ����, ���ܷ���ȥ����?
+    sk->saddr = parse_ipv4_string("20.0.0.4");
 
     return tcp_connect(sk);
 }
@@ -180,8 +168,8 @@ int tcp_write(struct sock *sk, const void *buf, int len)
     if (ret != 0) goto out;
 
     switch (sk->state) {
-    case TCP_ESTABLISHED:
-    case TCP_CLOSE_WAIT:
+    case LVL_TCP_ESTABLISHED:
+    case LVL_TCP_CLOSE_WAIT:
         break;
     default:
         ret = -EBADF;
@@ -200,23 +188,22 @@ int tcp_read(struct sock *sk, void *buf, int len)
     int ret = -1;
 
     switch (sk->state) {
-    case TCP_CLOSE:
+    case LVL_TCP_CLOSE:
         ret = -EBADF;
         goto out;
-    case TCP_LISTEN:
-    case TCP_SYN_SENT:
-    case TCP_SYN_RECEIVED:
+    case LVL_TCP_LISTEN:
+    case LVL_TCP_SYN_SENT:
+    case LVL_TCP_SYN_RECEIVED:
         /* Queue for processing after entering ESTABLISHED state.  If there
            is no room to queue this request, respond with "error:
            insufficient resources". */
-    case TCP_ESTABLISHED:
-    case TCP_FIN_WAIT_1:
-    case TCP_FIN_WAIT_2:
+    case LVL_TCP_ESTABLISHED:
+    case LVL_TCP_FIN_WAIT_1:
+    case LVL_TCP_FIN_WAIT_2:
         /* If insufficient incoming segments are queued to satisfy the
            request, queue the request. */
-        
         break;
-    case TCP_CLOSE_WAIT:
+    case LVL_TCP_CLOSE_WAIT:
         /* If no text is awaiting delivery, the RECEIVE will get a
            "error:  connection closing" response.  Otherwise, any remaining
            text can be used to satisfy the RECEIVE. */
@@ -227,9 +214,9 @@ int tcp_read(struct sock *sk, void *buf, int len)
         }
 
         break;
-    case TCP_CLOSING:
-    case TCP_LAST_ACK:
-    case TCP_TIME_WAIT:
+    case LVL_TCP_CLOSING:
+    case LVL_TCP_LAST_ACK:
+    case LVL_TCP_TIME_WAIT:
         ret = sk->err;
         goto out;
     default:
@@ -244,8 +231,10 @@ out:
 
 int tcp_recv_notify(struct sock *sk)
 {
-    if (&(sk->recv_wait)) {
-        return wait_wakeup(&sk->recv_wait);
+    // return wait_wakeup(&sk->recv_wait);
+
+    if (!SOCK_IS_NONBLOCK(sk->sock)) { /* 阻塞式才需要 */
+        ipc_post_shift_read_with_sock(sk->sock, 0);
     }
 
     // No recv wait lock
@@ -255,27 +244,27 @@ int tcp_recv_notify(struct sock *sk)
 int tcp_close(struct sock *sk)
 {
     switch (sk->state) {
-    case TCP_CLOSE:
-    case TCP_CLOSING:
-    case TCP_LAST_ACK:
-    case TCP_TIME_WAIT:
-    case TCP_FIN_WAIT_1:
-    case TCP_FIN_WAIT_2:
+    case LVL_TCP_CLOSE:
+    case LVL_TCP_CLOSING:
+    case LVL_TCP_LAST_ACK:
+    case LVL_TCP_TIME_WAIT:
+    case LVL_TCP_FIN_WAIT_1:
+    case LVL_TCP_FIN_WAIT_2:
         /* Respond with "error:  connection closing". */
         sk->err = -EBADF;
         return -1;
-    case TCP_LISTEN:
-    case TCP_SYN_SENT:
-    case TCP_SYN_RECEIVED:
+    case LVL_TCP_LISTEN:
+    case LVL_TCP_SYN_SENT:
+    case LVL_TCP_SYN_RECEIVED:
         return tcp_done(sk);
-    case TCP_ESTABLISHED:
+    case LVL_TCP_ESTABLISHED:
         /* Queue this until all preceding SENDs have been segmentized, then
            form a FIN segment and send it.  In any case, enter FIN-WAIT-1
            state. */
-        tcp_set_state(sk, TCP_FIN_WAIT_1);
+        tcp_set_state(sk, LVL_TCP_FIN_WAIT_1);
         tcp_queue_fin(sk);
         break;
-    case TCP_CLOSE_WAIT:
+    case LVL_TCP_CLOSE_WAIT:
         /* Queue this request until all preceding SENDs have been
            segmentized; then send a FIN segment, enter LAST_ACK state. */
         tcp_queue_fin(sk);
@@ -302,14 +291,15 @@ static int tcp_free(struct sock *sk)
     tcp_clear_timers(sk);
     tcp_clear_queues(tsk);
 
-    wait_wakeup(&sk->sock->sleep);
+    // wait_wakeup(&sk->sock->sleep);
 
     return 0;
 }
 
 int tcp_done(struct sock *sk)
 {
-    tcp_set_state(sk, TCP_CLOSING);
+    ipc_post_shift_connect_with_sock(sk->sock, sk->err);
+    tcp_set_state(sk, LVL_TCP_CLOSING);
     tcp_free(sk);
     return socket_delete(sk->sock);
 }
@@ -358,11 +348,11 @@ void tcp_release_delack_timer(struct tcp_sock *tsk)
 void tcp_handle_fin_state(struct sock *sk)
 {
     switch (sk->state) {
-    case TCP_CLOSE_WAIT:
-        tcp_set_state(sk, TCP_LAST_ACK);
+    case LVL_TCP_CLOSE_WAIT:
+        tcp_set_state(sk, LVL_TCP_LAST_ACK);
         break;
-    case TCP_ESTABLISHED:
-        tcp_set_state(sk, TCP_FIN_WAIT_1);
+    case LVL_TCP_ESTABLISHED:
+        tcp_set_state(sk, LVL_TCP_FIN_WAIT_1);
         break;
     }
 }
@@ -388,6 +378,7 @@ static void *tcp_user_timeout(void *arg)
     struct sock *sk = (struct sock *) arg;
     socket_wr_acquire(sk->sock);
     struct tcp_sock *tsk = tcp_sk(sk);
+    lvl_ip_debug("tcp_user_timeout call");
     tcpsock_dbg("TCP user timeout, freeing TCB and aborting conn", sk);
 
     timer_cancel(tsk->linger);
@@ -403,7 +394,7 @@ void tcp_enter_time_wait(struct sock *sk)
 {
     struct tcp_sock *tsk = tcp_sk(sk);
 
-    tcp_set_state(sk, TCP_TIME_WAIT);
+    tcp_set_state(sk, LVL_TCP_TIME_WAIT);
 
     tcp_clear_timers(sk);
     /* RFC793 arbitrarily defines MSL to be 2 minutes */
@@ -414,11 +405,13 @@ void tcp_rearm_user_timeout(struct sock *sk)
 {
     struct tcp_sock *tsk = tcp_sk(sk);
 
-    if (sk->state == TCP_TIME_WAIT) return;
+    if (sk->state == LVL_TCP_TIME_WAIT) return;
 
     timer_cancel(tsk->linger);
+
+    lvl_ip_debug("tcp_rearm_user_timeout call");
     /* RFC793 set user timeout */
-    tsk->linger = timer_add(TCP_USER_TIMEOUT, &tcp_user_timeout, sk);
+    tsk->linger = timer_add(LVL_TCP_USER_TIMEOUT, &tcp_user_timeout, sk);
 }
 
 void tcp_rtt(struct tcp_sock *tsk)

@@ -2,6 +2,7 @@
 #define _WAIT_H
 
 #include "syshead.h"
+#include "utils.h"
 
 struct wait_lock {
     pthread_cond_t ready;
@@ -35,7 +36,7 @@ static inline int wait_sleep(struct wait_lock *w) {
 };
 
 static inline void wait_free(struct wait_lock *w) {
-    wait_wakeup(w);
+    // wait_wakeup(w);
     
     pthread_mutex_destroy(&w->lock);
     pthread_cond_destroy(&w->ready);

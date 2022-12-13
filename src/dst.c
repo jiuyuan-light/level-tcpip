@@ -18,13 +18,15 @@ int dst_neigh_output(struct sk_buff *skb)
     }
     
     dmac = arp_get_hwaddr(daddr);
-    
     if (dmac) {
         return netdev_transmit(skb, dmac, ETH_P_IP);
     } else {
         arp_request(saddr, daddr, netdev);
 
         /* Inform upper layer that traffic was not sent, retry later */
-        return -1;
+        /* TCP应该是在三次握手获取到路由，后续数据报文可以正常发送
+            UDP的报文没有邻居地址，要进行处理 */
+        lvl_ip_warn("FIRST PKT ERR, CHECK [SOME THREAD] RETRY");
+        return NO_ARP_ENTRY;
     }
 }

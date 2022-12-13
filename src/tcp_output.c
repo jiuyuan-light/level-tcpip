@@ -20,7 +20,7 @@ static struct sk_buff *tcp_alloc_skb(int optlen, int size)
     return skb;
 }
 
-static int tcp_write_syn_options(struct tcphdr *th, struct tcp_options *opts, int optlen)
+static int tcp_write_syn_options(struct lvl_tcphdr *th, struct tcp_options *opts, int optlen)
 {
     struct tcp_opt_mss *opt_mss = (struct tcp_opt_mss *) th->data;
     uint32_t i = 0;
@@ -62,7 +62,7 @@ static int tcp_syn_options(struct sock *sk, struct tcp_options *opts)
     return optlen;
 }
 
-static int tcp_write_options(struct tcp_sock *tsk, struct tcphdr *th)
+static int tcp_write_options(struct tcp_sock *tsk, struct lvl_tcphdr *th)
 {
     uint8_t *ptr = th->data;
 
@@ -94,7 +94,7 @@ static int tcp_transmit_skb(struct sock *sk, struct sk_buff *skb, uint32_t seq)
 {
     struct tcp_sock *tsk = tcp_sk(sk);
     struct tcb *tcb = &tsk->tcb;
-    struct tcphdr *thdr = tcp_hdr(skb);
+    struct lvl_tcphdr *thdr = tcp_hdr(skb);
 
     /* No options were previously set */
     if (thdr->hl == 0) thdr->hl = TCP_DOFFSET;
@@ -132,7 +132,7 @@ static int tcp_queue_transmit_skb(struct sock *sk, struct sk_buff *skb)
 {
     struct tcp_sock *tsk = tcp_sk(sk);
     struct tcb *tcb = &tsk->tcb;
-    struct tcphdr * th = tcp_hdr(skb);
+    struct lvl_tcphdr * th = tcp_hdr(skb);
     int rc = 0;
     
     if (skb_queue_empty(&sk->write_queue)) {
@@ -141,6 +141,7 @@ static int tcp_queue_transmit_skb(struct sock *sk, struct sk_buff *skb)
 
     if (tsk->inflight == 0) {
         /* Store sequence information into the socket buffer */
+        lvl_ip_debug("tcp_send -> tcp_queue_transmit_skb");
         rc = tcp_transmit_skb(sk, skb, tcb->snd_nxt);
         tsk->inflight++;
         skb->seq = tcb->snd_nxt;
@@ -157,13 +158,13 @@ static int tcp_queue_transmit_skb(struct sock *sk, struct sk_buff *skb)
 
 int tcp_send_synack(struct sock *sk)
 {
-    if (sk->state != TCP_SYN_SENT) {
+    if (sk->state != LVL_TCP_SYN_SENT) {
         print_err("TCP synack: Socket was not in correct state (SYN_SENT)\n");
         return 1;
     }
 
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     struct tcb * tcb = &tcp_sk(sk)->tcb;
     int rc = 0;
 
@@ -173,6 +174,7 @@ int tcp_send_synack(struct sock *sk)
     th->syn = 1;
     th->ack = 1;
 
+    lvl_ip_debug("tcp_send_synack");
     rc = tcp_transmit_skb(sk, skb, tcb->snd_nxt);
     free_skb(skb);
 
@@ -199,7 +201,7 @@ int tcp_send_next(struct sock *sk, int amount)
 {
     struct tcp_sock *tsk = tcp_sk(sk);
     struct tcb *tcb = &tsk->tcb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     struct sk_buff *next;
     struct list_head *item, *tmp;
     int i = 0;
@@ -246,10 +248,10 @@ static int tcp_options_len(struct sock *sk)
 
 int tcp_send_ack(struct sock *sk)
 {
-    if (sk->state == TCP_CLOSE) return 0;
+    if (sk->state == LVL_TCP_CLOSE) return 0;
     
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     struct tcb *tcb = &tcp_sk(sk)->tcb;
     int rc = 0;
     int optlen = tcp_options_len(sk);
@@ -260,6 +262,7 @@ int tcp_send_ack(struct sock *sk)
     th->ack = 1;
     th->hl = TCP_DOFFSET + (optlen / 4);
 
+    lvl_ip_debug("tcp_send_ack");
     rc = tcp_transmit_skb(sk, skb, tcb->snd_nxt);
     free_skb(skb);
 
@@ -268,13 +271,13 @@ int tcp_send_ack(struct sock *sk)
 
 static int tcp_send_syn(struct sock *sk)
 {
-    if (sk->state != TCP_SYN_SENT && sk->state != TCP_CLOSE && sk->state != TCP_LISTEN) {
+    if (sk->state != LVL_TCP_SYN_SENT && sk->state != LVL_TCP_CLOSE && sk->state != LVL_TCP_LISTEN) {
         print_err("Socket was not in correct state (closed or listen)\n");
         return 1;
     }
 
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     struct tcp_options opts = { 0 };
     int tcp_options_len = 0;
 
@@ -283,7 +286,7 @@ static int tcp_send_syn(struct sock *sk)
     th = tcp_hdr(skb);
 
     tcp_write_syn_options(th, &opts, tcp_options_len);
-    sk->state = TCP_SYN_SENT;
+    sk->state = LVL_TCP_SYN_SENT;
     th->syn = 1;
 
     return tcp_queue_transmit_skb(sk, skb);
@@ -291,10 +294,10 @@ static int tcp_send_syn(struct sock *sk)
 
 int tcp_send_fin(struct sock *sk)
 {
-    if (sk->state == TCP_CLOSE) return 0;
+    if (sk->state == LVL_TCP_CLOSE) return 0;
 
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     int rc = 0;
 
     skb = tcp_alloc_skb(0, 0);
@@ -316,7 +319,7 @@ void tcp_select_initial_window(uint32_t *rcv_wnd)
 static void tcp_notify_user(struct sock *sk)
 {
     switch (sk->state) {
-    case TCP_CLOSE_WAIT:
+    case LVL_TCP_CLOSE_WAIT:
         wait_wakeup(&sk->sock->sleep);
         break;
     }
@@ -331,7 +334,7 @@ static void *tcp_connect_rto(void *arg)
     socket_wr_acquire(sk->sock);
     tcp_release_rto_timer(tsk);
 
-    if (sk->state == TCP_SYN_SENT) {
+    if (sk->state == LVL_TCP_SYN_SENT) {
         if (tsk->backoff > TCP_CONN_RETRIES) {
             tsk->sk.err = -ETIMEDOUT;
             sk->poll_events |= (POLLOUT | POLLERR | POLLHUP);
@@ -348,7 +351,7 @@ static void *tcp_connect_rto(void *arg)
             }
          }
     } else {
-        print_err("TCP connect RTO triggered even when not in SYNSENT\n");
+        lvl_ip_warn("TCP connect RTO triggered even when not in SYNSENT\n");
     }
 
     socket_release(sk->sock);
@@ -375,7 +378,7 @@ static void *tcp_retransmission_timeout(void *arg)
         goto unlock;
     }
 
-    struct tcphdr *th = tcp_hdr(skb);
+    struct lvl_tcphdr *th = tcp_hdr(skb);
     skb_reset_header(skb);
     
     tcp_transmit_skb(sk, skb, tcb->snd_una);
@@ -411,7 +414,7 @@ void tcp_rearm_rto_timer(struct tcp_sock *tsk)
     struct sock *sk = &tsk->sk;
     tcp_release_rto_timer(tsk);
 
-    if (sk->state == TCP_SYN_SENT) {
+    if (sk->state == LVL_TCP_SYN_SENT) {
         tsk->retransmit = timer_add(TCP_SYN_BACKOFF << tsk->backoff, &tcp_connect_rto, tsk);
     } else {
         tsk->retransmit = timer_add(tsk->rto, &tcp_retransmission_timeout, tsk);
@@ -424,7 +427,7 @@ int tcp_connect(struct sock *sk)
     struct tcb *tcb = &tsk->tcb;
     int rc = 0;
     
-    tsk->tcp_header_len = sizeof(struct tcphdr);
+    tsk->tcp_header_len = sizeof(struct lvl_tcphdr);
     tcb->iss = generate_iss();
     tcb->snd_wnd = 0;
     tcb->snd_wl1 = 0;
@@ -445,7 +448,7 @@ int tcp_connect(struct sock *sk)
 int tcp_send(struct tcp_sock *tsk, const void *buf, int len)
 {
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     int slen = len;
     int mss = tsk->smss;
     int dlen = 0;
@@ -455,7 +458,7 @@ int tcp_send(struct tcp_sock *tsk, const void *buf, int len)
         slen -= dlen;
 
         skb = tcp_alloc_skb(0, dlen);
-        skb_push(skb, dlen);
+        skb_push(skb, dlen); // ����skb���Դ��dlen������
         memcpy(skb->data, buf, dlen);
         
         buf += dlen;
@@ -480,7 +483,7 @@ int tcp_send(struct tcp_sock *tsk, const void *buf, int len)
 int tcp_send_reset(struct tcp_sock *tsk)
 {
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     struct tcb *tcb;
     int rc = 0;
 
@@ -491,6 +494,7 @@ int tcp_send_reset(struct tcp_sock *tsk)
     th->rst = 1;
     tcb->snd_una = tcb->snd_nxt;
 
+    lvl_ip_debug("tcp_send_reset");
     rc = tcp_transmit_skb(&tsk->sk, skb, tcb->snd_nxt);
     free_skb(skb);
 
@@ -506,7 +510,7 @@ int tcp_send_challenge_ack(struct sock *sk, struct sk_buff *skb)
 int tcp_queue_fin(struct sock *sk)
 {
     struct sk_buff *skb;
-    struct tcphdr *th;
+    struct lvl_tcphdr *th;
     int rc = 0;
 
     skb = tcp_alloc_skb(0, 0);

@@ -6,19 +6,24 @@ port="$1"
 suite="$2"
 
 function test_synchronous_http_get {
-    response="$("$repo/tools/level-ip" "$repo/apps/curl/curl" 10.0.0.5 $port | strip_http_header)"
+    response="$("$repo/tools/level-ip" "$repo/apps/curl/curl" 20.0.0.5 $port | strip_http_header)"
+    # echo "$response" > /root/level-ip/bak.txt
+    echo "$response" > "$folder/response.txt"
 
-    diff "$folder/curl-fixture.txt" <(echo "$response")
+    diff -a --ignore-all-space -u -q  "$folder/curl-fixture.txt" "$folder/response.txt"
+    # echo "$response" | grep "HTTP/1.0 200 OK" >/dev/null 2>&1
 }
 
 function test_poll_http_get {
-    response="$("$repo/tools/level-ip" "$repo/apps/curl-poll/curl-poll" 10.0.0.5 $port | strip_http_header)"
+    response="$("$repo/tools/level-ip" "$repo/apps/curl-poll/curl-poll" 20.0.0.5 $port | strip_http_header)"
 
-    diff "$folder/curl-fixture.txt" <(echo "$response")
+    echo "$response" > "$folder/response.txt"
+    diff -a --ignore-all-space -u  -q  "$folder/curl-fixture.txt" "$folder/response.txt"
+    # echo "$response" | grep "HTTP/1.0 200 OK" >/dev/null 2>&1
 }
 
 function test_tcp_connection_refused {
-    "$repo/tools/level-ip" "$repo/apps/curl/curl" 10.0.0.5 9999 2>&1 | grep -q "Connection refused"
+    "$repo/tools/level-ip" "$repo/apps/curl/curl" 20.0.0.5 9999 2>&1 | grep -q "Connection refused"
 }
 
 test_run "test_synchronous_http_get" "$suite"

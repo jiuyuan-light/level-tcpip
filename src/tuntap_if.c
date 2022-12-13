@@ -5,8 +5,10 @@
 static int tun_fd;
 static char* dev;
 
-char *tapaddr = "10.0.0.5";
-char *taproute = "10.0.0.0/24";
+char *tapaddr = "20.0.0.5";
+char *taproute = "20.0.0.0/24";
+char *netdev_ip = "20.0.0.4";
+static int disabled_ipv6 = 1; // 因为不支持
 
 static int set_if_route(char *dev, char *cidr)
 {
@@ -16,6 +18,11 @@ static int set_if_route(char *dev, char *cidr)
 static int set_if_address(char *dev, char *cidr)
 {
     return run_cmd("ip address add dev %s local %s", dev, cidr);
+}
+
+static int disable_ipv6(char *dev, bool enable)
+{
+    return run_cmd("sysctl -wq net.ipv6.conf.%s.disable_ipv6=%d", dev, enable);
 }
 
 static int set_if_up(char *dev)
@@ -72,7 +79,7 @@ int tun_write(char *buf, int len)
 
 void tun_init()
 {
-    dev = calloc(10, 1);
+    dev = calloc(IFNAMSIZ, 1);
     tun_fd = tun_alloc(dev);
 
     if (set_if_up(dev) != 0) {
@@ -85,6 +92,10 @@ void tun_init()
 
     if (set_if_address(dev, tapaddr) != 0) {
         print_err("ERROR when setting addr for if\n");
+    }
+
+    if (disable_ipv6(dev, disabled_ipv6) != 0) {
+        print_err("ERROR when setting ipv6-%s for if\n", disabled_ipv6 ? "disabled" : "enabled");
     }
 }
 

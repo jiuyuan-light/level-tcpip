@@ -1,0 +1,75 @@
+# check $BIND_ADDRESS
+check_bind_addr() {
+    local fam="$1" str=""
+    if [ "$fam" = "AF_INET" ]; then
+        str="sin_port=htons($3), sin_addr=inet_addr(\"$2\")"
+    elif [ "$fam" = "AF_INET6" ]; then
+        # assume IPv6 flow information and scope ID are both 0
+        str="sin6_port=htons($3), sin6_flowinfo=htonl(0), inet_pton($fam, \"$2\", &sin6_addr), sin6_scope_id=0"
+    elif [ "$fam" = "AF_UNIX" ]; then
+        str="sun_path=\"$2\""
+    else
+        printf "ERROR at line %d: Unknown address family \"%s\"\\n" ${BASH_LINENO[0]} "$fam" >&2
+        exit 1
+    fi
+    str="{sa_family=$fam, $str}"
+    if [ "$BIND_ADDRESS" != "$str" ]; then
+        printf "ERROR at line %d: Expected bind address \"%s\", got \"%s\"\\n" \
+            ${BASH_LINENO[0]} "$str" "$BIND_ADDRESS" >&2
+        exit 1
+    fi
+}
+
+# default address is INADDR_ANY
+PORT=$(random_port)
+netcat_listen $PORT
+check_bind_addr AF_INET "0.0.0.0" $PORT
+kill_and_wait $PID
+
+PORT=$(random_port)
+netcat_listen -4 $PORT
+check_bind_addr AF_INET "0.0.0.0" $PORT
+kill_and_wait $PID
+
+# if -6 then listen on in6addr_any
+PORT=$(random_port)
+netcat_listen -6 $PORT
+check_bind_addr AF_INET6 "::" $PORT
+kill_and_wait $PID
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+check_bind_addr AF_INET "127.0.0.1" $PORT
+kill_and_wait $PID
+
+PORT=$(random_port)
+netcat_listen "::1" $PORT
+check_bind_addr AF_INET6 "::1" $PORT
+kill_and_wait $PID
+
+# UNIX domain socket
+PORT=$(random_port)
+netcat_listen -U "$TEMPDIR/$PORT.sock"
+check_bind_addr AF_UNIX "$TEMPDIR/$PORT.sock"
+kill_and_wait $PID
+
+
+#######################################################################
+# d/p/use-flags-to-specify-listen-address.patch
+
+PORT=$(random_port)
+netcat_listen -p $PORT
+check_bind_addr AF_INET "0.0.0.0" $PORT
+kill_and_wait $PID
+
+PORT=$(random_port)
+netcat_listen -s "127.0.0.1" -p $PORT
+check_bind_addr AF_INET "127.0.0.1" $PORT
+kill_and_wait $PID
+
+PORT=$(random_port)
+netcat_listen -Us "$TEMPDIR/$PORT.sock"
+check_bind_addr AF_UNIX "$TEMPDIR/$PORT.sock"
+kill_and_wait $PID
+
+# vim: set filetype=bash :

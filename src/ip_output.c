@@ -16,8 +16,13 @@ int ip_output(struct sock *sk, struct sk_buff *skb)
     struct rtentry *rt;
     struct iphdr *ihdr = ip_hdr(skb);
 
+    /* 
+    dst             next
+    127.0.0.1       0
+    20.0.0.4        0
+    0               20.0.0.5
+     */
     rt = route_lookup(sk->daddr);
-
     if (!rt) {
         // TODO: dest_unreachable
         print_err("IP output route lookup fail\n");

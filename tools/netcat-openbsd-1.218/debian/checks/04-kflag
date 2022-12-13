@@ -1,0 +1,148 @@
+PORT=$(random_port)
+declare -a ARGS
+if [ "$NETCAT_UNIX" = "y" ]; then
+    FAM="AF_UNIX"
+    ARGS=( -${NETCAT_DGRAM:+u}U "$TEMPDIR/$PORT.sock" )
+else
+    FAM="AF_INET"
+    ARGS=( ${NETCAT_DGRAM:+-u} "127.0.0.1" "$PORT" )
+fi
+
+start_server() {
+    #echo nc "$@"
+    if [ -z "$NETCAT_DGRAM" ]; then
+        STRACE_LINGER="n" PIPES="y" netcat_listen "$@"
+    else
+        STRACE_LINGER="y" PIPES="y" netcat_listen "$@"
+    fi
+    if [ "${BIND_ADDRESS#"{sa_family=$FAM"[,\}]}" = "$BIND_ADDRESS" ]; then # sanity check
+        printf "ERROR at line %d: address \"%s\" isn't %s\\n" ${BASH_LINENO[0]} "$BIND_ADDRESS" "$FAM" >&2
+        exit 1
+    fi
+}
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    mkfifo -- "$in" "$out"
+    if [ -z "$NETCAT_DGRAM" ]; then
+        $NC "$@" <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&-                & CLIENT_PID=$!
+    else
+        $NC "$@" <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- {STRACE_FD}<&- & CLIENT_PID=$!
+    fi
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out"
+    rm -f -- "$in" "$out"
+}
+stop_client() {
+    kill_and_wait $CLIENT_PID
+    exec {CONNECT_IN}>&- {CONNECT_OUT}<&-
+}
+
+extract_source() {
+    local strace_recvfrom peer="" IFS_old="$IFS"
+    while IFS="" read -r strace_recvfrom; do
+        # we don't want to use `grep -m1` here because its input is
+        # buffered so it consumes multiple lines from the FIFO
+        test "${strace_recvfrom#"recvfrom($BIND_FD,"}" = "$strace_recvfrom" || break
+    done <&$STRACE_FD
+
+    if [[ "$strace_recvfrom" =~ ^[A-Za-z0-9_]+\([0-9]+,[[:blank:]]*\"[^\"]*\",[[:blank:]]*[0-9]+,[[:blank:]]*[^,[:blank:]]+,[[:blank:]]*(\{sa_family=([^{},[:blank:]]+)(,[^{}]+)?\}), ]]; then
+        peer="${BASH_REMATCH[1]}"
+    fi
+
+    if [ "$FAM" = "AF_INET" ] && [[ "$peer" =~ ^\{sa_family=$FAM,[[:blank:]]*sin_port=htons\(([0-9]+)\),[[:blank:]]*sin_addr=inet_addr\(\"([^\"]+)\"\)\}$ ]]; then
+        SPORT=${BASH_REMATCH[1]}
+        SADDR="${BASH_REMATCH[2]}"
+    elif [ "$FAM" = "AF_UNIX" ] && [[ "$peer" =~ ^\{sa_family=$FAM,[[:blank:]]*sun_path=\"([^\"]+)\"\}$ ]]; then
+        SPORT=""
+        SADDR="${BASH_REMATCH[1]}"
+    else
+        printf "ERROR at line %d: Can't extract source port from \"%s\"\\n" ${BASH_LINENO[0]} "${peer:-"$strace_recvfrom"}" >&2
+        exit 1
+    fi
+    IFS="$IFS_old"
+    PEER_ADDR="$peer"
+}
+
+#######################################################################
+# without -k
+
+start_server "${ARGS[@]}"
+
+start_client "${ARGS[@]}"
+greet server
+greet client
+stop_client
+
+if [ -z "$NETCAT_DGRAM" ]; then
+    # the server accepts a single connection and terminates afterwards
+    wait $PID
+else
+    # for UDP and not -k, the recvfrom() is followed with a connect()
+    extract_source
+    grep -m1 -E "^connect\\($BIND_FD,[[:blank:]]*\\{sa_family=$FAM," <&$STRACE_FD >"$TEMPDIR/conn"
+    grep -Fq -e "$PEER_ADDR" <"$TEMPDIR/conn"
+
+    if [ "$NETCAT_UNIX" = "y" ]; then
+        # XXX for some reason reconnecting yields EPERM with UNIX domain datagram sockets
+        ! strace -o"$TEMPDIR/strace.log" -Z $NC -s "$SADDR"  "${ARGS[@]}" 2>/dev/null
+        grep -Eq '^connect\([0-9]+,\s*\{sa_family='"$FAM"',[^{}]+\},\s*[0-9]+\)\s*=\s*-1\s+EPERM\s' <"$TEMPDIR/strace.log"
+    else
+        # reconnecting from a different source is a no-op (we make sure later that "foo"
+        # isn't read from the server) -- the test will fail if we reconnect from the
+        # server address+port but that should be seldom enough
+        $NC "${ARGS[@]}" <<<"foo"
+
+        # make sure '-v' reports it can't connect
+        if $NC -v "${ARGS[@]}" <<<"bar" 2>/dev/null; then
+            printf "ERROR at line %d: Could reconnect!\\n" $LINENO >&2
+            exit 1
+        fi
+
+        # can keep talking when reusing the same source though
+        start_client -s "$SADDR" -p $SPORT "${ARGS[@]}"
+        greet server
+        greet client
+        stop_client
+    fi
+
+    kill_and_wait "$PID"
+    exec {STRACE_FD}<&-
+fi
+exec {LISTEN_IN}>&- {LISTEN_OUT}<&-
+
+
+#######################################################################
+# with -k
+
+start_server -k "${ARGS[@]}"
+
+if [ -z "$NETCAT_DGRAM" ]; then
+    start_client "${ARGS[@]}"
+    greet server
+    greet client
+    stop_client
+
+    start_client "${ARGS[@]}"
+    greet client
+    greet server
+    stop_client
+
+    start_client "${ARGS[@]}"
+    greet server
+    stop_client
+
+    start_client "${ARGS[@]}"
+    greet client
+    stop_client
+else
+    # for UDP and not -k, the recvfrom() is not connected and while it can
+    # receive UDP datagrams from multiple clients it cannot write to them
+    for ((i=0; i<4; i++)); do
+        start_client "${ARGS[@]}"
+        greet server
+        stop_client
+    done
+fi
+
+kill_and_wait $PID
+
+# vim: set filetype=bash :

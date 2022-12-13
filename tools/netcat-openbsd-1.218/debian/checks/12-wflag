@@ -1,0 +1,29 @@
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    mkfifo -- "$in" "$out"
+    $NC ${NETCAT_DGRAM:+-u} "$@" "127.0.0.1" $PORT <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out"
+    rm -f -- "$in" "$out"
+}
+
+# only test client, -w has no effect with -l
+PORT=$(random_port)
+PIPES="y" netcat_listen ${NETCAT_DGRAM:+-u} "127.0.0.1" $PORT
+
+start_client -w3
+greet server
+greet client
+
+# idleing...
+wait $CLIENT_PID
+${NETCAT_DGRAM:+kill_and_}wait $PID
+
+
+# can't test wether -w timeouts TCP connections which can't be
+# established, but we can do it for UDP
+PORT=$(random_port)
+if [ -n "$NETCAT_DGRAM" ]; then
+    $NC ${NETCAT_DGRAM:+-u} -w1 "127.0.0.1" $PORT
+fi
+
+# vim: set filetype=bash :

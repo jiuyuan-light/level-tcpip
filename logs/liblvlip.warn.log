@@ -1,0 +1,6 @@
+2022-12-13 20:51:17.364029 [72778:liblevelip.c:424] - NOT SUP, TODO
+2022-12-13 20:51:17.364050 [72778:liblevelip.c:424] - NOT SUP, TODO
+2022-12-13 20:51:22.272858 [72992:liblevelip.c:147] - ERR: IPC msg response expected type 5, pid 72992, actual type 4, pid 72992
+2022-12-13 20:51:26.321624 [73032:liblevelip.c:147] - ERR: IPC msg response expected type 5, pid 73032, actual type 4, pid 73032
+2022-12-13 20:51:27.073888 [73014:liblevelip.c:147] - ERR: IPC msg response expected type 5, pid 73014, actual type 4, pid 73014
+2022-12-13 20:51:31.345308 [72928:liblevelip.c:132] - Error on writing IPC[Broken pipe]

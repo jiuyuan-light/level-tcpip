@@ -1,0 +1,5 @@
+# Make sure nc(1) is nc.openbsd(1)
+Tests: nc-is-openbsd
+Restrictions: superficial
+
+Tests: client-server

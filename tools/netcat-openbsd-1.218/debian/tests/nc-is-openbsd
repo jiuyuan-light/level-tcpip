@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -ue
+PATH="/usr/bin:/bin"
+export PATH
+
+resolves_to() {
+    local p="$1" t="$2"
+    # note: `readlink -e` checks for $p's existance, too
+    if [ -z "$p" ] || ! p="$(readlink -e -- "$p")" || [ "$p" != "$t" ]; then
+        printf 'ERROR: %s is %s not %s\n' "$1" "$p" "$2" >&2
+        exit 1
+    fi
+    return 0
+}
+run() {
+    local rv
+    "$@" && rv=0 || rv=$?
+    if [ $rv -ne 0 ]; then
+        printf 'ERROR: `%s` exited with status %d\n' "$*" $rv >&2
+        exit 1
+    fi
+}
+
+# Make sure nc(1) is nc.openbsd(1)
+NC="/bin/nc"
+NC_OPENBSD="$(run command -v nc.openbsd)"
+resolves_to "$NC" "$NC_OPENBSD"
+
+man1dir="/usr/share/man/man1"
+resolves_to "$man1dir/nc.1.gz"         "$man1dir/nc_openbsd.1.gz"
+resolves_to "$man1dir/nc_openbsd.1.gz" "$man1dir/nc_openbsd.1.gz"
+
+exit 0
+# vim: set filetype=sh :

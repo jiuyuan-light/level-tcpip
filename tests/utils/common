@@ -6,17 +6,18 @@ repo="$(git rev-parse --show-toplevel)"
 folder="$(dirname $0)"
 
 function start_stack {
-    "$repo/lvl-ip" > ../lvl-ip-test.log 2>&1 &
-    stackip="$!"
+    ls /dev/net/tap > /dev/null 2>&1 || mknod /dev/net/tap c 10 200
 
-    for i in {1..3}; do
-        ping -c1 -w1 10.0.0.5 >/dev/null || continue
+    "$repo/lvl-ip" > $repo/logs/stdprint.log 2>&1 &
 
-        return 0
-    done
+    # 这里用来获取mac
+    # for i in {1..3}; do
+    #     ping -c1 -w1 20.0.0.5 >/dev/null || continue
 
+    #     return 0
+    # done
+    return 0
     echo "Stack did not start up correctly" >&2
-    cat ../lvl-ip-test.log
     return 1
 }
 
@@ -29,8 +30,20 @@ function test_fail {
     exit 1
 }
 
+# $1是bash函数，$2是bash名称
+# eval可以先执行$1
 function test_run {
     eval "$1" || test_fail "$1" "$2"
 
     test_pass "$1" "$2"
+}
+
+function lvl_ip_check {
+    echo "$(basename "$0")   --- check"
+set +e
+    ip addr | grep 20.0.0.5 -q
+    ret=$?
+set -e
+    [[ $ret != 0 ]] && echo "[lvl-ip] 20.0.0.5 not exist" && false
+    return $ret
 }

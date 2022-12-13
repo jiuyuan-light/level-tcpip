@@ -1,8 +1,11 @@
-#!/bin/sh
-
-set -eu
+#!/bin/bash
+source "$(dirname $0)/../get_env.sh"
+# set -eu
+set -o errexit # -e
+set -o nounset # -u
+# set -o pipefail
 
 prog="$1"
 shift
 
-LD_PRELOAD="$(dirname $0)/liblevelip.so" "$prog" "$@"
+LD_PRELOAD="$(dirname $0)/liblevelip.so:${ROOT_DIR}/libzlog.so.1.2" "$prog" "$@"

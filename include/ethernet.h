@@ -7,12 +7,13 @@
 #include "syshead.h"
 #include "utils.h"
 
+#define ETH_HWADDR_LEN (6)
 #define ETH_HDR_LEN sizeof(struct eth_hdr)
 
 #ifdef DEBUG_ETH
 #define eth_dbg(msg, hdr)                                               \
     do {                                                                \
-        print_debug("eth "msg" ("                                       \
+        lvl_ip_debug("eth "msg" ("                                       \
                     "dmac: %.2hhx:%.2hhx:%.2hhx:%.2hhx:%.2hhx:%.2hhx, " \
                     "smac: %.2hhx:%.2hhx:%.2hhx:%.2hhx:%.2hhx:%.2hhx, " \
                     "ethertype: %.4hx)",                               \

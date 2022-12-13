@@ -1,4 +1,6 @@
+#include <hloop.h>
 #include "syshead.h"
+
 #include "utils.h"
 #include "skbuff.h"
 #include "netdev.h"
@@ -11,6 +13,7 @@
 struct netdev *loop;
 struct netdev *netdev;
 extern int running;
+extern char* netdev_ip;
 
 static struct netdev *netdev_alloc(char *addr, char *hwaddr, uint32_t mtu)
 {
@@ -34,7 +37,7 @@ static struct netdev *netdev_alloc(char *addr, char *hwaddr, uint32_t mtu)
 void netdev_init(char *addr, char *hwaddr)
 {
     loop = netdev_alloc("127.0.0.1", "00:00:00:00:00:00", 1500);
-    netdev = netdev_alloc("10.0.0.4", "00:0c:29:6d:50:25", 1500);
+    netdev = netdev_alloc(netdev_ip, "00:0c:29:6d:50:25", 1500);
 }
 
 int netdev_transmit(struct sk_buff *skb, uint8_t *dst_hw, uint16_t ethertype)
@@ -74,12 +77,16 @@ static int netdev_receive(struct sk_buff *skb)
             ip_rcv(skb);
             break;
         case ETH_P_IPV6:
+            lvl_ip_trace("Unsupported ETH_P_IPV6");
+            goto drop;
         default:
-            printf("Unsupported ethertype %x\n", hdr->ethertype);
-            free_skb(skb);
-            break;
+            lvl_ip_trace("Unsupported ethertype 0x%x", hdr->ethertype);
+            goto drop;
     }
 
+    return 0;
+drop:
+    free_skb(skb);
     return 0;
 }
 
@@ -87,8 +94,11 @@ void *netdev_rx_loop()
 {
     while (running) {
         struct sk_buff *skb = alloc_skb(BUFLEN);
+        if (!skb) {
+            continue;
+        }
         
-        if (tun_read((char *)skb->data, BUFLEN) < 0) { 
+        if (tun_read((char *)skb->data, BUFLEN) < 0) { // 从tap设备读取数据，实际是内核协议栈发送给tap的
             perror("ERR: Read from tun_fd");
             free_skb(skb);
             return NULL;

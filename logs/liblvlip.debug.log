@@ -1,0 +1,214 @@
+2022-12-13 20:51:17.310897 [72778:liblevelip.c:204] - Socket called fd[4097]
+2022-12-13 20:51:17.310954 [72778:liblevelip.c:805] - Fcntl called fd[4097]
+2022-12-13 20:51:17.310980 [72778:liblevelip.c:820] - Fcntl GETFL fd[4097]
+2022-12-13 20:51:17.311094 [72778:liblevelip.c:805] - Fcntl called fd[4097]
+2022-12-13 20:51:17.311126 [72778:liblevelip.c:825] - Fcntl SETFL fd[4097]
+2022-12-13 20:51:17.311241 [72778:liblevelip.c:247] - Connect called fd[4097]
+2022-12-13 20:51:17.311460 [72778:liblevelip.c:268] - Connect called complete, fd[4097]
+2022-12-13 20:51:17.311483 [72778:liblevelip.c:805] - Fcntl called fd[4097]
+2022-12-13 20:51:17.311490 [72778:liblevelip.c:825] - Fcntl SETFL fd[4097]
+2022-12-13 20:51:17.312153 [72778:liblevelip.c:461] - Poll called with kernel_nfds 2 lvlip_nfds 2 timeout 100
+2022-12-13 20:51:17.363049 [72778:liblevelip.c:551] - idx[0]Returning counts 1 fd 0 with events 1 revents 1 timeout 50
+2022-12-13 20:51:17.363122 [72778:liblevelip.c:551] - idx[1]Returning counts 1 fd 4097 with events 0 revents 0 timeout 50
+2022-12-13 20:51:17.363130 [72778:liblevelip.c:551] - idx[2]Returning counts 1 fd 4097 with events 1 revents 0 timeout 50
+2022-12-13 20:51:17.363137 [72778:liblevelip.c:551] - idx[3]Returning counts 1 fd 1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:17.363143 [72778:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:17.363154 [72778:liblevelip.c:461] - Poll called with kernel_nfds 2 lvlip_nfds 2 timeout 100
+2022-12-13 20:51:17.363575 [72778:liblevelip.c:551] - idx[0]Returning counts 2 fd 0 with events 1 revents 1 timeout 50
+2022-12-13 20:51:17.363602 [72778:liblevelip.c:551] - idx[1]Returning counts 2 fd 4097 with events 4 revents 4 timeout 50
+2022-12-13 20:51:17.363612 [72778:liblevelip.c:551] - idx[2]Returning counts 2 fd 4097 with events 1 revents 0 timeout 50
+2022-12-13 20:51:17.363619 [72778:liblevelip.c:551] - idx[3]Returning counts 2 fd 1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:17.363625 [72778:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:17.363635 [72778:liblevelip.c:282] - Write called fd[4097]
+2022-12-13 20:51:17.364001 [72778:liblevelip.c:303] - Write called complete, fd[4097], re 11
+2022-12-13 20:51:17.364070 [72778:liblevelip.c:218] - Close called fd[4097]
+2022-12-13 20:51:17.364225 [72778:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:17.364244 [72778:liblevelip.c:461] - Poll called with kernel_nfds 4 lvlip_nfds 0 timeout -1
+2022-12-13 20:51:20.373547 [72928:liblevelip.c:204] - Socket called fd[4098]
+2022-12-13 20:51:20.373580 [72928:liblevelip.c:805] - Fcntl called fd[4098]
+2022-12-13 20:51:20.373587 [72928:liblevelip.c:820] - Fcntl GETFL fd[4098]
+2022-12-13 20:51:20.373674 [72928:liblevelip.c:805] - Fcntl called fd[4098]
+2022-12-13 20:51:20.373688 [72928:liblevelip.c:825] - Fcntl SETFL fd[4098]
+2022-12-13 20:51:20.373780 [72928:liblevelip.c:247] - Connect called fd[4098]
+2022-12-13 20:51:20.373857 [72928:liblevelip.c:268] - Connect called complete, fd[4098]
+2022-12-13 20:51:20.373867 [72928:liblevelip.c:805] - Fcntl called fd[4098]
+2022-12-13 20:51:20.373871 [72928:liblevelip.c:825] - Fcntl SETFL fd[4098]
+2022-12-13 20:51:20.373943 [72928:liblevelip.c:461] - Poll called with kernel_nfds 2 lvlip_nfds 2 timeout 100
+2022-12-13 20:51:20.424923 [72928:liblevelip.c:551] - idx[0]Returning counts 1 fd 0 with events 1 revents 1 timeout 50
+2022-12-13 20:51:20.424979 [72928:liblevelip.c:551] - idx[1]Returning counts 1 fd 4098 with events 0 revents 0 timeout 50
+2022-12-13 20:51:20.424986 [72928:liblevelip.c:551] - idx[2]Returning counts 1 fd 4098 with events 1 revents 0 timeout 50
+2022-12-13 20:51:20.424990 [72928:liblevelip.c:551] - idx[3]Returning counts 1 fd 1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:20.424994 [72928:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:20.425002 [72928:liblevelip.c:461] - Poll called with kernel_nfds 2 lvlip_nfds 2 timeout 100
+2022-12-13 20:51:20.425125 [72928:liblevelip.c:551] - idx[0]Returning counts 2 fd 0 with events 1 revents 1 timeout 50
+2022-12-13 20:51:20.425143 [72928:liblevelip.c:551] - idx[1]Returning counts 2 fd 4098 with events 4 revents 4 timeout 50
+2022-12-13 20:51:20.425153 [72928:liblevelip.c:551] - idx[2]Returning counts 2 fd 4098 with events 1 revents 0 timeout 50
+2022-12-13 20:51:20.425160 [72928:liblevelip.c:551] - idx[3]Returning counts 2 fd 1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:20.425168 [72928:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:20.425174 [72928:liblevelip.c:282] - Write called fd[4098]
+2022-12-13 20:51:20.425423 [72928:liblevelip.c:303] - Write called complete, fd[4098], re 11
+2022-12-13 20:51:20.425432 [72928:liblevelip.c:461] - Poll called with kernel_nfds 3 lvlip_nfds 1 timeout 100
+2022-12-13 20:51:20.476509 [72928:liblevelip.c:551] - idx[0]Returning counts 1 fd -1 with events 1 revents 0 timeout 50
+2022-12-13 20:51:20.476552 [72928:liblevelip.c:551] - idx[1]Returning counts 1 fd -1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:20.476562 [72928:liblevelip.c:551] - idx[2]Returning counts 1 fd 4098 with events 1 revents 1 timeout 50
+2022-12-13 20:51:20.476568 [72928:liblevelip.c:551] - idx[3]Returning counts 1 fd 1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:20.476574 [72928:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:20.476582 [72928:liblevelip.c:317] - Read called fd[4098]
+2022-12-13 20:51:20.476857 [72928:liblevelip.c:376] - Read called complete, rlen[11]
+2022-12-13 20:51:20.476899 [72928:liblevelip.c:461] - Poll called with kernel_nfds 3 lvlip_nfds 1 timeout 100
+2022-12-13 20:51:20.527359 [72928:liblevelip.c:551] - idx[0]Returning counts 1 fd -1 with events 1 revents 0 timeout 50
+2022-12-13 20:51:20.527428 [72928:liblevelip.c:551] - idx[1]Returning counts 1 fd -1 with events 0 revents 0 timeout 50
+2022-12-13 20:51:20.527441 [72928:liblevelip.c:551] - idx[2]Returning counts 1 fd 4098 with events 1 revents 0 timeout 50
+2022-12-13 20:51:20.527448 [72928:liblevelip.c:551] - idx[3]Returning counts 1 fd 1 with events 4 revents 4 timeout 50
+2022-12-13 20:51:20.527456 [72928:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:20.527494 [72928:liblevelip.c:461] - Poll called with kernel_nfds 3 lvlip_nfds 1 timeout 100
+2022-12-13 20:51:22.271257 [72992:liblevelip.c:204] - Socket called fd[4099]
+2022-12-13 20:51:22.271301 [72992:liblevelip.c:247] - Connect called fd[4099]
+2022-12-13 20:51:22.271966 [72992:liblevelip.c:268] - Connect called complete, fd[4099]
+2022-12-13 20:51:22.271982 [72992:liblevelip.c:282] - Write called fd[4099]
+2022-12-13 20:51:22.272116 [72992:liblevelip.c:303] - Write called complete, fd[4099], re 58
+2022-12-13 20:51:22.272127 [72992:liblevelip.c:317] - Read called fd[4099]
+2022-12-13 20:51:22.272820 [72992:liblevelip.c:376] - Read called complete, rlen[620]
+2022-12-13 20:51:22.272838 [72992:liblevelip.c:317] - Read called fd[4099]
+2022-12-13 20:51:22.272848 [72992:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:22.272852 [72992:liblevelip.c:218] - Close called fd[4099]
+2022-12-13 20:51:22.272868 [72992:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:22.278213 [73003:liblevelip.c:204] - Socket called fd[4100]
+2022-12-13 20:51:22.278242 [73003:liblevelip.c:805] - Fcntl called fd[4100]
+2022-12-13 20:51:22.278249 [73003:liblevelip.c:825] - Fcntl SETFL fd[4100]
+2022-12-13 20:51:22.281117 [73003:liblevelip.c:247] - Connect called fd[4100]
+2022-12-13 20:51:22.281315 [73003:liblevelip.c:268] - Connect called complete, fd[4100]
+2022-12-13 20:51:22.281330 [73003:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:22.281519 [73003:liblevelip.c:551] - idx[0]Returning counts 1 fd 4100 with events 4 revents 4 timeout -1
+2022-12-13 20:51:22.281540 [73003:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:22.281556 [73003:liblevelip.c:282] - Write called fd[4100]
+2022-12-13 20:51:22.281720 [73003:liblevelip.c:303] - Write called complete, fd[4100], re 58
+2022-12-13 20:51:22.281735 [73003:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:22.306509 [73014:liblevelip.c:204] - Socket called fd[4101]
+2022-12-13 20:51:22.306542 [73014:liblevelip.c:247] - Connect called fd[4101]
+2022-12-13 20:51:22.306955 [73014:liblevelip.c:268] - Connect called complete, fd[4101]
+2022-12-13 20:51:22.306977 [73014:liblevelip.c:282] - Write called fd[4101]
+2022-12-13 20:51:22.307217 [73014:liblevelip.c:303] - Write called complete, fd[4101], re 58
+2022-12-13 20:51:22.307236 [73014:liblevelip.c:317] - Read called fd[4101]
+2022-12-13 20:51:22.318711 [73032:liblevelip.c:204] - Socket called fd[4102]
+2022-12-13 20:51:22.318770 [73032:liblevelip.c:247] - Connect called fd[4102]
+2022-12-13 20:51:22.319864 [73035:liblevelip.c:204] - Socket called fd[4103]
+2022-12-13 20:51:22.319901 [73035:liblevelip.c:247] - Connect called fd[4103]
+2022-12-13 20:51:22.320267 [73035:liblevelip.c:268] - Connect called complete, fd[4103]
+2022-12-13 20:51:22.320290 [73035:liblevelip.c:282] - Write called fd[4103]
+2022-12-13 20:51:22.320434 [73035:liblevelip.c:303] - Write called complete, fd[4103], re 58
+2022-12-13 20:51:22.320454 [73035:liblevelip.c:317] - Read called fd[4103]
+2022-12-13 20:51:22.321388 [73035:liblevelip.c:376] - Read called complete, rlen[155]
+2022-12-13 20:51:22.321432 [73035:liblevelip.c:317] - Read called fd[4103]
+2022-12-13 20:51:22.321598 [73035:liblevelip.c:376] - Read called complete, rlen[465]
+2022-12-13 20:51:22.321613 [73035:liblevelip.c:317] - Read called fd[4103]
+2022-12-13 20:51:22.321621 [73035:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:22.321626 [73035:liblevelip.c:218] - Close called fd[4103]
+2022-12-13 20:51:22.321753 [73035:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:22.327384 [73046:liblevelip.c:204] - Socket called fd[4104]
+2022-12-13 20:51:22.327416 [73046:liblevelip.c:805] - Fcntl called fd[4104]
+2022-12-13 20:51:22.327426 [73046:liblevelip.c:825] - Fcntl SETFL fd[4104]
+2022-12-13 20:51:22.327516 [73046:liblevelip.c:247] - Connect called fd[4104]
+2022-12-13 20:51:22.328067 [73046:liblevelip.c:268] - Connect called complete, fd[4104]
+2022-12-13 20:51:22.328099 [73046:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:22.328191 [73046:liblevelip.c:551] - idx[0]Returning counts 1 fd 4104 with events 4 revents 4 timeout -1
+2022-12-13 20:51:22.328211 [73046:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:22.328220 [73046:liblevelip.c:282] - Write called fd[4104]
+2022-12-13 20:51:22.328399 [73046:liblevelip.c:303] - Write called complete, fd[4104], re 58
+2022-12-13 20:51:22.328416 [73046:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:23.229441 [73003:liblevelip.c:551] - idx[0]Returning counts 1 fd 4100 with events 1 revents 1 timeout -1
+2022-12-13 20:51:23.229550 [73003:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:23.229560 [73003:liblevelip.c:317] - Read called fd[4100]
+2022-12-13 20:51:23.229814 [73003:liblevelip.c:376] - Read called complete, rlen[620]
+2022-12-13 20:51:23.229842 [73003:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:23.229925 [73003:liblevelip.c:551] - idx[0]Returning counts 1 fd 4100 with events 1 revents 1 timeout -1
+2022-12-13 20:51:23.229939 [73003:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:23.229944 [73003:liblevelip.c:317] - Read called fd[4100]
+2022-12-13 20:51:23.230026 [73003:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:23.230042 [73003:liblevelip.c:218] - Close called fd[4100]
+2022-12-13 20:51:23.230290 [73003:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:23.248122 [73122:liblevelip.c:204] - Socket called fd[4105]
+2022-12-13 20:51:23.248161 [73122:liblevelip.c:247] - Connect called fd[4105]
+2022-12-13 20:51:23.249731 [73122:liblevelip.c:268] - Connect called complete, fd[4105]
+2022-12-13 20:51:23.328476 [73046:liblevelip.c:551] - idx[0]Returning counts 1 fd 4104 with events 1 revents 1 timeout -1
+2022-12-13 20:51:23.328518 [73046:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:23.328527 [73046:liblevelip.c:317] - Read called fd[4104]
+2022-12-13 20:51:23.328755 [73046:liblevelip.c:376] - Read called complete, rlen[620]
+2022-12-13 20:51:23.328794 [73046:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:23.328941 [73046:liblevelip.c:551] - idx[0]Returning counts 1 fd 4104 with events 1 revents 1 timeout -1
+2022-12-13 20:51:23.328968 [73046:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:23.328974 [73046:liblevelip.c:317] - Read called fd[4104]
+2022-12-13 20:51:23.329093 [73046:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:23.329119 [73046:liblevelip.c:218] - Close called fd[4104]
+2022-12-13 20:51:23.329386 [73046:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:23.336100 [73171:liblevelip.c:204] - Socket called fd[4106]
+2022-12-13 20:51:23.336143 [73171:liblevelip.c:247] - Connect called fd[4106]
+2022-12-13 20:51:23.336522 [73171:liblevelip.c:268] - Connect called complete, fd[4106]
+2022-12-13 20:51:24.319922 [73032:liblevelip.c:268] - Connect called complete, fd[4102]
+2022-12-13 20:51:24.319967 [73032:liblevelip.c:282] - Write called fd[4102]
+2022-12-13 20:51:24.320121 [73032:liblevelip.c:303] - Write called complete, fd[4102], re 58
+2022-12-13 20:51:24.320134 [73032:liblevelip.c:317] - Read called fd[4102]
+2022-12-13 20:51:26.321419 [73032:liblevelip.c:376] - Read called complete, rlen[155]
+2022-12-13 20:51:26.321466 [73032:liblevelip.c:317] - Read called fd[4102]
+2022-12-13 20:51:26.321591 [73032:liblevelip.c:376] - Read called complete, rlen[465]
+2022-12-13 20:51:26.321604 [73032:liblevelip.c:317] - Read called fd[4102]
+2022-12-13 20:51:26.321612 [73032:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:26.321618 [73032:liblevelip.c:218] - Close called fd[4102]
+2022-12-13 20:51:26.321639 [73032:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:26.327550 [73313:liblevelip.c:204] - Socket called fd[4107]
+2022-12-13 20:51:26.327580 [73313:liblevelip.c:805] - Fcntl called fd[4107]
+2022-12-13 20:51:26.327587 [73313:liblevelip.c:825] - Fcntl SETFL fd[4107]
+2022-12-13 20:51:26.327669 [73313:liblevelip.c:247] - Connect called fd[4107]
+2022-12-13 20:51:26.327803 [73313:liblevelip.c:268] - Connect called complete, fd[4107]
+2022-12-13 20:51:26.327813 [73313:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:27.073766 [73014:liblevelip.c:376] - Read called complete, rlen[620]
+2022-12-13 20:51:27.073802 [73014:liblevelip.c:317] - Read called fd[4101]
+2022-12-13 20:51:27.073824 [73014:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:27.073830 [73014:liblevelip.c:218] - Close called fd[4101]
+2022-12-13 20:51:27.073908 [73014:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:27.079658 [73324:liblevelip.c:204] - Socket called fd[4108]
+2022-12-13 20:51:27.079691 [73324:liblevelip.c:805] - Fcntl called fd[4108]
+2022-12-13 20:51:27.079699 [73324:liblevelip.c:825] - Fcntl SETFL fd[4108]
+2022-12-13 20:51:27.080164 [73324:liblevelip.c:247] - Connect called fd[4108]
+2022-12-13 20:51:27.080452 [73324:liblevelip.c:268] - Connect called complete, fd[4108]
+2022-12-13 20:51:27.080464 [73324:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:27.080894 [73324:liblevelip.c:551] - idx[0]Returning counts 1 fd 4108 with events 4 revents 4 timeout -1
+2022-12-13 20:51:27.080910 [73324:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:27.080922 [73324:liblevelip.c:282] - Write called fd[4108]
+2022-12-13 20:51:27.081074 [73324:liblevelip.c:303] - Write called complete, fd[4108], re 58
+2022-12-13 20:51:27.081089 [73324:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:28.028055 [73324:liblevelip.c:551] - idx[0]Returning counts 1 fd 4108 with events 1 revents 1 timeout -1
+2022-12-13 20:51:28.028114 [73324:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:28.028124 [73324:liblevelip.c:317] - Read called fd[4108]
+2022-12-13 20:51:28.028293 [73324:liblevelip.c:376] - Read called complete, rlen[620]
+2022-12-13 20:51:28.028365 [73324:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:28.028474 [73324:liblevelip.c:551] - idx[0]Returning counts 1 fd 4108 with events 1 revents 1 timeout -1
+2022-12-13 20:51:28.028489 [73324:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:28.028494 [73324:liblevelip.c:317] - Read called fd[4108]
+2022-12-13 20:51:28.028596 [73324:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:28.028622 [73324:liblevelip.c:218] - Close called fd[4108]
+2022-12-13 20:51:28.028845 [73324:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:28.034807 [73417:liblevelip.c:204] - Socket called fd[4109]
+2022-12-13 20:51:28.034837 [73417:liblevelip.c:247] - Connect called fd[4109]
+2022-12-13 20:51:28.035146 [73417:liblevelip.c:268] - Connect called complete, fd[4109]
+2022-12-13 20:51:28.328790 [73313:liblevelip.c:551] - idx[0]Returning counts 1 fd 4107 with events 4 revents 4 timeout -1
+2022-12-13 20:51:28.328826 [73313:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:28.328839 [73313:liblevelip.c:282] - Write called fd[4107]
+2022-12-13 20:51:28.328985 [73313:liblevelip.c:303] - Write called complete, fd[4107], re 58
+2022-12-13 20:51:28.328992 [73313:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:31.328141 [73313:liblevelip.c:551] - idx[0]Returning counts 1 fd 4107 with events 1 revents 1 timeout -1
+2022-12-13 20:51:31.328190 [73313:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:31.328197 [73313:liblevelip.c:317] - Read called fd[4107]
+2022-12-13 20:51:31.328383 [73313:liblevelip.c:376] - Read called complete, rlen[620]
+2022-12-13 20:51:31.328407 [73313:liblevelip.c:461] - Poll called with kernel_nfds 0 lvlip_nfds 1 timeout -1
+2022-12-13 20:51:31.328486 [73313:liblevelip.c:551] - idx[0]Returning counts 1 fd 4107 with events 1 revents 1 timeout -1
+2022-12-13 20:51:31.328496 [73313:liblevelip.c:553] - =============================================================================
+2022-12-13 20:51:31.328500 [73313:liblevelip.c:317] - Read called fd[4107]
+2022-12-13 20:51:31.328586 [73313:liblevelip.c:376] - Read called complete, rlen[0]
+2022-12-13 20:51:31.328596 [73313:liblevelip.c:218] - Close called fd[4107]
+2022-12-13 20:51:31.328786 [73313:liblevelip.c:233] - Close called complete
+2022-12-13 20:51:31.334602 [73516:liblevelip.c:204] - Socket called fd[4110]
+2022-12-13 20:51:31.334633 [73516:liblevelip.c:247] - Connect called fd[4110]
+2022-12-13 20:51:31.334953 [73516:liblevelip.c:268] - Connect called complete, fd[4110]
+2022-12-13 20:51:31.345262 [72928:liblevelip.c:218] - Close called fd[4098]
+2022-12-13 20:51:31.345322 [72928:liblevelip.c:233] - Close called complete

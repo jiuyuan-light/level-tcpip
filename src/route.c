@@ -38,9 +38,9 @@ void route_add(uint32_t dst, uint32_t gateway, uint32_t netmask, uint8_t flags,
 
 void route_init()
 {
-    route_add(loop->addr, 0, 0xff000000, RT_LOOPBACK, 0, loop);
-    route_add(netdev->addr, 0, 0xffffff00, RT_HOST, 0, netdev);
-    route_add(0, ip_parse(tapaddr), 0, RT_GATEWAY, 0, netdev);
+    route_add(loop->addr, 0, 0xff000000, RT_LOOPBACK, 0, loop);     // 发往环回地址的下一跳（gateway）是0
+    route_add(netdev->addr, 0, 0xffffff00, RT_HOST, 0, netdev);     // 发往20.0.0.4的下一跳是0
+    route_add(0, ip_parse(tapaddr), 0, RT_GATEWAY, 0, netdev);      // 发往0即默认路由的下一跳是20.0.0.5（网卡地址）
 }
 
 struct rtentry *route_lookup(uint32_t daddr)
@@ -50,7 +50,12 @@ struct rtentry *route_lookup(uint32_t daddr)
 
     list_for_each(item, &routes) {
         rt = list_entry(item, struct rtentry, list);
-        if ((daddr & rt->netmask) == (rt->dst & rt->netmask)) break;
+        if ((daddr & rt->netmask) == (rt->dst & rt->netmask)) {
+            if (rt->flags & RT_HOST && daddr != rt->dst) { /* 不是发给这个设备的 */
+                continue;
+            }
+            break;
+        }
         // If no matches, we default to to default gw (last item)
     }
     

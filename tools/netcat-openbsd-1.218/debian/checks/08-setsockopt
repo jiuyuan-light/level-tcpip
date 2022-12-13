@@ -1,0 +1,97 @@
+start_client() {
+    local strace_fifo="$TEMPDIR/strace.out"
+    mkfifo -- "$strace_fifo"
+    strace -Do"$strace_fifo" -I1 -e trace="%net" -- $NC "$@" </dev/null & CLIENT_PID=$!
+    exec {STRACE_FD}<"$strace_fifo"
+    rm -f -- "$TEMPDIR/strace.out"
+}
+has_setsockopt() {
+    local lvl="$1" name="$2" val="$3"
+    if ! grep -m1 -E "^setsockopt\([0-9]+,\s*$lvl," <&$STRACE_FD >"$TEMPDIR/sockopt" || \
+            ! grep -Fq ", $lvl, $name, $val," <"$TEMPDIR/sockopt"; then
+        printf "ERROR at line %d: setsockopt(%s, %s, %s)\\n" ${BASH_LINENO[0]} "$lvl" "$name" "$val" >&2
+        cat <"$TEMPDIR/sockopt" >&2
+        exit 1
+    fi
+}
+stop_test() {
+    kill_and_wait $CLIENT_PID $PID
+    exec {STRACE_FD}<&-
+}
+
+#######################################################################
+# -D (enable debugging on the socket)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -D "127.0.0.1" $PORT 2>/dev/null
+has_setsockopt SOL_SOCKET SO_DEBUG "[1]"
+stop_test
+
+#######################################################################
+# -I length (specify the size of the TCP receive buffer)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -I 1234 "127.0.0.1" $PORT
+has_setsockopt SOL_SOCKET SO_RCVBUF "[1234]"
+stop_test
+
+#######################################################################
+# -O length (specify the size of the TCP send buffer)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -O 1234 "127.0.0.1" $PORT
+has_setsockopt SOL_SOCKET SO_SNDBUF "[1234]"
+stop_test
+
+#######################################################################
+# -M ttl (set the TTL/hop limit of outgoing packets)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -M 123 "127.0.0.1" $PORT
+has_setsockopt SOL_IP IP_TTL "[123]"
+stop_test
+
+PORT=$(random_port)
+netcat_listen "::1" $PORT
+start_client -M 123 "::1" $PORT
+has_setsockopt SOL_IPV6 IPV6_UNICAST_HOPS "[123]"
+stop_test
+
+#######################################################################
+# -m minttl (ask the kernel to drop incoming packets whose TTL/hop limit is under minttl)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -m 123 "127.0.0.1" $PORT
+has_setsockopt SOL_IP IP_MINTTL "[123]"
+stop_test
+
+PORT=$(random_port)
+netcat_listen "::1" $PORT
+start_client -m 123 "::1" $PORT
+has_setsockopt SOL_IPV6 IPV6_MINHOPCOUNT "[123]"
+stop_test
+
+#######################################################################
+# -T keyword (change the IPv4 TOS/IPv6 traffic class value)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -T 123 "127.0.0.1" $PORT
+has_setsockopt SOL_IP IP_TOS "[123]"
+stop_test
+
+#######################################################################
+# -b (broadcast mode)
+
+PORT=$(random_port)
+netcat_listen "127.0.0.1" $PORT
+start_client -b "127.0.0.1" $PORT
+has_setsockopt SOL_SOCKET SO_BROADCAST "[1]"
+stop_test
+
+# vim: set filetype=bash :

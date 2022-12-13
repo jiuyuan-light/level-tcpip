@@ -1,0 +1,182 @@
+dump_resolver() {
+    local db host
+    echo ">>> /etc/hosts content"
+    cat /etc/hosts
+    printf ">>> \`grep \"^hosts:\" /etc/nsswitch.conf\` output\\n"
+    grep "^hosts:" /etc/nsswitch.conf || true
+    for host in "localhost" "ip6-localhost"; do
+        for db in hosts ahosts ahostsv4 ahostsv6; do
+            printf ">>> \`getent %s %s\` output\\n" "$db" "$host"
+            getent "$db" -- "$host" || true
+        done
+    done
+}
+trap '[ $? -eq 0 ] || dump_resolver >&2; _terminate_process_group' EXIT INT TERM
+
+#######################################################################
+# -n (do not perform domain name resolution)
+
+test_nflag_hostname_listen() {
+    local host="$2" rv=0
+    declare -a nc=( $NC -ln ${1:+"$1"} "$host" "$PORT" )
+    "${nc[@]}" 2>"$TEMPDIR/nc.err" || rv=$?
+    if [ $rv -ne 1 ] || ! grep -Fxq "nc: getaddrinfo: Name or service not known" "$TEMPDIR/nc.err"; then
+        printf "ERROR at line %d: \`%s\` exited with status %d\\n" $LINENO "${nc[*]}" $rv >&2
+        cat <"$TEMPDIR/nc.err" >&2
+        exit 1
+    fi
+}
+test_nflag_hostname_client() {
+    local host="$2" rv=0
+    declare -a nc=( $NC -n ${1:+"$1"} "$host" "$PORT" )
+    "${nc[@]}" 2>"$TEMPDIR/nc.err" || rv=$?
+    if [ $rv -ne 1 ] || ! grep -Fxq "nc: getaddrinfo for host \"$host\" port $PORT: Name or service not known" "$TEMPDIR/nc.err"; then
+        printf "ERROR at line %d: \`%s\` exited with status %d\\n" $LINENO "${nc[*]}" $rv >&2
+        cat <"$TEMPDIR/nc.err" >&2
+        exit 1
+    fi
+}
+
+PORT=$(random_port)
+test_nflag_hostname_listen "" localhost
+test_nflag_hostname_listen -4 localhost
+test_nflag_hostname_listen -6 localhost
+test_nflag_hostname_listen "" ip6-localhost
+test_nflag_hostname_listen -6 ip6-localhost
+
+PORT=$(random_port)
+netcat_listen $PORT
+test_nflag_hostname_client "" localhost
+test_nflag_hostname_client -4 localhost
+test_nflag_hostname_client -6 localhost
+test_nflag_hostname_client "" ip6-localhost
+test_nflag_hostname_client -6 ip6-localhost
+kill_and_wait $PID
+
+
+#######################################################################
+# -n with IP literals
+
+test_nflag_literal_listen() {
+    local fam="$1" addr="$2"
+    declare -a args=( -n ${fam:+"$fam"} "$addr" $PORT )
+    netcat_listen "${args[@]}"
+    if ! ss -nOH -tlp ${fam:+"$fam"} src = "[$addr]" and sport = $PORT >"$TEMPDIR/ss.out" || \
+            ! grep -Eq "\\susers:\\(\(\"[^\"]+\",pid=$PID,fd=$BIND_FD\\)\\)$" <"$TEMPDIR/ss.out"; then
+        printf "ERROR at line %d: \`nc -l %s\`\\n" $LINENO "${args[*]}" >&2
+        cat <"$TEMPDIR/ss.out" >&2
+        exit 1
+    fi
+    kill_and_wait $PID
+}
+PORT=$(random_port)
+test_nflag_literal_listen "" "127.0.0.1"
+test_nflag_literal_listen -4 "127.0.0.1"
+test_nflag_literal_listen "" "::1"
+test_nflag_literal_listen -6 "::1"
+
+test_nflag_literal_unsupported_family() {
+    local flags="$1" addr="$2"
+    declare -a nc=( $NC -n "$flags" "$addr" $PORT )
+    "${nc[@]}" 2>"$TEMPDIR/nc.err" || rv=$?
+    if [ $rv -ne 1 ] || ! grep -q "^nc: getaddrinfo.* Address family for hostname not supported" "$TEMPDIR/nc.err"; then
+        printf "ERROR at line %d: \`%s\` exited with status %d\\n" $LINENO "${nc[*]}" $rv >&2
+        cat <"$TEMPDIR/nc.err" >&2
+        exit 1
+    fi
+}
+PORT=$(random_port)
+test_nflag_literal_unsupported_family -l4 "::"
+test_nflag_literal_unsupported_family -l6 "0.0.0.0"
+test_nflag_literal_unsupported_family  -4 "::1"
+test_nflag_literal_unsupported_family  -6 "127.0.0.1"
+
+
+#######################################################################
+# name resolution
+
+getaddrinfo() {
+    local fam="${1#-}" host="$2" addr=""
+    addr="$(getent "ahosts${fam:+"v$fam"}" -- "$host" | grep -m1 -Fw STREAM | sed -nr "/\\s.*/ {s///p;q}")"
+    if [ "$fam" = "6" ]; then
+        if [ -z "$addr" ] || [[ "$addr" =~ ^::ffff: ]]; then
+            addr=""
+        else
+            addr="$(getent hosts -- "$host" | sed -nr "/\\s.*/ {s///p;q}")"
+        fi
+    fi
+    if [ -n "$addr" ]; then
+        printf "%s" "$addr"
+    else
+        printf "WARN: Failed to resolve \"%s\"%s\\n" "$host" "${fam:+" (-$fam)"}" >&2
+        return 1
+    fi
+}
+
+test_resolve_listen() {
+    local fam="$1" host="$2" addr db
+    addr="$(getaddrinfo "$fam" "$host")" || return 0
+    declare -a args=( ${fam:+"$fam"} "$host" $PORT )
+    netcat_listen "${args[@]}"
+    if ! ss -nOH -tlp ${fam:+"$fam"} src = "[$addr]" and sport = $PORT >"$TEMPDIR/ss.out" || \
+            ! grep -Eq "\\susers:\\(\(\"[^\"]+\",pid=$PID,fd=$BIND_FD\\)\\)$" <"$TEMPDIR/ss.out"; then
+        printf "ERROR at line %d: \`nc -l %s\`\\n" $LINENO "${args[*]}" >&2
+        cat <"$TEMPDIR/ss.out" >&2
+        echo "addr=$addr" >&2
+        exit 1
+    fi
+    kill_and_wait $PID
+}
+PORT=$(random_port)
+test_resolve_listen "" localhost
+test_resolve_listen -4 localhost
+test_resolve_listen -6 localhost
+test_resolve_listen "" ip6-localhost
+test_resolve_listen -6 ip6-localhost
+
+test_resolve_client() {
+    local fam="$1" host="$2" addr db listen_host
+    addr="$(getaddrinfo "$fam" "$host")" || return 0
+    if [ $Bindv6Only -ne 0 ] && [ "$fam" = "-4" ] ; then
+        # need to use 0.0.0.0 for AF_INET if net.ipv6.bindv6only!=0
+        listen_host="0.0.0.0"
+    else
+        listen_host="::"
+    fi
+    PIPES="y" netcat_listen "$listen_host" $PORT
+
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out" strace_fifo="$TEMPDIR/client-strace.out"
+    mkfifo -- "$in" "$out" "$strace_fifo"
+    strace -Do"$strace_fifo" -e trace="connect" -- \
+        $NC ${fam:+"$fam"} "$host" $PORT <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out" {STRACE_FD}<"$strace_fifo"
+    rm -f -- "$in" "$out" "$strace_fifo"
+
+    local af pattern
+    case "$addr" in
+        *:*) af="AF_INET6"; pattern="{sa_family=AF_INET6, sin6_port=htons($PORT), sin6_flowinfo=htonl(0), inet_pton(AF_INET6, \"$addr\", &sin6_addr), sin6_scope_id=0}";;
+        *) af="AF_INET"; pattern="{sa_family=AF_INET, sin_port=htons($PORT), sin_addr=inet_addr(\"$addr\")}";;
+    esac
+
+    exec grep -E "^connect\\([0-9+],\\s*\\{sa_family=$af," <&$STRACE_FD {CONNECT_IN}>&- >"$TEMPDIR/conn" & PID_GREP=$!
+    greet server
+
+    kill_and_wait $CLIENT_PID
+    wait $PID
+    if ! wait $PID_GREP || ! grep -Fq -e "$pattern" <"$TEMPDIR/conn"; then
+        printf "ERROR at line %d: grep(%s) failed\\n" ${BASH_LINENO[0]} "$pattern" >&2
+        cat <"$TEMPDIR/conn" >&2
+        echo "addr=$addr" >&2
+        exit 1
+    fi
+
+    exec {LISTEN_IN}>&- {LISTEN_OUT}<&- {CONNECT_IN}>&- {CONNECT_OUT}<&- {STRACE_FD}<&-
+}
+PORT=$(random_port)
+test_resolve_client "" localhost
+test_resolve_client -4 localhost
+test_resolve_client -6 localhost
+test_resolve_client "" ip6-localhost
+test_resolve_client -6 ip6-localhost
+
+# vim: set filetype=bash :

@@ -1,0 +1,242 @@
+2022-12-13 20:51:12.281498 [src/ip_input.c:64] - Thread[netdev_rx_loop] Not sup IGMP
+2022-12-13 20:51:12.368659 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:12.499790 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:12.541756 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:12.750494 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:12.993366 [src/ip_input.c:64] - Thread[netdev_rx_loop] Not sup IGMP
+2022-12-13 20:51:13.001458 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:13.203369 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:13.370149 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:13.721677 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:14.383487 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:15.371285 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:15.901396 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:16.563559 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:17.310743 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 10 pid 72778
+2022-12-13 20:51:17.311041 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 10 pid 72778
+2022-12-13 20:51:17.311187 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 10 pid 72778
+2022-12-13 20:51:17.311345 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 10 pid 72778
+2022-12-13 20:51:17.312015 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 10 pid 72778
+2022-12-13 20:51:17.312436 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72778
+2022-12-13 20:51:17.363211 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72778
+2022-12-13 20:51:17.363679 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 10 pid 72778
+2022-12-13 20:51:17.364134 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 10 pid 72778
+2022-12-13 20:51:17.680153 [src/socket.c:217] - Thread[timers] Socket fd 4097 pid 72778 state 3 sk_state 0 flags 2 poll 4 sport 44651 dport 19999 recv-q 0 send-q 1: 
+2022-12-13 20:51:17.680230 [src/timer.c:27] - Thread[timers] TIMERS: Total amount currently 0
+2022-12-13 20:51:19.375241 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:20.373484 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 10 pid 72928
+2022-12-13 20:51:20.373635 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 10 pid 72928
+2022-12-13 20:51:20.373737 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 10 pid 72928
+2022-12-13 20:51:20.373819 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 10 pid 72928
+2022-12-13 20:51:20.373902 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 10 pid 72928
+2022-12-13 20:51:20.374007 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.425064 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.425211 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 10 pid 72928
+2022-12-13 20:51:20.476387 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.476639 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 10 pid 72928
+2022-12-13 20:51:20.476959 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.578324 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.680468 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.782059 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.882846 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:20.983599 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.084922 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.186109 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.288245 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.389394 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.490593 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.592655 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.694273 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.796413 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.897180 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:21.998771 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.100892 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.203088 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.271157 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 11 pid 72992
+2022-12-13 20:51:22.271361 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 11 pid 72992
+2022-12-13 20:51:22.272020 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 11 pid 72992
+2022-12-13 20:51:22.272227 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 11 pid 72992
+2022-12-13 20:51:22.272854 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 11 pid 72992
+2022-12-13 20:51:22.272862 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 11 pid 72992
+2022-12-13 20:51:22.278156 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 11 pid 73003
+2022-12-13 20:51:22.281053 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 11 pid 73003
+2022-12-13 20:51:22.281181 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 11 pid 73003
+2022-12-13 20:51:22.281371 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 11 pid 73003
+2022-12-13 20:51:22.281609 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 11 pid 73003
+2022-12-13 20:51:22.281778 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 11 pid 73003
+2022-12-13 20:51:22.304119 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.306456 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 12 pid 73014
+2022-12-13 20:51:22.306600 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 12 pid 73014
+2022-12-13 20:51:22.307034 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 12 pid 73014
+2022-12-13 20:51:22.307273 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 12 pid 73014
+2022-12-13 20:51:22.318619 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 13 pid 73032
+2022-12-13 20:51:22.318861 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 13 pid 73032
+2022-12-13 20:51:22.319813 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 14 pid 73035
+2022-12-13 20:51:22.319958 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 14 pid 73035
+2022-12-13 20:51:22.320343 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 14 pid 73035
+2022-12-13 20:51:22.320494 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 14 pid 73035
+2022-12-13 20:51:22.321587 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 14 pid 73035
+2022-12-13 20:51:22.321624 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 14 pid 73035
+2022-12-13 20:51:22.321654 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 14 pid 73035
+2022-12-13 20:51:22.327320 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 14 pid 73046
+2022-12-13 20:51:22.327473 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 14 pid 73046
+2022-12-13 20:51:22.327590 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 14 pid 73046
+2022-12-13 20:51:22.328152 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 14 pid 73046
+2022-12-13 20:51:22.328268 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 14 pid 73046
+2022-12-13 20:51:22.328452 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 14 pid 73046
+2022-12-13 20:51:22.406040 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.507483 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.609049 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.711248 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.812997 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:22.914212 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.015738 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.068476 [src/socket.c:217] - Thread[timers] Socket fd 4097 pid 72778 state 3 sk_state 0 flags 2 poll 4 sport 44651 dport 19999 recv-q 0 send-q 1: 
+2022-12-13 20:51:23.068547 [src/socket.c:217] - Thread[timers] Socket fd 4098 pid 72928 state 3 sk_state 0 flags 2 poll 198 sport 47492 dport 20000 recv-q 0 send-q 0: 
+2022-12-13 20:51:23.068559 [src/socket.c:217] - Thread[timers] Socket fd 4099 pid 72992 state 3 sk_state 7 flags 2 poll 967 sport 49253 dport 8001 recv-q 0 send-q 0: 
+2022-12-13 20:51:23.068564 [src/socket.c:217] - Thread[timers] Socket fd 4100 pid 73003 state 3 sk_state 7 flags 2048 poll 967 sport 49264 dport 8001 recv-q 2 send-q 0: 
+2022-12-13 20:51:23.068570 [src/socket.c:217] - Thread[timers] Socket fd 4101 pid 73014 state 3 sk_state 3 flags 2 poll 772 sport 49295 dport 8004 recv-q 0 send-q 0: 
+2022-12-13 20:51:23.068574 [src/socket.c:217] - Thread[timers] Socket fd 4102 pid 73032 state 2 sk_state 1 flags 2 poll 0 sport 49306 dport 8002 recv-q 0 send-q 1: 
+2022-12-13 20:51:23.068579 [src/socket.c:217] - Thread[timers] Socket fd 4103 pid 73035 state 3 sk_state 7 flags 2 poll 966 sport 49307 dport 8003 recv-q 0 send-q 0: 
+2022-12-13 20:51:23.068584 [src/socket.c:217] - Thread[timers] Socket fd 4104 pid 73046 state 3 sk_state 7 flags 2048 poll 967 sport 49318 dport 8003 recv-q 2 send-q 0: 
+2022-12-13 20:51:23.068590 [src/timer.c:27] - Thread[timers] TIMERS: Total amount currently 6
+2022-12-13 20:51:23.117276 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.218411 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.229668 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 11 pid 73003
+2022-12-13 20:51:23.229886 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 11 pid 73003
+2022-12-13 20:51:23.229984 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 11 pid 73003
+2022-12-13 20:51:23.230088 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 11 pid 73003
+2022-12-13 20:51:23.247778 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 11 pid 73122
+2022-12-13 20:51:23.248721 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 11 pid 73122
+2022-12-13 20:51:23.320484 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.328582 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 14 pid 73046
+2022-12-13 20:51:23.328882 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 14 pid 73046
+2022-12-13 20:51:23.329024 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 14 pid 73046
+2022-12-13 20:51:23.329171 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 14 pid 73046
+2022-12-13 20:51:23.336015 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 11 pid 73171
+2022-12-13 20:51:23.336201 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 11 pid 73171
+2022-12-13 20:51:23.421744 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.523493 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.624661 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.726274 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.827879 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:23.928632 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.030281 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.132371 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.234483 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.320019 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 13 pid 73032
+2022-12-13 20:51:24.320169 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 13 pid 73032
+2022-12-13 20:51:24.336090 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.438311 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.540393 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.641987 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.743191 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.844259 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:24.945982 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.047628 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.149776 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.251535 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.353220 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.454372 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.556089 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.658234 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.760328 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.861291 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:25.962887 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.065009 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.166243 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.267625 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.321607 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 13 pid 73032
+2022-12-13 20:51:26.321621 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 13 pid 73032
+2022-12-13 20:51:26.321638 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 13 pid 73032
+2022-12-13 20:51:26.327485 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 11 pid 73313
+2022-12-13 20:51:26.327626 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 11 pid 73313
+2022-12-13 20:51:26.327710 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 11 pid 73313
+2022-12-13 20:51:26.327850 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 11 pid 73313
+2022-12-13 20:51:26.369274 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.471386 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.573765 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.675258 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.777470 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.878135 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:26.980304 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.073838 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 12 pid 73014
+2022-12-13 20:51:27.073876 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 12 pid 73014
+2022-12-13 20:51:27.079573 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 12 pid 73324
+2022-12-13 20:51:27.079990 [src/ipc.c:311] - Thread[ipc_loop] [IPC] on_recv ipc_fcntl, fd 12 pid 73324
+2022-12-13 20:51:27.080242 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 12 pid 73324
+2022-12-13 20:51:27.080553 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 12 pid 73324
+2022-12-13 20:51:27.080895 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.080980 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 12 pid 73324
+2022-12-13 20:51:27.081132 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 12 pid 73324
+2022-12-13 20:51:27.182274 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.284153 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.382141 [src/udp.c:167] - Thread[netdev_rx_loop] No UDP socket for sport 5353 dport 5353
+2022-12-13 20:51:27.386592 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.488700 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.589899 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.691321 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.791713 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.893375 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:27.995473 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.028199 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 12 pid 73324
+2022-12-13 20:51:28.028431 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 12 pid 73324
+2022-12-13 20:51:28.028540 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 12 pid 73324
+2022-12-13 20:51:28.028676 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 12 pid 73324
+2022-12-13 20:51:28.034745 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 12 pid 73417
+2022-12-13 20:51:28.034883 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 12 pid 73417
+2022-12-13 20:51:28.098107 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.198509 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.300128 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.328874 [src/ipc.c:87] - Thread[ipc_loop] [IPC] on_recv ipc_write, fd 11 pid 73313
+2022-12-13 20:51:28.329022 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 11 pid 73313
+2022-12-13 20:51:28.402738 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.468371 [src/socket.c:217] - Thread[timers] Socket fd 4097 pid 72778 state 3 sk_state 0 flags 2 poll 4 sport 44651 dport 19999 recv-q 0 send-q 1: 
+2022-12-13 20:51:28.468449 [src/socket.c:217] - Thread[timers] Socket fd 4098 pid 72928 state 3 sk_state 0 flags 2 poll 198 sport 47492 dport 20000 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468459 [src/socket.c:217] - Thread[timers] Socket fd 4099 pid 72992 state 3 sk_state 7 flags 2 poll 967 sport 49253 dport 8001 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468464 [src/socket.c:217] - Thread[timers] Socket fd 4100 pid 73003 state 3 sk_state 7 flags 2048 poll 967 sport 49264 dport 8001 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468469 [src/socket.c:217] - Thread[timers] Socket fd 4101 pid 73014 state 3 sk_state 7 flags 2 poll 967 sport 49295 dport 8004 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468474 [src/socket.c:217] - Thread[timers] Socket fd 4102 pid 73032 state 3 sk_state 7 flags 2 poll 966 sport 49306 dport 8002 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468479 [src/socket.c:217] - Thread[timers] Socket fd 4103 pid 73035 state 3 sk_state 7 flags 2 poll 966 sport 49307 dport 8003 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468484 [src/socket.c:217] - Thread[timers] Socket fd 4104 pid 73046 state 3 sk_state 7 flags 2048 poll 967 sport 49318 dport 8003 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468489 [src/socket.c:217] - Thread[timers] Socket fd 4105 pid 73122 state 4 sk_state 8 flags 2 poll 284 sport 40179 dport 9999 recv-q 0 send-q 1: 
+2022-12-13 20:51:28.468494 [src/socket.c:217] - Thread[timers] Socket fd 4106 pid 73171 state 4 sk_state 8 flags 2 poll 284 sport 40260 dport 9999 recv-q 0 send-q 1: 
+2022-12-13 20:51:28.468499 [src/socket.c:217] - Thread[timers] Socket fd 4107 pid 73313 state 3 sk_state 3 flags 2048 poll 772 sport 43021 dport 8002 recv-q 0 send-q 1: 
+2022-12-13 20:51:28.468504 [src/socket.c:217] - Thread[timers] Socket fd 4108 pid 73324 state 3 sk_state 7 flags 2048 poll 967 sport 43722 dport 8004 recv-q 0 send-q 0: 
+2022-12-13 20:51:28.468509 [src/socket.c:217] - Thread[timers] Socket fd 4109 pid 73417 state 4 sk_state 8 flags 2 poll 284 sport 44603 dport 9999 recv-q 0 send-q 1: 
+2022-12-13 20:51:28.468525 [src/timer.c:27] - Thread[timers] TIMERS: Total amount currently 12
+2022-12-13 20:51:28.504446 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.606069 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.707306 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.808727 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:28.909777 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.010383 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.111606 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.212505 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.314223 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.416455 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.517872 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.619223 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.720845 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.821434 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:29.922243 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.023160 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.124678 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.226081 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.328074 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.429132 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.529958 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.631523 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.732879 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.834521 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:30.936232 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:31.037862 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:31.139965 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:31.241401 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928
+2022-12-13 20:51:31.328265 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 11 pid 73313
+2022-12-13 20:51:31.328447 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 11 pid 73313
+2022-12-13 20:51:31.328536 [src/ipc.c:56] - Thread[ipc_loop] [IPC] on_recv ipc_read, fd 11 pid 73313
+2022-12-13 20:51:31.328630 [src/ipc.c:173] - Thread[ipc_loop] [IPC] on_recv ipc_close, fd 11 pid 73313
+2022-12-13 20:51:31.334529 [src/ipc.c:157] - Thread[ipc_loop] [IPC] on_recv ipc_socket, fd 11 pid 73516
+2022-12-13 20:51:31.334685 [src/ipc.c:127] - Thread[ipc_loop] [IPC] on_recv ipc_connect, fd 11 pid 73516
+2022-12-13 20:51:31.343173 [src/ipc.c:261] - Thread[ipc_loop] [IPC] on_recv ipc_poll, fd 10 pid 72928

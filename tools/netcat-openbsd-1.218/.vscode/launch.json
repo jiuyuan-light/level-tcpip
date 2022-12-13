@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "run nc",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/nc",
+            "args": [
+                "-q",
+                "1",
+                "-u",
+                "20.0.0.5",
+                "19999",
+                "<",
+                "${workspaceRoot}/../../tests/suites/udp/ready.txt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [
+                {
+                    "name": "ROOT_DIR",
+                    "value": "${workspaceRoot}/../.."
+                },
+                {
+                    "name": "LD_PRELOAD",
+                    "value": "${workspaceRoot}/../liblevelip.so:${workspaceRoot}/../../libzlog.so.1.2"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            // "avoidWindowsConsoleRedirection": false,
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "make nc",
+            "miDebuggerPath": "/usr/bin/gdb",
+        }
+    ]
+}

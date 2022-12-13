@@ -35,6 +35,11 @@ uint8_t *skb_head(struct sk_buff *skb);
 void *skb_reserve(struct sk_buff *skb, unsigned int len);
 void skb_reset_header(struct sk_buff *skb);
 
+static inline uint32_t udp_data_len(const struct sk_buff *skb)
+{
+    return skb->dlen;
+}
+
 static inline uint32_t skb_queue_len(const struct sk_buff_head *list)
 {
     return list->qlen;

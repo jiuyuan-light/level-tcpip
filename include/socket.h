@@ -1,14 +1,19 @@
 #ifndef SOCKET_H_
 #define SOCKET_H_
 
+#include <poll.h>
+#include <hloop.h>
 #include "sock.h"
 #include "wait.h"
 #include "list.h"
+#include "basic.h"
+
+#define SOCK_IS_NONBLOCK(sock)      (CHECK_FLAG((sock)->flags, O_NONBLOCK))
 
 #ifdef DEBUG_SOCKET
-#define socket_dbg(sock, msg, ...)                                      \
+#define socket_trace(sock, msg, ...)                                      \
     do {                                                                \
-        print_debug("Socket fd %d pid %d state %d sk_state %d flags %d poll %d sport %d dport %d " \
+        lvl_ip_trace("Socket fd %d pid %d state %d sk_state %d flags %d poll %d sport %d dport %d " \
                     "recv-q %d send-q %d: "msg,    \
                     sock->fd, sock->pid, sock->state, sock->sk->state, sock->flags, \
                     sock->sk->poll_events,                              \
@@ -17,7 +22,7 @@
                     sock->sk->write_queue.qlen, ##__VA_ARGS__);         \
     } while (0)
 #else
-#define socket_dbg(sock, msg, ...)
+#define socket_trace(sock, msg, ...)
 #endif
 
 struct socket;
@@ -63,20 +68,25 @@ struct socket {
     int refcnt;
     enum socket_state state;
     short type;
-    int flags;
+    int flags;              /* O_NONBLOCK */
     struct sock *sk;
     struct sock_ops *ops;
     struct wait_lock sleep;
+    uint32_t ipc_wait_resp_type;
+    int connfd;         /* ipc通信 */
+    int readbytes;
+#define READ_BUF_LEN    (1024)
+    char readbuf[READ_BUF_LEN];
+    struct pollfd *fds;
+    int closed;
+    
     pthread_rwlock_t lock;
 };
 
-void *socket_ipc_open(void *args);
-int _socket(pid_t pid, int domain, int type, int protocol);
-int _connect(pid_t pid, int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+int _socket(pid_t pid, int sockfd, int domain, int type, int protocol);
 int _write(pid_t pid, int sockfd, const void *buf, const unsigned int count);
 int _read(pid_t pid, int sockfd, void *buf, const unsigned int count);
 int _close(pid_t pid, int sockfd);
-int _poll(pid_t pid, struct pollfd fds[], nfds_t nfds, int timeout);
 int _fcntl(pid_t pid, int fildes, int cmd, ...);
 int _getsockopt(pid_t pid, int fd, int level, int optname, void *optval, socklen_t *optlen);
 int _getpeername(pid_t pid, int socket, struct sockaddr *restrict address,
@@ -93,5 +103,7 @@ int socket_free(struct socket *sock);
 int socket_delete(struct socket *sock);
 void abort_sockets();
 void socket_debug();
+
+const char *get_sock_type(int type);
 
 #endif

@@ -1,6 +1,8 @@
 #include "syshead.h"
 #include "sock.h"
 #include "socket.h"
+#include "ipc.h"
+#include "ipc_nonblock.h"
 
 struct sock *sk_alloc(struct net_ops *ops, int protocol)
 {
@@ -41,5 +43,7 @@ void sock_connected(struct sock *sk)
     sk->err = 0;
     sk->poll_events = (POLLOUT | POLLWRNORM | POLLWRBAND);
 
-    wait_wakeup(&sock->sleep);
+    // wait_wakeup(&sock->sleep);
+
+    ipc_post_shift_connect_with_sock(sock, sk->err);
 }

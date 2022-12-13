@@ -4,13 +4,15 @@
 #include "sock.h"
 #include "tcp.h"
 #include "wait.h"
+#include "ipc.h"
 
 extern struct net_ops tcp_ops;
+extern struct net_ops udp_ops;
 
 static int inet_stream_connect(struct socket *sock, const struct sockaddr *addr,
                                int addr_len, int flags);
-
-static int INET_OPS = 1;
+static int inet_dgram_connect(struct socket *sock, const struct sockaddr *addr,
+                        int addr_len, int flags);
 
 struct net_family inet = {
     .create = inet_create,
@@ -27,13 +29,29 @@ static struct sock_ops inet_stream_ops = {
     .getsockname = &inet_getsockname,
 };
 
+static struct sock_ops inet_dgram_ops = {
+    .connect = &inet_dgram_connect,
+    .write = &inet_write,
+    .read = &inet_read,
+    .close = &inet_close,
+    .free = &inet_free,
+    .abort = &inet_abort,
+    .getpeername = &inet_getpeername,
+    .getsockname = &inet_getsockname,
+};
+
 static struct sock_type inet_ops[] = {
     {
         .sock_ops = &inet_stream_ops,
         .net_ops = &tcp_ops,
         .type = SOCK_STREAM,
         .protocol = IPPROTO_TCP,
-    }
+    }, {
+        .sock_ops = &inet_dgram_ops,
+        .net_ops = &udp_ops,
+        .type = SOCK_DGRAM,
+        .protocol = IPPROTO_UDP,
+    },
 };
 
 int inet_create(struct socket *sock, int protocol)
@@ -41,7 +59,7 @@ int inet_create(struct socket *sock, int protocol)
     struct sock *sk;
     struct sock_type *skt = NULL;
 
-    for (int i = 0; i < INET_OPS; i++) {
+    for (int i = 0; i < ARRAY_NUMS(inet_ops); i++) {
         if (inet_ops[i].type & sock->type) {
             skt = &inet_ops[i];
             break;
@@ -56,6 +74,9 @@ int inet_create(struct socket *sock, int protocol)
     sock->ops = skt->sock_ops;
 
     sk = sk_alloc(skt->net_ops, protocol);
+    if (!sk) {
+        return -1;
+    }
     sk->protocol = protocol;
     
     sock_init_data(sock, sk);
@@ -78,7 +99,52 @@ static int inet_stream_connect(struct socket *sock, const struct sockaddr *addr,
                         int addr_len, int flags)
 {
     struct sock *sk = sock->sk;
-    int rc = 0;
+    
+    if (addr_len < sizeof(addr->sa_family)) { // [ CHECK ] if (addr_len < addr->sa_family)
+        return -EINVAL;
+    }
+
+    if (addr->sa_family == AF_UNSPEC) {
+        sk->ops->disconnect(sk, flags);
+        return -EAFNOSUPPORT;
+    }
+
+    switch (sock->state) {
+    default:
+        sk->err = -EINVAL;
+        goto out;
+    case SS_CONNECTED:
+        sk->err = -EISCONN;
+        goto out;
+    case SS_CONNECTING:
+        sk->err = -EALREADY;
+        goto out;
+    case SS_UNCONNECTED:
+        sk->err = -EISCONN;
+        if (sk->state != LVL_TCP_CLOSE) {
+            goto out;
+        }
+
+        sk->ops->connect(sk, addr, addr_len, flags);
+        sock->state = SS_CONNECTING;
+
+        if (sock->flags & O_NONBLOCK) {
+            sk->err = 0;
+            goto out;
+        }
+
+        lvl_ip_debug("APP CONNECT1");
+        sk->err = WAIT_CONNECTED;
+    }
+    
+out:
+    return sk->err;
+}
+
+static int inet_dgram_connect(struct socket *sock, const struct sockaddr *addr,
+                        int addr_len, int flags)
+{
+    struct sock *sk = sock->sk;
     
     if (addr_len < sizeof(addr->sa_family)) {
         return -EINVAL;
@@ -100,48 +166,28 @@ static int inet_stream_connect(struct socket *sock, const struct sockaddr *addr,
         sk->err = -EALREADY;
         goto out;
     case SS_UNCONNECTED:
-        sk->err = -EISCONN;
-        if (sk->state != TCP_CLOSE) {
-            goto out;
-        }
+        // TODO，UDP的connect需要告知对端本端的ip和port
+        // sk->ops->connect(sk, addr, addr_len, flags);
+        sk->dport = ntohs(((struct sockaddr_in *)addr)->sin_port);
+        sk->daddr = ntohl(((struct sockaddr_in *)addr)->sin_addr.s_addr);
 
-        sk->ops->connect(sk, addr, addr_len, flags);
-        sock->state = SS_CONNECTING;
-        sk->err = -EINPROGRESS;
+        sk->saddr = parse_ipv4_string("20.0.0.4");
+
+        sk->err = 0;
+        sk->poll_events |= POLLOUT; /* udp 可写 */
+        sock->state = SS_CONNECTED;
 
         if (sock->flags & O_NONBLOCK) {
             goto out;
         }
-
-        pthread_mutex_lock(&sock->sleep.lock);
-        while (sock->state == SS_CONNECTING && sk->err == -EINPROGRESS) {
-            socket_release(sock);
-            wait_sleep(&sock->sleep);
-            socket_wr_acquire(sock);
-        }
-        pthread_mutex_unlock(&sock->sleep.lock);
-        socket_wr_acquire(sock);
         
-        switch (sk->err) {
-        case -ETIMEDOUT:
-        case -ECONNREFUSED:
-            goto sock_error;
-        }
-
-        if (sk->err != 0) {
-            goto out;
-        }
-
-        sock->state = SS_CONNECTED;
         break;
     }
     
 out:
     return sk->err;
-sock_error:
-    rc = sk->err;
-    return rc;
 }
+
 
 int inet_write(struct socket *sock, const void *buf, int len)
 {

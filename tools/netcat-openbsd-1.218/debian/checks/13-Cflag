@@ -1,0 +1,73 @@
+start_client() {
+    local in="$TEMPDIR/client.in" out="$TEMPDIR/client.out"
+    mkfifo -- "$in" "$out"
+    $NC "$@" "127.0.0.1" $PORT <"$in" >"$out" {LISTEN_IN}>&- {LISTEN_OUT}<&- & CLIENT_PID=$!
+    exec {CONNECT_IN}>"$in" {CONNECT_OUT}<"$out"
+    rm -f -- "$in" "$out"
+}
+
+#######################################################################
+# server
+
+PORT=$(random_port)
+PIPES="y" netcat_listen -C "127.0.0.1" $PORT
+cat <&$LISTEN_OUT >"$TEMPDIR/server.out" &
+
+start_client -N
+cat <&$CONNECT_OUT >"$TEMPDIR/client.out" {CONNECT_IN}>&- {LISTEN_IN}>&- &
+echo foo >&$LISTEN_IN # make sure CRLF are inserted at the end of the read buffer
+sleep 1
+echo bar >&$LISTEN_IN
+head -c1024 </dev/urandom | base64 >"$TEMPDIR/data" # make sure CRLF are inserted within the read buffer
+cat <"$TEMPDIR/data" >&$LISTEN_IN
+sleep 1
+echo baz >&$LISTEN_IN
+echo foo >&$CONNECT_IN
+
+exec {CONNECT_IN}>&- {LISTEN_IN}>&- # close inputs
+
+wait $PID
+kill_and_wait $CLIENT_PID
+
+printf "foo\\r\\nbar\\r\\n" >"$TEMPDIR/client.want"
+sed "s/$/\\r/" <"$TEMPDIR/data" >>"$TEMPDIR/client.want"
+printf "baz\\r\\n" >>"$TEMPDIR/client.want"
+printf "foo\\n" >>"$TEMPDIR/server.want"
+
+diff -u --color="auto" --label="a/client.out" --label="b/client.out" -- "$TEMPDIR/server.want" "$TEMPDIR/server.out"
+diff -u --color="auto" --label="a/server.out" --label="b/server.out" -- "$TEMPDIR/client.want" "$TEMPDIR/client.out"
+rm -f -- "$TEMPDIR/server.out" "$TEMPDIR/server.want" "$TEMPDIR/client.out" "$TEMPDIR/client.want"
+
+
+#######################################################################
+# client
+
+PORT=$(random_port)
+PIPES="y" netcat_listen "127.0.0.1" $PORT
+cat <&$LISTEN_OUT >"$TEMPDIR/server.out" &
+
+start_client -CN
+cat <&$CONNECT_OUT >"$TEMPDIR/client.out" {CONNECT_IN}>&- {LISTEN_IN}>&- &
+echo foo >&$CONNECT_IN
+sleep 1
+echo bar >&$CONNECT_IN
+head -c1024 </dev/urandom | base64 >"$TEMPDIR/data"
+cat <"$TEMPDIR/data" >&$CONNECT_IN
+sleep 1
+echo baz >&$CONNECT_IN
+echo foo >&$LISTEN_IN
+
+exec {CONNECT_IN}>&- {LISTEN_IN}>&- # close inputs
+
+wait $PID
+kill_and_wait $CLIENT_PID
+
+printf "foo\\r\\nbar\\r\\n" >"$TEMPDIR/server.want"
+sed "s/$/\\r/" <"$TEMPDIR/data" >>"$TEMPDIR/server.want"
+printf "baz\\r\\n" >>"$TEMPDIR/server.want"
+printf "foo\\n" >>"$TEMPDIR/client.want"
+
+diff -u --color="auto" --label="a/client.out" --label="b/client.out" -- "$TEMPDIR/server.want" "$TEMPDIR/server.out"
+diff -u --color="auto" --label="a/server.out" --label="b/server.out" -- "$TEMPDIR/client.want" "$TEMPDIR/client.out"
+
+# vim: set filetype=bash :

@@ -1,0 +1,37 @@
+2022-12-13 20:51:12.270352 [src/main.c:58] - Thread[lvl-ip] Thread[140447725909568] name[netdev_rx_loop] create complete
+2022-12-13 20:51:12.270552 [src/main.c:58] - Thread[lvl-ip] Thread[140447717516864] name[timers] create complete
+2022-12-13 20:51:12.270700 [src/main.c:58] - Thread[lvl-ip] Thread[140447709124160] name[ipc_loop] create complete
+2022-12-13 20:51:12.271104 [src/main.c:58] - Thread[lvl-ip] Thread[140447700731456] name[signal_trap] create complete
+2022-12-13 20:51:12.271127 [src/main.c:149] - Thread[lvl-ip] ========== main thread init complete ==========
+
+2022-12-13 20:51:12.271192 [src/ipc.c:688] - Thread[ipc_loop] ipc_listener bind succ[/tmp/lvlip.socket], listen-fd is [6]
+2022-12-13 20:51:12.271432 [src/main.c:58] - Thread[ipc_loop] Thread[140447692338752] name[netdev_tx_loop] create complete
+2022-12-13 20:51:17.310662 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=10[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:17.311203 [src/socket.c:344] - Thread[ipc_loop] [F_SETFL] APP[NONE] expect SOCK [4097][NONBLOCK]
+2022-12-13 20:51:17.311419 [src/ipc.c:143] - Thread[ipc_loop] [CONNECT] APP[NONE] expect SOCK [4097][NONBLOCK]
+2022-12-13 20:51:17.312032 [src/socket.c:346] - Thread[ipc_loop] [F_SETFL] APP[NONE] expect SOCK [4097][BLOCK]
+2022-12-13 20:51:17.363836 [src/arp.c:121] - Thread[netdev_rx_loop] learn new arp entry [335544325]-[22:ca:a3:52:5b:54]
+2022-12-13 20:51:20.373430 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=10[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:20.373752 [src/socket.c:344] - Thread[ipc_loop] [F_SETFL] APP[NONE] expect SOCK [4098][NONBLOCK]
+2022-12-13 20:51:20.373845 [src/ipc.c:143] - Thread[ipc_loop] [CONNECT] APP[NONE] expect SOCK [4098][NONBLOCK]
+2022-12-13 20:51:20.373912 [src/socket.c:346] - Thread[ipc_loop] [F_SETFL] APP[NONE] expect SOCK [4098][BLOCK]
+2022-12-13 20:51:22.271097 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=11[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:22.278091 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=11[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:22.281076 [src/socket.c:344] - Thread[ipc_loop] [F_SETFL] APP[TCP] expect SOCK [4100][NONBLOCK]
+2022-12-13 20:51:22.281301 [src/ipc.c:143] - Thread[ipc_loop] [CONNECT] APP[TCP] expect SOCK [4100][NONBLOCK]
+2022-12-13 20:51:22.306404 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=12[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:22.318555 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=13[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:22.319766 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=14[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:22.327271 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=14[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:22.327487 [src/socket.c:344] - Thread[ipc_loop] [F_SETFL] APP[TCP] expect SOCK [4104][NONBLOCK]
+2022-12-13 20:51:22.327688 [src/ipc.c:143] - Thread[ipc_loop] [CONNECT] APP[TCP] expect SOCK [4104][NONBLOCK]
+2022-12-13 20:51:23.247699 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=11[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:23.335965 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=11[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:26.327439 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=11[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:26.327642 [src/socket.c:344] - Thread[ipc_loop] [F_SETFL] APP[TCP] expect SOCK [4107][NONBLOCK]
+2022-12-13 20:51:26.327795 [src/ipc.c:143] - Thread[ipc_loop] [CONNECT] APP[TCP] expect SOCK [4107][NONBLOCK]
+2022-12-13 20:51:27.079532 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=12[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:27.080008 [src/socket.c:344] - Thread[ipc_loop] [F_SETFL] APP[TCP] expect SOCK [4108][NONBLOCK]
+2022-12-13 20:51:27.080418 [src/ipc.c:143] - Thread[ipc_loop] [CONNECT] APP[TCP] expect SOCK [4108][NONBLOCK]
+2022-12-13 20:51:28.034696 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=12[NONBLOCK], [/tmp/lvlip.socket] <= []
+2022-12-13 20:51:31.334470 [src/ipc.c:520] - Thread[ipc_loop] on_accept: connfd=11[NONBLOCK], [/tmp/lvlip.socket] <= []

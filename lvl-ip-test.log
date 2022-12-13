@@ -1,0 +1,550 @@
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+Unknown IP header proto
+==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M8 (0x7b3400000098) => M7 (0x7b3400000068) => M8
+
+  Mutex M7 acquired here while holding mutex M8 in thread T5:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M8 acquired here while holding mutex M7 in thread T5:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T5 (tid=47522, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M17 (0x7b3400006898) => M16 (0x7b3400006868) => Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+Unsupported ethertype 86dd
+TCP 10.0.0.4.40151 > 10.0.0.5.8001: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40151: Flags [S1A1P0F0R0], seq 2614362066:2614362066, ack 1, win 64240 rto 0 boff 0 - src/tcp.c:78
+TCP x:40151 > 10.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40151 > 10.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40151 > 10.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40151 > 10.0.0.5.8001: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40151 > 10.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40151 > 10.0.0.5.8001: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40151: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40151 > 10.0.0.5.8001 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S1A1P0F0R0], seq 1350725805:1350725805, ack 1, win 64240 rto 0 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40162 > 10.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40162 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40162 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40162 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40162 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, sM17
+
+  Mutex M16 acquired here while holding mutex M17 in thread T6:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M17 acquired here while holding mutex M16 in thread T6:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T6 (tid=47532, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+nd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.5.8001 > 10.0.0.4.40151: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40151 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40151 > 10.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40151: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40151 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40151 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40151 > 10.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40151 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP x:40151 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40151 > 10.0.0.5.8001: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40151: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40151 > 10.0.0.5.8001 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: dropping packet - src/tcp_input.c:290
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40162 > 10.0.0.5.8003: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8003 > 10.0.0.4.40162: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40162 > 10.0.0.5.8003 (snd_una 60, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.4.40165 > 10.0.0.5.8001: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40165: Flags [S1A1P0F0R0], seq 3135014368:3135014368, ack 1, win 64240 rto 0 boff 0 - src/tcp.c:78
+TCP x:40165 > 10.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40165 > 10.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40165 > 10.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40165 > 10.0.0.5.8001: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40165 > 10.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40165 > 10.0.0.5.8001: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40165: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40165 > 10.0.0.5.8001 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8001 > 10.0.0.4.40165: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40165 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40165 > 10.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40165: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40165 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40165 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40165 > 10.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40165 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S1A1P0F0R0], seq 467697094:467697094, ack 1, win 64240 rto 0 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40166 > 10.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40166 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40166 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40166 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40166 > 10.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP x:40165 > 10.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40165 > 10.0.0.5.8001: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8001 > 10.0.0.4.40165: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40165 > 10.0.0.5.8001 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40166 > 10.0.0.5.8003: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8003 > 10.0.0.4.40166: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40166 > 10.0.0.5.8003 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40187 > 10.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.9999 > 10.0.0.4.40187: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0 - src/tcp.c:78
+TCP x:40187 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff ==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M55 (0x7b3400016958) => M54 (0x7b3400016928) => M55
+
+  Mutex M54 acquired here while holding mutex M55 in thread T11:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M55 acquired here while holding mutex M54 in thread T11:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T11 (tid=47581, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M60 (0x7b3400010228) => M59 (0x7b34000101f8) => M60
+
+  Mutex M59 acquired here while holding mutex M60 in thread T12:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M60 acquired here while holding mutex M59 in thread T12:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T12 (tid=47583, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M28 (0x7b3400000168) => M27 (0x7b3400000138) => M28
+
+  Mutex M27 acquired here while holding mutex M28 in thread T7:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M28 acquired here while holding mutex M27 in thread T7:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T7 (tid=47550, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40187 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40187 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_CLOSING - src/tcp.c:312
+TCP x:40187 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_CLOSING: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40188 > 10.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.9999 > 10.0.0.4.40188: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0 - src/tcp.c:78
+TCP x:40188 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40188 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40188 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_CLOSING - src/tcp.c:312
+TCP x:40188 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_CLOSING: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40163: Flags [S1A1P0F0R0], seq 2717392671:2717392671, ack 1, win 64240 rto 0 boff 1 - src/tcp.c:78
+TCP x:40163 > 10.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 1) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40163 > 10.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 1) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40163 > 10.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40163 > 10.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40163: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40163 > 10.0.0.5.8004 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8004 > 10.0.0.4.40163: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40163 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40163: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40163 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40163 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40163 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP x:40163 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40163 > 10.0.0.5.8004: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40163: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40163 > 10.0.0.5.8004 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40679 > 10.0.0.5.8004: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40679: Flags [S1A1P0F0R0], seq 3465583614:3465583614, ack 1, win 64240 rto 0 boff 0 - src/tcp.c:78
+TCP x:40679 > 10.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40679 > 10.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40679 > 10.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40679 > 10.0.0.5.8004: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40679 > 10.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40679 > 10.0.0.5.8004: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40679: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40679 > 10.0.0.5.8004 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8004 > 10.0.0.4.40679: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40679 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40679 > 10.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40679: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40679 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40679 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40679 > 10.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP x:40679 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rc==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M82 (0x7b3400000308) => M81 (0x7b34000002d8) => M82
+
+  Mutex M81 acquired here while holding mutex M82 in thread T16:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M82 acquired here while holding mutex M81 in thread T16:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T16 (tid=47657, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M33 (0x7b3400006968) => M32 (0x7b3400006938) => M33
+
+  Mutex M32 acquired here while holding mutex M33 in thread T8:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M33 acquired here while holding mutex M32 in thread T8:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T8 (tid=47556, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================
+v_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP x:40679 > 10.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40679 > 10.0.0.5.8004: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8004 > 10.0.0.4.40679: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0 - src/tcp.c:78
+TCP x:40679 > 10.0.0.5.8004 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40700 > 10.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.9999 > 10.0.0.4.40700: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0 - src/tcp.c:78
+TCP x:40700 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40700 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40700 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_CLOSING - src/tcp.c:312
+TCP x:40700 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_CLOSING: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 1 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S1A1P0F0R0], seq 3514433955:3514433955, ack 1, win 64240 rto 0 boff 2 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:40164 > 10.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.4016Unknown IP header proto
+4: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1 - src/tcp_output.c:117
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1 - src/tcp_output.c:117
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+Unsupported ethertype 86dd
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 2000 boff 1 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 2000 boff 0 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 2000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 2000 boff 0 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 1 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0 - src/tcp_output.c:117
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 1 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.40164 > 10.0.0.5.8002: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S0A1P0F0R0], seq 622:622, ack 59, win 64182 rto 2000 boff 0 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+Unsupported ethertype 86dd
+Socket fd 4097 pid 47521 state 3 sk_state 7 flags 2 poll 967 sport 40151 dport 8001 recv-q 0 send-q 0:  - src/socket.c:195
+Socket fd 4098 pid 47531 state 3 sk_state 7 flags 2 poll 967 sport 40162 dport 8003 recv-q 0 send-q 0:  - src/socket.c:195
+Socket fd 4099 pid 47540 state 3 sk_state 7 flags 2 poll 967 sport 40163 dport 8004 recv-q 0 send-q 0:  - src/socket.c:195
+Socket fd 4100 pid 47548 state 3 sk_state 7 flags 2 poll 967 sport 40164 dport 8002 recv-q 0 send-q 1:  - src/socket.c:195
+Socket fd 4101 pid 47557 state 3 sk_state 7 flags 2048 poll 967 sport 40165 dport 8001 recv-q 0 send-q 0:  - src/socket.c:195
+Socket fd 4102 pid 47569 state 3 sk_state 7 flags 2048 poll 967 sport 40166 dport 8003 recv-q 0 send-q 0:  - src/socket.c:195
+Socket fd 4105 pid 47638 state 3 sk_state 7 flags 2048 poll 967 sport 40679 dport 8004 recv-q 0 send-q 0:  - src/socket.c:195
+Socket fd 4107 pid 47748 state 2 sk_state 1 flags 2048 poll 0 sport 43851 dport 8002 recv-q 0 send-q 1:  - src/socket.c:195
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 1 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.40164: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 2000 boff 0 - src/tcp.c:78
+TCP x:40164 > 10.0.0.5.8002 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 0) state TCP_CLOSE_WAIT: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S1A1P0F0R0], seq 2868153462:2868153462, ack 1, win 64240 rto 0 boff 2 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:43851 > 10.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now TCP_ESTABLISHED - src/tcp_input.c:192
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:208
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1 - src/tcp_output.c:117
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: Received invalid segment - src/tcp_input.c:108
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1 - src/tcp_output.c:117
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: dropping packet - src/tcp_input.c:290
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 2000 boff 1 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 2000 boff 0 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 2000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.8002 > 10.0.0.4.43851: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 2000 boff 0 - src/tcp.c:78
+TCP x:43851 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: input state - src/tcp_input.c:269
+TCP x:43851 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: Received in-sequence FIN - src/tcp_input.c:419
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0 - src/tcp_output.c:117
+TCP x:43851 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 2000 boff 0) state TCP_ESTABLISHED: state is now TCP_CLOSE_WAIT - src/tcp_input.c:439
+TCP x:43851 > 10.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state TCP_CLOSE_WAIT: Queueing fin - src/tcp_output.c:518
+TCP 10.0.0.4.43851 > 10.0.0.5.8002: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.4.47562 > 10.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0 - src/tcp_output.c:117
+TCP 10.0.0.5.9999 > 10.0.0.4.47562: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0 - src/tcp.c:78
+TCP x:47562 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state - src/tcp_input.c:269
+TCP x:47562 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent - src/tcp_input.c:153
+TCP x:47562 > 10.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44==================
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=47049)
+  Cycle in lock order graph: M107 (0x7b3400006b08) => M106 (0x7b3400006ad8) => M107
+
+  Mutex M106 acquired here while holding mutex M107 in thread T23:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4240 (libtsan.so.0+0x53908)
+    #1 inet_stream_connect src/inet.c:116 (lvl-ip+0x470f)
+    #2 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #3 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #4 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #5 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+    Hint: use TSAN_OPTIONS=second_deadlock_stack=1 to get more informative warning message
+
+  Mutex M107 acquired here while holding mutex M106 in thread T23:
+    #0 pthread_rwlock_wrlock ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1368 (libtsan.so.0+0x3f778)
+    #1 socket_wr_acquire src/socket.c:51 (lvl-ip+0xa3aa)
+    #2 inet_stream_connect src/inet.c:120 (lvl-ip+0x4739)
+    #3 _connect src/socket.c:260 (lvl-ip+0xaf8f)
+    #4 ipc_connect src/ipc.c:164 (lvl-ip+0x6038)
+    #5 demux_ipc_socket_call src/ipc.c:408 (lvl-ip+0x741e)
+    #6 socket_ipc_open src/ipc.c:446 (lvl-ip+0x764e)
+
+  Thread T23 (tid=47889, running) created by thread T3 at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:969 (libtsan.so.0+0x605b8)
+    #1 start_ipc_listener src/ipc.c:517 (lvl-ip+0x7957)
+
+SUMMARY: ThreadSanitizer: lock-order-inversion (potential deadlock) src/inet.c:116 in inet_stream_connect
+==================

@@ -1,0 +1,537 @@
+2022-12-13 20:51:22.271407 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.271438 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49253 > 20.0.0.5.8001: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:22.271507 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:22.271539 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.271567 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49253: Flags [S1A1P0F0R0], seq 3157198307:3157198307, ack 1, win 64240 rto 0 boff 0
+2022-12-13 20:51:22.271576 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:22.271584 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.271591 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:22.271610 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:22.271639 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.271646 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49253 > 20.0.0.5.8001: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.271681 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.271714 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.272058 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.272067 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49253 > 20.0.0.5.8001: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.272087 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.272149 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.272160 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49253: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0
+2022-12-13 20:51:22.272166 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.272172 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.272255 [src/tcp_input.c:541] - Thread[ipc_loop] tcp is BLOCK, peer not set push bit, tcp-state[LVL_TCP_ESTABLISHED], NOW WAIT, rlen[0]
+2022-12-13 20:51:22.272573 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.272587 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49253: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.272594 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.272599 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.272609 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.272624 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.272630 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49253 > 20.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.272652 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.272659 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49253: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.272664 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.272669 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.272674 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.272679 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:22.272689 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.272694 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49253 > 20.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.272713 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:22.272722 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:22.272756 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:22.272773 [src/ipc_nonbock.c:221] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:22.272779 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.272785 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[620] =================
+2022-12-13 20:51:22.272818 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:22.272826 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.272831 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[0] =================
+2022-12-13 20:51:22.272837 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:22.272842 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.272846 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[0] =================
+2022-12-13 20:51:22.272872 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:22.272882 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.272887 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49253 > 20.0.0.5.8001: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.272965 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.272975 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49253: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.272981 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49253 > 20.0.0.5.8001 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:22.272990 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.281209 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.281217 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49264 > 20.0.0.5.8001: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:22.281302 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.281321 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49264: Flags [S1A1P0F0R0], seq 1075965445:1075965445, ack 1, win 64240 rto 0 boff 0
+2022-12-13 20:51:22.281329 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:22.281336 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.281341 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:22.281355 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:22.281363 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.281368 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49264 > 20.0.0.5.8001: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.281418 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.281451 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.281640 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.281649 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49264 > 20.0.0.5.8001: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.281679 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.281699 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.281713 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49264: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0
+2022-12-13 20:51:22.281721 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.281727 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.282337 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.282371 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49264: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.282383 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.282415 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.282424 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.282434 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.282442 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49264 > 20.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.282479 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.282506 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49264: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.282518 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.282529 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.282537 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.282545 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:22.282561 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.282570 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49264 > 20.0.0.5.8001: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.282598 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:22.282609 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:22.306638 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.306660 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:22.306735 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:22.306752 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.306770 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.49295: Flags [S1A1P0F0R0], seq 1802346437:1802346437, ack 1, win 64240 rto 0 boff 0
+2022-12-13 20:51:22.306778 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:22.306785 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.306790 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:22.306800 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:22.306808 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.306812 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.306883 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.306909 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.307057 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.307064 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.307094 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.307111 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.307148 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.49295: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0
+2022-12-13 20:51:22.307171 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.307180 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.307302 [src/tcp_input.c:541] - Thread[ipc_loop] tcp is BLOCK, peer not set push bit, tcp-state[LVL_TCP_ESTABLISHED], NOW WAIT, rlen[0]
+2022-12-13 20:51:22.307722 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.307738 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.49295: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.307745 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.307751 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.307771 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.307778 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.318900 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.318910 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:22.318989 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:22.319992 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.320000 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:22.320043 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:22.320055 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.320075 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S1A1P0F0R0], seq 3566147069:3566147069, ack 1, win 64240 rto 0 boff 0
+2022-12-13 20:51:22.320083 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:22.320106 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.320113 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:22.320141 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:22.320152 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.320168 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.320197 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.320229 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.320244 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.320365 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.320372 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.320393 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.320467 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0
+2022-12-13 20:51:22.320482 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.320488 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.320509 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:22.320522 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.320542 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.320562 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.320599 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.320606 [src/tcp_input.c:541] - Thread[ipc_loop] tcp is BLOCK, peer not set push bit, tcp-state[LVL_TCP_ESTABLISHED], NOW WAIT, rlen[0]
+2022-12-13 20:51:22.320637 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0
+2022-12-13 20:51:22.320665 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.320672 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.320686 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.320702 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.320714 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.320723 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.320990 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.321026 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.49295: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.321042 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.321077 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.321088 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.321095 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.321187 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.321215 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.321225 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.321231 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.321258 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.321279 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.321296 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.321327 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.321335 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:22.321355 [src/ipc_nonbock.c:221] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:22.321361 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.321367 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[155] =================
+2022-12-13 20:51:22.321390 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.321402 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.321408 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.321413 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.321445 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:22.321458 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.321463 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.321486 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:22.321494 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:22.321522 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:22.321540 [src/ipc_nonbock.c:221] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:22.321547 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.321564 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[465] =================
+2022-12-13 20:51:22.321610 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:22.321617 [src/ipc_nonbock.c:229] - Thread[ipc_loop] tcp need more data, going wait, rlen[0]
+2022-12-13 20:51:22.321634 [src/tcp_input.c:541] - Thread[ipc_loop] tcp is BLOCK, peer not set push bit, tcp-state[LVL_TCP_CLOSE_WAIT], NOW WAIT, rlen[0]
+2022-12-13 20:51:22.321669 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:22.321677 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.321682 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49307 > 20.0.0.5.8003: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.321727 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.321742 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.321750 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:22.321755 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.321764 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.321769 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49307: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.321776 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49307 > 20.0.0.5.8003 (snd_una 60, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:22.321807 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.327616 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.327625 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:22.327703 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.327720 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S1A1P0F0R0], seq 3976433665:3976433665, ack 1, win 64240 rto 0 boff 0
+2022-12-13 20:51:22.327727 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:22.327734 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.327744 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:22.327754 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:22.327762 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.327767 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.327791 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.327801 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.327812 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.327829 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0
+2022-12-13 20:51:22.327850 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.327857 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.327871 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:22.327880 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.327885 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.327897 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:22.328286 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:22.328292 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:22.328322 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:22.328331 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.328356 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0
+2022-12-13 20:51:22.328374 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.328381 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.328853 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.328883 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.328894 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.328906 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.328912 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.328919 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.328924 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.329029 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.329053 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S0A1P1F0R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.329061 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.329077 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.329083 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:22.329103 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.329119 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 621, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.329140 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.329148 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S0A1P0F1R0], seq 621:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.329154 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:22.329159 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.329164 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:22.329170 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.329185 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.329213 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:22.329231 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:22.329242 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:22.329247 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S0A1P0F1R0], seq 621:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:22.329252 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:22.329269 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:22.329278 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Received invalid segment
+2022-12-13 20:51:22.329286 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:22.329291 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:22.329302 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: dropping packet
+2022-12-13 20:51:22.865750 [src/tcp_output.c:117] - Thread[timers] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:23.229738 [src/tcp_input.c:525] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:23.229751 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:23.230115 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:23.230130 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:23.230140 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49264 > 20.0.0.5.8001: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:23.230267 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:23.230331 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8001 > 20.0.0.4.49264: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:23.230350 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49264 > 20.0.0.5.8001 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:23.230361 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:23.248763 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:23.248780 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.40179 > 20.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:23.248863 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:23.249080 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:23.249118 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.9999 > 20.0.0.4.40179: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0
+2022-12-13 20:51:23.249133 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:40179 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:23.249143 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:23.249151 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:40179 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:23.249178 [src/tcp.c:302] - Thread[netdev_rx_loop] TCP x:40179 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_CLOSING
+2022-12-13 20:51:23.249195 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:40179 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state LVL_TCP_CLOSING: dropping packet
+2022-12-13 20:51:23.328609 [src/tcp_input.c:525] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:23.328618 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:23.329194 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:23.329205 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:23.329211 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49318 > 20.0.0.5.8003: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:23.329299 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:23.329332 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8003 > 20.0.0.4.49318: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:23.329342 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49318 > 20.0.0.5.8003 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:23.329349 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:23.336241 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:23.336275 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.40260 > 20.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:23.336339 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:23.336358 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:23.336378 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.9999 > 20.0.0.4.40260: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0
+2022-12-13 20:51:23.336387 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:40260 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:23.336393 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:23.336421 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:40260 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:23.336437 [src/tcp.c:302] - Thread[netdev_rx_loop] TCP x:40260 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_CLOSING
+2022-12-13 20:51:23.336462 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:40260 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state LVL_TCP_CLOSING: dropping packet
+2022-12-13 20:51:23.949743 [src/tcp_output.c:117] - Thread[timers] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 1
+2022-12-13 20:51:24.319540 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:24.319640 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S1A1P0F0R0], seq 4002043948:4002043948, ack 1, win 64240 rto 0 boff 2
+2022-12-13 20:51:24.319654 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: input state
+2022-12-13 20:51:24.319661 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:24.319680 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:24.319695 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:24.319718 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:24.319725 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:24.319796 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:24.319830 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:24.320050 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:24.320058 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:24.320089 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:24.320184 [src/tcp_input.c:541] - Thread[ipc_loop] tcp is BLOCK, peer not set push bit, tcp-state[LVL_TCP_ESTABLISHED], NOW WAIT, rlen[0]
+2022-12-13 20:51:24.866243 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:24.866295 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0
+2022-12-13 20:51:24.866305 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:24.866312 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:24.866317 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:24.866329 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:24.866334 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:24.866369 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:25.409515 [src/tcp_output.c:117] - Thread[timers] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:25.874282 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:25.874339 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1
+2022-12-13 20:51:25.874350 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:25.874358 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:25.874387 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:25.874403 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:25.874409 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1
+2022-12-13 20:51:25.874438 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:25.950900 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:25.950981 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1
+2022-12-13 20:51:25.950996 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:25.951005 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:25.951011 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:25.951026 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:25.951035 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1
+2022-12-13 20:51:25.951071 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:26.320219 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:26.320293 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 2000 boff 1
+2022-12-13 20:51:26.320313 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:26.320328 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:26.321180 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:26.321199 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 2000 boff 0
+2022-12-13 20:51:26.321207 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:26.321213 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:26.321218 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:26.321243 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:26.321253 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 2000 boff 0
+2022-12-13 20:51:26.321299 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:26.321322 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:26.321346 [src/ipc_nonbock.c:221] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:26.321354 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:26.321362 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[155] =================
+2022-12-13 20:51:26.321410 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 2000 boff 0
+2022-12-13 20:51:26.321424 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:26.321430 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:26.321435 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:26.321453 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 1 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:26.321464 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:26.321469 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0
+2022-12-13 20:51:26.321492 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:26.321500 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 1 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:26.321527 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:26.321543 [src/ipc_nonbock.c:221] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:26.321549 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:26.321555 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[465] =================
+2022-12-13 20:51:26.321581 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:26.321590 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:26.321596 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[0] =================
+2022-12-13 20:51:26.321629 [src/tcp_input.c:541] - Thread[ipc_loop] tcp is BLOCK, peer not set push bit, tcp-state[LVL_TCP_CLOSE_WAIT], NOW WAIT, rlen[0]
+2022-12-13 20:51:26.321646 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:26.321655 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:26.321660 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49306 > 20.0.0.5.8002: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0
+2022-12-13 20:51:26.327732 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:26.327739 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:26.873308 [src/tcp_output.c:117] - Thread[timers] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:27.073404 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.073480 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.49295: Flags [S0A1P1F1R0], seq 1:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:27.073492 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:27.073499 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.073506 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:27.073532 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:27.073553 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:27.073560 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:27.073600 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:27.073619 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:27.073653 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:27.073698 [src/ipc_nonbock.c:221] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:27.073709 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:27.073719 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[620] =================
+2022-12-13 20:51:27.073755 [src/ipc_nonbock.c:214] - Thread[ipc_loop] cur read to buf`s len is [0], buflen is [1024]
+2022-12-13 20:51:27.073763 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:27.073768 [src/ipc_nonbock.c:240] - Thread[ipc_loop] ================= read complete rlen[0] =================
+2022-12-13 20:51:27.073890 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:27.073899 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:27.073904 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.49295 > 20.0.0.5.8004: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:27.073956 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.073973 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.49295: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:27.073982 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49295 > 20.0.0.5.8004 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:27.073988 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.080279 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:27.080290 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.43722 > 20.0.0.5.8004: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:27.080429 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.080460 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.43722: Flags [S1A1P0F0R0], seq 1896811405:1896811405, ack 1, win 64240 rto 0 boff 0
+2022-12-13 20:51:27.080472 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:27.080483 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.080491 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:27.080506 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:27.080514 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:27.080520 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43722 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:27.080563 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:27.080594 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:27.080996 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:27.081002 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.43722 > 20.0.0.5.8004: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:27.081040 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:27.081057 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.081071 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.43722: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 1000 boff 0
+2022-12-13 20:51:27.081091 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:27.081099 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.081391 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.081417 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.43722: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:27.081430 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:27.081452 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.081460 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:27.081468 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:27.081483 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43722 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 200 boff 0
+2022-12-13 20:51:27.289160 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.289201 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.43722: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 200 boff 0
+2022-12-13 20:51:27.289223 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:27.289234 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.289244 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:27.289266 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:27.289285 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:27.289309 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43722 > 20.0.0.5.8004: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:27.289360 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:27.289369 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 200 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:27.410640 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:27.410719 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S0A1P0F0R0], seq 622:622, ack 59, win 64182 rto 2000 boff 0
+2022-12-13 20:51:27.410731 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:27.410738 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:27.962288 [src/tcp_output.c:117] - Thread[timers] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 1
+2022-12-13 20:51:28.028240 [src/tcp_input.c:525] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:28.028252 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:28.028699 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:28.028710 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:28.028716 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.43722 > 20.0.0.5.8004: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 200 boff 0
+2022-12-13 20:51:28.028808 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:28.028865 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8004 > 20.0.0.4.43722: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 200 boff 0
+2022-12-13 20:51:28.028893 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43722 > 20.0.0.5.8004 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 200 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:28.028902 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:28.034909 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:28.034916 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.44603 > 20.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:28.034995 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:28.035009 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:28.035030 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.9999 > 20.0.0.4.44603: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0
+2022-12-13 20:51:28.035049 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:44603 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:28.035057 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:28.035062 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:44603 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:28.035074 [src/tcp.c:302] - Thread[netdev_rx_loop] TCP x:44603 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_CLOSING
+2022-12-13 20:51:28.035084 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:44603 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state LVL_TCP_CLOSING: dropping packet
+2022-12-13 20:51:28.322103 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:28.322158 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.49306: Flags [S0A1P0F0R0], seq 622:622, ack 60, win 64182 rto 2000 boff 0
+2022-12-13 20:51:28.322169 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:49306 > 20.0.0.5.8002 (snd_una 59, snd_nxt 60, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 0) state LVL_TCP_CLOSE_WAIT: input state
+2022-12-13 20:51:28.322176 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:28.328272 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:28.328303 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S1A1P0F0R0], seq 1505969758:1505969758, ack 1, win 64240 rto 0 boff 2
+2022-12-13 20:51:28.328313 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: input state
+2022-12-13 20:51:28.328320 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:28.328325 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 2) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:28.328335 [src/tcp_input.c:194] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_ESTABLISHED
+2022-12-13 20:51:28.328343 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:28.328348 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 1:1, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:28.328396 [src/tcp.c:412] - Thread[netdev_rx_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:28.328404 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:28.328898 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:28.328913 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:28.328964 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:28.874107 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:28.874194 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 1000 boff 0
+2022-12-13 20:51:28.874210 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:28.874216 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:28.874222 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:28.874235 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:28.874240 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:28.874278 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 1000 boff 0) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:29.419615 [src/tcp_output.c:117] - Thread[timers] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P1F0R0], seq 1:59, ack 1, win 44477 rto 1000 boff 0
+2022-12-13 20:51:29.906361 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:29.906458 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1
+2022-12-13 20:51:29.906479 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:29.906496 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:29.906506 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:29.906528 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:29.906557 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1
+2022-12-13 20:51:29.906613 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:29.963032 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:29.963082 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S1A1P0F0R0], seq 0:0, ack 1, win 64240 rto 2000 boff 1
+2022-12-13 20:51:29.963093 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:29.963100 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:29.963114 [src/tcp_input.c:110] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: Received invalid segment
+2022-12-13 20:51:29.963125 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:29.963140 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 1, win 44477 rto 2000 boff 1
+2022-12-13 20:51:29.963173 [src/tcp_input.c:292] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: dropping packet
+2022-12-13 20:51:30.329049 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:30.329091 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S0A1P0F0R0], seq 1:1, ack 59, win 64182 rto 2000 boff 1
+2022-12-13 20:51:30.329102 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 1, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 1 rto 2000 boff 1) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:30.329109 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:30.330045 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:30.330081 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S0A1P1F0R0], seq 1:156, ack 59, win 64182 rto 2000 boff 0
+2022-12-13 20:51:30.330094 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 1, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:30.330101 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:30.330122 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:30.330191 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:30.330212 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 156, win 44477 rto 2000 boff 0
+2022-12-13 20:51:30.330284 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:30.330310 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.8002 > 20.0.0.4.43021: Flags [S0A1P1F1R0], seq 156:621, ack 59, win 64182 rto 2000 boff 0
+2022-12-13 20:51:30.330320 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 156, rcv_wnd 44477 recv-q 1 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: input state
+2022-12-13 20:51:30.330367 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:30.330376 [src/tcp_data.c:109] - Thread[netdev_rx_loop] tcp sk.ops->recv_notify, There is new data for user to read
+2022-12-13 20:51:30.330393 [src/tcp_input.c:422] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 621, rcv_wnd 44477 recv-q 2 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: Received in-sequence FIN
+2022-12-13 20:51:30.330405 [src/tcp_output.c:265] - Thread[netdev_rx_loop] tcp_send_ack
+2022-12-13 20:51:30.330411 [src/tcp_output.c:117] - Thread[netdev_rx_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F0R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0
+2022-12-13 20:51:30.330497 [src/tcp_input.c:437] - Thread[netdev_rx_loop] tcp recv_notify3
+2022-12-13 20:51:30.330528 [src/tcp_input.c:443] - Thread[netdev_rx_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 2 send-q 0 rto 2000 boff 0) state LVL_TCP_ESTABLISHED: state is now LVL_TCP_CLOSE_WAIT
+2022-12-13 20:51:31.328318 [src/tcp_input.c:525] - Thread[ipc_loop] peer set push bit
+2022-12-13 20:51:31.328344 [src/tcp.c:412] - Thread[ipc_loop] tcp_rearm_user_timeout call
+2022-12-13 20:51:31.328660 [src/tcp_output.c:522] - Thread[ipc_loop] TCP x:43021 > 20.0.0.5.8002 (snd_una 59, snd_nxt 59, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 622, rcv_wnd 44477 recv-q 0 send-q 0 rto 2000 boff 0) state LVL_TCP_CLOSE_WAIT: Queueing fin
+2022-12-13 20:51:31.328682 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:31.328700 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.43021 > 20.0.0.5.8002: Flags [S0A1P0F1R0], seq 59:59, ack 622, win 44477 rto 2000 boff 0
+2022-12-13 20:51:31.334725 [src/tcp_output.c:144] - Thread[ipc_loop] tcp_send -> tcp_queue_transmit_skb
+2022-12-13 20:51:31.334745 [src/tcp_output.c:117] - Thread[ipc_loop] TCP 20.0.0.4.47664 > 20.0.0.5.9999: Flags [S1A0P0F0R0], seq 0:0, ack 0, win 44477 rto 0 boff 0
+2022-12-13 20:51:31.334804 [src/inet.c:136] - Thread[ipc_loop] APP CONNECT1
+2022-12-13 20:51:31.334828 [src/ip_input.c:57] - Thread[netdev_rx_loop] ====================== ip->tcp recv ======================
+2022-12-13 20:51:31.334850 [src/tcp.c:78] - Thread[netdev_rx_loop] TCP 20.0.0.5.9999 > 20.0.0.4.47664: Flags [S0A1P0F0R1], seq 0:0, ack 1, win 0 rto 0 boff 0
+2022-12-13 20:51:31.334857 [src/tcp_input.c:271] - Thread[netdev_rx_loop] TCP x:47664 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: input state
+2022-12-13 20:51:31.334863 [src/tcp_input.c:272] - Thread[netdev_rx_loop] ====================== ip->tcp recv->input state ======================
+2022-12-13 20:51:31.334868 [src/tcp_input.c:155] - Thread[netdev_rx_loop] TCP x:47664 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is synsent
+2022-12-13 20:51:31.334890 [src/tcp.c:302] - Thread[netdev_rx_loop] TCP x:47664 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state TCP_SYNSENT: state is now LVL_TCP_CLOSING
+2022-12-13 20:51:31.334901 [src/tcp_input.c:210] - Thread[netdev_rx_loop] TCP x:47664 > 20.0.0.5.9999 (snd_una 0, snd_nxt 1, snd_wnd 0, snd_wl1 0, snd_wl2 0, rcv_nxt 0, rcv_wnd 44477 recv-q 0 send-q 1 rto 0 boff 0) state LVL_TCP_CLOSING: dropping packet

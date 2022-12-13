@@ -2,11 +2,14 @@
 #define IPC_H_
 
 #include "list.h"
+#include "ipc_nonblock.h"
+
+#define IPC_DOMAIN_SOCKET "/tmp/lvlip.socket"
 
 #ifdef DEBUG_IPC
 #define ipc_dbg(msg, th)                                                \
     do {                                                                \
-        print_debug("IPC sockets count %d, current sock %d, tid %lu: %s", \
+        lvl_ip_debug("IPC sockets count %d, current sock %d, tid %lu: %s", \
                     socket_count, th->sock, th->id, msg);             \
     } while (0)
 #else
@@ -26,12 +29,6 @@ void *start_ipc_listener();
 #define IPC_SETSOCKOPT  0x0009
 #define IPC_GETPEERNAME 0x000A
 #define IPC_GETSOCKNAME 0x000B
-
-struct ipc_thread {
-    struct list_head list;
-    int sock;
-    pthread_t id;
-};
 
 struct ipc_msg {
     uint16_t type;
@@ -104,5 +101,28 @@ struct ipc_sockname {
     socklen_t address_len;
     uint8_t sa_data[128];
 };
+
+typedef struct sock_wait_arp_entry {
+  int connfd;   /* IPC通信的 */
+  int fd;       /* 分配给app的 */
+  int pid;
+  TAILQ_ENTRY(sock_wait_arp_entry) entries;
+} sock_wait_arp_entry_t;
+
+typedef struct {
+    TAILQ_HEAD(, sock_wait_arp_entry) wait_arp_entry;
+} netdev_tx_loop_ctx_t;
+
+typedef struct {
+    g_ipc_nonblock_cb_t *ipc;
+} ipc_loop_ctx_t;
+
+ipc_loop_ctx_t *get_ipc_loop_ctx();
+netdev_tx_loop_ctx_t *get_netdev_tx_loop_ctx();
+
+int ipc_try_send(int sockfd, const void *buf, size_t len);
+int ipc_write_rc(int sockfd, pid_t pid, uint16_t type, int rc);
+struct socket *get_struct_socket_by_pidandfd(pid_t pid, uint32_t fd);
+void sock_wait_arp_entry_add(struct socket *sock);
 
 #endif
